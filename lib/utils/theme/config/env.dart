@@ -4,7 +4,7 @@ class Env {
   static String get supabaseUrl => dotenv.env['SUPABASE_URL'] ?? '';
   static String get supabaseAnonKey => dotenv.env['SUPABASE_ANON_KEY'] ?? '';
 
-  static Future<void> load() async {
+  static Future<void> init() async {
     await dotenv.load(fileName: ".env");
   }
 }
