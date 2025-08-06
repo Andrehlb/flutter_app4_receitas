@@ -6,7 +6,7 @@ import 'package:app4_receitas/ui/recipes/recipes_viewmodel.dart';
  
  final getIt = GetIt.instance;
 
- Future<void> setupDepencencies() async {
+ Future<void> setupDependencies() async {
   // Supabase Cleint
   getIt.registerSingleton<SupabaseClient>(Supabase.instance.client);
    // Register of services and controllers
