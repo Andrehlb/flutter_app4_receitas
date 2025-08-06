@@ -15,7 +15,7 @@ Future<void> main() async {
   // Inicializar o Supabase
   await Supabase.initialize(    
     url: Env.supabaseUrl,
-    anonKey: Env.supabaseKey,
+    anonKey: Env.supabaseAnonKey,
   );
 
   //  Inicializando dependências
