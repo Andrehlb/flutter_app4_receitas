@@ -1,5 +1,6 @@
-import 'package:app4_receitas/utils/config/env.dart';
+import 'package:app4_receitas/di/service_locator.dart';
 import 'package:app4_receitas/routes/app_router.dart';
+import 'package:app4_receitas/utils/config/env.dart';
 import 'package:app4_receitas/utils/theme/custom_theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
