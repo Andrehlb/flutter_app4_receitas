@@ -17,5 +17,5 @@ import 'package:app4_receitas/ui/recipes/recipes_viewmodel.dart';
  getIt.registerLazySingleton<RecipeRepository>(() => RecipeRepository());
 
   // Recipe ViewModel
-  getIt.registerFactory<recipesViewModel>(() => recipesViewModel());
+  getIt.registerFactory<RecipesViewModel>(() => RecipesViewModel());
 }
