@@ -8,6 +8,18 @@ Future<void> main() async {
   // Garante que o Flutter está inicializado
   WidgetsFlutterBinding.ensureInitialized();
 
+  // carregar variáveis de ambiente
+  await Env.init();
+
+  // Inicializar o Supabase
+  await Supabase.initialize(    
+    url: Env.supabaseUrl,
+    anonKey: Env.supabaseKey,
+  );
+
+  //  Inicializando dependências
+  await setupDepencencies();
+
   runApp(const MainApp());
 }
 
