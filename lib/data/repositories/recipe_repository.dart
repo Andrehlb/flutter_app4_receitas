@@ -10,9 +10,15 @@ class RecipeRepository {
 
     try {
       final rawData = await _service.fetchRecipes();
+
+      // Garatir lista vazia se null
+      if (rawData is! List){
+        throw Exception('Dados Recebidos não são uma lista: $rawData');
+      }
+
       return rawData.map((data) => Recipe.fromJson(data)).toList();
     } catch (e) {
-      throw Exception('Failed to fetch recipes: $e');
+      throw Exception('Falhou ao buscar receitas: $e');
     }
   }
 }
