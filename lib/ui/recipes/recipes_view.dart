@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app4_receitas/ui/recipes/recipes_viewmodel.dart';
 import  'package:app4_receitas/ui/widgets/recipe_card.dart';
+import 'package:get/get.dart';
 
 class RecipesView extends StatefulWidget {
   const RecipesView({super.key});
@@ -187,6 +188,6 @@ class _RecipesViewState extends State<RecipesView> {
           ],
         ),
       );
-    // });
+    });
   }
 }
