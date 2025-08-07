@@ -10,6 +10,7 @@ class RecipeRepository {
 
     try {
       final rawData = await _service.fetchRecipes();
+      print('Dados rawData recebidos: $rawData (${rawData.runtimeType})'); // Debug print statement
 
       // Garatir lista vazia se null
       if (rawData is! List){
