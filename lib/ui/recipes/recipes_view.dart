@@ -23,39 +23,39 @@ class _RecipesViewState extends State<RecipesView> {
 
   @override
   Widget build(BuildContext context) {
-    // return Obx(() {
-      // if (viewModel.isLoading) {
-      //   return Center(
-      //     child: SizedBox(
-      //       height: 96,
-      //       width: 96,
-      //       child: CircularProgressIndicator(strokeWidth: 12),
-      //     ),
-      //   );
-      // }
+    return Obx(() {
+      if (viewModel.isLoading) {
+        return Center(
+          child: SizedBox(
+            height: 96,
+            width: 96,
+            child: CircularProgressIndicator(strokeWidth: 12),
+          ),
+        );
+      }
 
-      // if (viewModel.errorMessage != '') {
-      //   return Center(
-      //     child: Container(
-      //       padding: EdgeInsets.all(32),
-      //       child: Column(
-      //         spacing: 32,
-      //         children: [
-      //           Text(
-      //             'Erro: ${viewModel.errorMessage}',
-      //             style: TextStyle(fontSize: 24),
-      //           ),
-      //           ElevatedButton(
-      //             onPressed: () {
-      //               viewModel.getRecipes();
-      //             },
-      //             child: Text('TENTAR NOVAMENTE'),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   );
-      // }
+      if (viewModel.errorMessage != '') {
+        return Center(
+          child: Container(
+            padding: EdgeInsets.all(32),
+            child: Column(
+              spacing: 32,
+              children: [
+                Text(
+                  'Erro: ${viewModel.errorMessage}',
+                  style: TextStyle(fontSize: 24),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    viewModel.getRecipes();
+                  },
+                  child: Text('TENTAR NOVAMENTE'),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
 
       return Container(
         padding: EdgeInsets.all(16),
