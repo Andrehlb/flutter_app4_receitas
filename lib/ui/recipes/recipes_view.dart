@@ -10,13 +10,14 @@ class RecipesView extends StatefulWidget {
 }
 
 class _RecipesViewState extends State<RecipesView> {
-  final viewModel = [];
+  //final viewModel = [];
+  final RecipesViewModel viewModel = Get.put(RecipesViewModel());
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // viewModel.getRecipes();
+      viewModel.getRecipes();
     });
   }
 
