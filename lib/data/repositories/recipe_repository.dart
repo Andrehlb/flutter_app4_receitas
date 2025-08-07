@@ -12,6 +12,8 @@ class RecipeRepository {
       final rawData = await _service.fetchRecipes();
       print('Dados rawData recebidos: $rawData (${rawData.runtimeType})'); // Debug print statement
 
+      if (rawData == null) return []; // Garatir lista vazia se null
+
       // Garatir lista vazia se null
       if (rawData is! List){
         throw Exception('Dados Recebidos não são uma lista: $rawData');
