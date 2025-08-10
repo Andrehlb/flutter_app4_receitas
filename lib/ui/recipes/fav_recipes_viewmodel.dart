@@ -18,7 +18,8 @@ class FavRecipesViewModel extends GetxController {
   Future<void> loadFavorites(String userId) async {
     try {
       _isLoading.value = true;
-      // Busca favoritos do usuário
+      // Busca favoritos do usuário pelo ID do usuário
+      // Atualiza a lista de favoritos com os dados recebidos
       _favRecipes.value = await _repository.getFavorites(userId);
     } catch (e) {
       _errorMessage.value = 'Algo deu errado ao carregar favoritos: $e, aguarde por favor.';
@@ -26,3 +27,15 @@ class FavRecipesViewModel extends GetxController {
       _isLoading.value = false;
     }
   }
+
+  Future<void> addFavorite(String userId, Recipe recipe) async {
+    try {
+      await _repository.addFavorite(recipe.id, userId);
+      if (!_favRecipes.any((r) => r.id == recipe.id)) {
+        _favRecipes.add(recipe);
+      }
+    } catch (e) {
+      _errorMessage.value = 'Não foi possível adicionar aos favoritos: $e. Tente novamente mais tarde.';
+    }
+  }
+}
