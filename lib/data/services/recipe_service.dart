@@ -20,4 +20,15 @@ class RecipeService {
       throw Exception('A tentativa de marcar a recieta: ${response.error!.message}, como favorita falhou. 😕 <br> Tente novamente mais tarde.');
     }
   }
+
+  Future<void> removeFavorite(String recipeId, String userId) async {
+    final response = await _supabaseClient
+        .from('favorites')
+        .delete()
+        .match({'recipe_id': recipeId, 'user_id': userId});
+
+    if (response.error != null) {
+      throw Exception('Falhou a tentativa de remover de favoritos a receita: ${response.error!.message} 😕 <br> Tente novamente mais tarde.');
+    }
+  }
 }
