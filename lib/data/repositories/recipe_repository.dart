@@ -10,7 +10,7 @@ class RecipeRepository {
     try {
       final rawData = await _service.fetchRecipes();
       // print('Dados rawData recebidos: $rawData (${rawData.runtimeType})'); // Debug print statement
-      return rawData.map((sata) => Recipe.fromJson(data)).toList();
+      return rawData.map((data) => Recipe.fromJson(data)).toList();
     } catch (e) {
       throw Exception('Hum! Falhou ao buscar receitas 😬: ${e.toString()}');
     }
