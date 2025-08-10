@@ -19,4 +19,8 @@ class RecipeRepository {
   Future<void> addFavorite(String recipeId, String userId) async {
     await _service.addFavorite(recipeId, userId);
   }
+
+  Future<void> removeFavorite(String recipeId, String userId) async {
+    await _service.removeFavorite(recipeId, userId);
+  }
 }
