@@ -10,4 +10,14 @@ class RecipeService {
         .select()
         .order('id', ascending: true);
   }
+
+  Future<void> addFavorite(String recipeId, String userId) async {
+    final response = await _supabaseClient
+        .from('favorites')
+        .insert({'recipe_id': recipeId, 'user_id': userId});
+
+    if (response.error != null) {
+      throw Exception('A tentativa de marcar a recieta: ${response.error!.message}, como favorita falhou. 😕 <br> Tente novamente mais tarde.');
+    }
+  }
 }
