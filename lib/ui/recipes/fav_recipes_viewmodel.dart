@@ -28,6 +28,7 @@ class FavRecipesViewModel extends GetxController {
     }
   }
 
+  // Adiciona uma receita aos favoritos
   Future<void> addFavorite(String userId, Recipe recipe) async {
     try {
       await _repository.addFavorite(recipe.id, userId);
@@ -37,5 +38,15 @@ class FavRecipesViewModel extends GetxController {
     } catch (e) {
       _errorMessage.value = 'Não foi possível adicionar aos favoritos: $e. Tente novamente mais tarde.';
     }
-  }
+  } // addFavorite async
+
+  // Remove uma receita dos favoritos
+  Future<void> removeFavorite(String userId, String Recipe recipeId) async {
+    try {
+      await _repository.removeFavorite(recipeId, userId);
+      _favRecipes.removeWhere((r) => r.id == recipeId);
+    } catch (e) {
+      _errorMessage.value = 'Não foi possível remover dos favoritos: $e. Tente novamente mais tarde.';
+    }
+  } // removeFavorite async
 }
