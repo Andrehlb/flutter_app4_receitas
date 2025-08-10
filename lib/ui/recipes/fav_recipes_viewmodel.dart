@@ -18,10 +18,10 @@ class FavRecipesViewModel extends GetxController {
   Future<void> loadFavorites(String userId) async {
     try {
       _isLoading.value = true;
-      // Implemente esse método no repository para buscar favoritos do usuário
+      // Busca favoritos do usuário
       _favRecipes.value = await _repository.getFavorites(userId);
     } catch (e) {
-      _errorMessage.value = 'Erro ao carregar favoritos: $e';
+      _errorMessage.value = 'Algo deu errado ao carregar favoritos: $e, aguarde por favor.';
     } finally {
       _isLoading.value = false;
     }
