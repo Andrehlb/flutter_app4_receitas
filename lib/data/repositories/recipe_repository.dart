@@ -15,4 +15,8 @@ class RecipeRepository {
       throw Exception('Hum! Falhou ao buscar receitas 😬: ${e.toString()}');
     }
   }
+
+  Future<void> addFavorite(String recipeId, String userId) async {
+    await _service.addFavorite(recipeId, userId);
+  }
 }
