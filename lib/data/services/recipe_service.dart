@@ -11,6 +11,13 @@ class RecipeService {
         .order('id', ascending: true);
   }
 
+  Future<List<dynamic>> getFavorites(String userId) async {
+    // TODO: implementar aqui a chamada do backend para buscar receitas favoritas
+    // Exemplo de implementação: GET /user/{userId}/favorites
+    // Retornar uma lisrta de mapas compatível com Recipe.fromJson
+    return []; // Mock tmeporário para compilar e me permitir continuar o desenvolvimento
+  }
+
   Future<void> addFavorite(String recipeId, String userId) async {
     final response = await _supabaseClient
         .from('favorites')
