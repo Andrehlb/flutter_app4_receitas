@@ -16,6 +16,16 @@ class RecipeRepository {
     }
   }
 
+  // FavRecipesViewModel.loafFavorites methods usa a func abaixo
+  Future<List<Recipe>> getFavorites(String userId) async {
+    try{
+      final rawData = await _service.getFavorites(userId);
+      return rawData.map((data) => Recipe.fromJson(data)).toList();
+    } catch (e) {
+      throw Exception('Hum! Falhou ao buscar receitas favoritas 😬: ${e.toString()}');
+    }
+  }
+
   Future<void> addFavorite(String recipeId, String userId) async {
     await _service.addFavorite(recipeId, userId);
   }
