@@ -31,7 +31,8 @@ class FavRecipesViewModel extends GetxController {
   // Adiciona uma receita aos favoritos
   Future<void> addFavorite(String userId, Recipe recipe) async {
     try {
-      await _repository.addFavorite(recipe.id, userId);
+      await _repository.addFavorite(recipe.id.toString(), userId);
+      // Verifica se a receita já está nos favoritos antes de adicionar
       if (!_favRecipes.any((r) => r.id == recipe.id)) {
         _favRecipes.add(recipe);
       }
@@ -43,8 +44,8 @@ class FavRecipesViewModel extends GetxController {
   // Remove uma receita dos favoritos
   Future<void> removeFavorite(String userId, String recipeId) async {
     try {
-      await _repository.removeFavorite(recipeId, userId);
-      _favRecipes.removeWhere((r) => r.id == recipeId);
+      await _repository.removeFavorite(recipe.id.toString(), userId);
+      _favRecipes.removeWhere((r) => r.id.toString() == recipeId);
     } catch (e) {
       _errorMessage.value = 'Não foi possível remover dos favoritos: $e. Tente novamente mais tarde.';
     }
