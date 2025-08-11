@@ -44,7 +44,7 @@ class FavRecipesViewModel extends GetxController {
   // Remove uma receita dos favoritos
   Future<void> removeFavorite(String userId, String recipeId) async {
     try {
-      await _repository.removeFavorite(recipe.id.toString(), userId);
+      await _repository.removeFavorite(recipeId, userId);
       _favRecipes.removeWhere((r) => r.id.toString() == recipeId);
     } catch (e) {
       _errorMessage.value = 'Não foi possível remover dos favoritos: $e. Tente novamente mais tarde.';
