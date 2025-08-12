@@ -1,5 +1,5 @@
 class Recipe {
-  final String id;
+  final String id; // UUID vindo do backend-supabase --> não mais int, String no app
   final String name;
   final List<String> ingredients;
   final List<String> instructions;
@@ -42,7 +42,7 @@ class Recipe {
   // de lista sejam tratados corretamente.
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-      id: json['id'] as int,
+      id: json['id']?.toString() ?? '', // Garante que id seja String
       name: json['name'] as String,
       ingredients: _parseJsonList(json['ingredients']),
       instructions: _parseJsonList(json['instructions']),
