@@ -52,7 +52,8 @@ class _FavRecipesViewState extends State<FavRecipesView> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: _userId == null ? null : () => vm.loadFavorites(_userId!),
+            onPressed:
+                _userId == null ? null : () => vm.loadFavorites(_userId!),
             tooltip: 'Atualizar favoritos',
           ),
         ],
@@ -73,12 +74,16 @@ class _FavRecipesViewState extends State<FavRecipesView> {
         }
 
         if (_userId == null) {
-          return const Center(child: Text('Faça login para ver seus favoritos.'));
+          return const Center(
+            child: Text('Faça login para ver seus favoritos.'),
+          );
         }
 
         final items = vm.favRecipes;
         if (items.isEmpty) {
-          return const Center(child: Text('Você ainda não tem receitas favoritas.'));
+          return const Center(
+            child: Text('Você ainda não tem receitas favoritas.'),
+          );
         }
 
         return RefreshIndicator(
@@ -98,7 +103,7 @@ class _FavRecipesViewState extends State<FavRecipesView> {
                   onPressed: () => _remove(r),
                 ),
                 onTap: () {
-                  // TODO: Navegar para detalhes, se você tiver a tela de detalhes
+                  // TODO: navegar para tela de detalhes, se existir
                 },
               );
             },
@@ -110,7 +115,9 @@ class _FavRecipesViewState extends State<FavRecipesView> {
 
   String _buildSubtitle(Recipe r) {
     final parts = <String>[];
-    if (r.difficulty != null && r.difficulty!.isNotEmpty) parts.add(r.difficulty!);
+    if (r.difficulty != null && r.difficulty!.isNotEmpty) {
+      parts.add(r.difficulty!);
+    }
     final total = r.totalTimeMinutes;
     if (total > 0) parts.add('$total min');
     if (r.cuisine != null && r.cuisine!.isNotEmpty) parts.add(r.cuisine!);

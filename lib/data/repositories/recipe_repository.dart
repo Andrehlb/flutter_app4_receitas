@@ -1,36 +1,31 @@
-import 'package:app4_receitas/data/models/recipe.dart';
-import 'package:app4_receitas/data/services/recipe_service.dart';	
 import 'package:app4_receitas/di/service_locator.dart';
+import 'package:app4_receitas/data/models/recipe.dart';
+import 'package:app4_receitas/data/services/recipe_service.dart';
 
 class RecipeRepository {
-  final _service = getIt<RecipeService>();
-  
+  final RecipeService _service = getIt<RecipeService>();
+
   Future<List<Recipe>> getRecipes() async {
-    // print('getRecipes chamado!'); // Debug print statement
-    try {
-      final rawData = await _service.fetchRecipes();
-      // print('Dados rawData recebidos: $rawData (${rawData.runtimeType})'); // Debug print statement
-      return rawData.map((data) => Recipe.fromJson(data)).toList();
-    } catch (e) {
-      throw Exception('Hum! Falhou ao buscar receitas 😬: ${e.toString()}');
-    }
+    final raw = await _service.fetchRecipes();
+    return raw.map((m) => Recipe.fromJson(m)).toList();
   }
 
-  // FavRecipesViewModel.loafFavorites methods usa a func abaixo
-  Future<List<Recipe>> getFavorites(String userId) async {
-    try{
-      final rawData = await _service.getFavorites(userId);
-      return rawData.map((data) => Recipe.fromJson(data)).toList();
-    } catch (e) {
-      throw Exception('Hum! Falhou ao buscar receitas favoritas 😬: ${e.toString()}');
-    }
+  Future<Recipe?> getRecipeById(String id) async {
+    final raw = await _service.fetchRecipeById(id);
+    return raw != null ? Recipe.fromJson(raw) : null;
   }
 
-  Future<void> addFavorite(String recipeId, String userId) async {
-    await _service.addFavorite(recipeId, userId);
+  // Nomes iguais aos do professor
+  Future<List<Recipe>> getFavRecipes(String userId) async {
+    final rawList = await _service.fetchFavRecipes(userId);
+    return rawList.map((m) => Recipe.fromJson(m)).toList();
   }
 
-  Future<void> removeFavorite(String recipeId, String userId) async {
-    await _service.removeFavorite(recipeId, userId);
+  Future<void> insertFavRecipe(String recipeId, String userId) async {
+    await _service.insertFavRecipe(recipeId, userId);
+  }
+
+  Future<void> deleteFavRecipe(String recipeId, String userId) async {
+    await _service.deleteFavRecipe(recipeId, userId);
   }
 }

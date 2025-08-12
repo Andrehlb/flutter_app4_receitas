@@ -1,5 +1,5 @@
 class Recipe {
-  final String id; // UUID vindo do backend-supabase --> não mais int, String no app
+  final String id; // UUID do Supabase tratado como String
   final String name;
   final List<String> ingredients;
   final List<String> instructions;
@@ -10,7 +10,7 @@ class Recipe {
   final String? cuisine;
   final int? caloriesPerServing;
   final List<String>? tags;
-  final int userId;
+  final String userId; // Também UUID (profiles.id/auth.users.id)
   final String? image;
   final double? rating;
   final int? reviewCount;
@@ -37,33 +37,39 @@ class Recipe {
     this.mealType,
   });
 
-  // Construtor factory para criar Recipe a partir de JSON
-  // Utiliza o método _parseJsonList para garantir que os campos
-  // de lista sejam tratados corretamente.
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-      id: json['id']?.toString() ?? '', // Garante que id seja String
-      name: json['name'] as String,
+      id: json['id']?.toString() ?? '',
+      name: (json['name'] ?? '').toString(),
       ingredients: _parseJsonList(json['ingredients']),
       instructions: _parseJsonList(json['instructions']),
-      prepTimeMinutes: json['prep_time_minutes'] as int?,
-      cookTimeMinutes: json['cook_time_minutes'] as int?,
-      servings: json['servings'] as int?,
-      difficulty: json['difficulty'] as String?,
-      cuisine: json['cuisine'] as String?,
-      caloriesPerServing: json['calories_per_serving'] as int?,
+      prepTimeMinutes: json['prep_time_minutes'] is int
+          ? json['prep_time_minutes'] as int
+          : int.tryParse(json['prep_time_minutes']?.toString() ?? ''),
+      cookTimeMinutes: json['cook_time_minutes'] is int
+          ? json['cook_time_minutes'] as int
+          : int.tryParse(json['cook_time_minutes']?.toString() ?? ''),
+      servings: json['servings'] is int
+          ? json['servings'] as int
+          : int.tryParse(json['servings']?.toString() ?? ''),
+      difficulty: json['difficulty']?.toString(),
+      cuisine: json['cuisine']?.toString(),
+      caloriesPerServing: json['calories_per_serving'] is int
+          ? json['calories_per_serving'] as int
+          : int.tryParse(json['calories_per_serving']?.toString() ?? ''),
       tags: _parseJsonListOptional(json['tags']),
-      userId: json['user_id'] as int,
-      image: json['image'] as String?,
-      rating: json['rating'] != null
+      userId: json['user_id']?.toString() ?? '',
+      image: json['image']?.toString(),
+      rating: (json['rating'] is num)
           ? (json['rating'] as num).toDouble()
-          : null,
-      reviewCount: json['review_count'] as int?,
+          : double.tryParse(json['rating']?.toString() ?? ''),
+      reviewCount: json['review_count'] is int
+          ? json['review_count'] as int
+          : int.tryParse(json['review_count']?.toString() ?? ''),
       mealType: _parseJsonListOptional(json['meal_type']),
     );
   }
 
-  // Recipe -> JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -89,13 +95,9 @@ class Recipe {
     if (json is List) {
       return json.map((e) => e.toString()).toList();
     } else if (json is String) {
-      // Quando for uma string, tenta dividir por vírgulas
-      // e tratar como uma lista de strings
       try {
-        final List<dynamic> parsed = json
-            .split(',')
-            .map((e) => e.trim())
-            .toList();
+        final List<dynamic> parsed =
+            json.split(',').map((e) => e.trim()).toList();
         return parsed.map((e) => e.toString()).toList();
       } catch (e) {
         return [json];

@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class RecipeService {
   final SupabaseClient _supabaseClient = getIt<SupabaseClient>();
 
-  // Lista todas as receitas da tabela 'recipes' (id = UUID no Supabase)
+  // Lista todas as receitas
   Future<List<Map<String, dynamic>>> fetchRecipes() async {
     final data = await _supabaseClient
         .from('recipes')
@@ -13,15 +13,26 @@ class RecipeService {
     return (data as List).cast<Map<String, dynamic>>();
   }
 
-  // Busca as receitas favoritas do usuário autenticado
-  Future<List<Map<String, dynamic>>> getFavorites(String userId) async {
+  // Busca 1 receita por id (UUID)
+  Future<Map<String, dynamic>?> fetchRecipeById(String id) async {
+    final row = await _supabaseClient
+        .from('recipes')
+        .select()
+        .eq('id', id)
+        .maybeSingle();
+    if (row == null) return null;
+    return (row as Map).cast<String, dynamic>();
+  }
+
+  // Retorna receitas favoritas do usuário AUTENTICADO (RLS)
+  Future<List<Map<String, dynamic>>> fetchFavRecipes(String userId) async {
     final currentUser = _supabaseClient.auth.currentUser;
     if (currentUser == null) {
       throw Exception('Usuário não autenticado. Faça login para ver favoritos.');
     }
     final uid = currentUser.id;
 
-    // 1) Busca IDs favoritos (recipe_id) do usuário na tabela 'favorites'
+    // 1) Busca IDs favoritos
     final favRows = await _supabaseClient
         .from('favorites')
         .select('recipe_id')
@@ -35,7 +46,7 @@ class RecipeService {
 
     if (favoriteIds.isEmpty) return <Map<String, dynamic>>[];
 
-    // 2) Busca as receitas correspondentes na tabela 'recipes'
+    // 2) Busca as receitas correspondentes
     final recipes = await _supabaseClient
         .from('recipes')
         .select()
@@ -45,15 +56,14 @@ class RecipeService {
     return (recipes as List).cast<Map<String, dynamic>>();
   }
 
-  // Adiciona uma receita aos favoritos do usuário autenticado
-  Future<void> addFavorite(String recipeId, String userId) async {
+  // Insere favorito (usa usuário autenticado por causa do RLS)
+  Future<void> insertFavRecipe(String recipeId, String userId) async {
     final currentUser = _supabaseClient.auth.currentUser;
     if (currentUser == null) {
-      throw Exception('Usuário não autenticado. Favor autenticar para adicionar favoritos.');
+      throw Exception('Usuário não autenticado. Faça login para favoritar.');
     }
     final uid = currentUser.id;
 
-    // Evita duplicado (PK: user_id + recipe_id)
     final existing = await _supabaseClient
         .from('favorites')
         .select('recipe_id')
@@ -64,16 +74,16 @@ class RecipeService {
     if (existing != null) return;
 
     await _supabaseClient.from('favorites').insert({
-      'user_id': uid,        // RLS: precisa ser o uid autenticado
+      'user_id': uid,
       'recipe_id': recipeId,
     });
   }
 
-  // Remove uma receita dos favoritos do usuário autenticado
-  Future<void> removeFavorite(String recipeId, String userId) async {
+  // Remove favorito (do usuário autenticado)
+  Future<void> deleteFavRecipe(String recipeId, String userId) async {
     final currentUser = _supabaseClient.auth.currentUser;
     if (currentUser == null) {
-      throw Exception('Usuário não autenticado. Favor autenticar para remover favoritos.');
+      throw Exception('Usuário não autenticado. Faça login para remover favorito.');
     }
     final uid = currentUser.id;
 
