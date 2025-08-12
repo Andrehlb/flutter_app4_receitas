@@ -26,9 +26,13 @@ class RecipeService {
     }
     final uid = currentUser.id;
     
-    
-        .from('favorites')
+    // Evita duplicação de leitura de tabelas do supabase
+    final existing = await _supabaseClient
+        .from('favorites') // Tabela PolíticasRLS-Favorites
+        .select('recipeId')
         .insert({'recipe_id': recipeId, 'user_id': userId});
+
+        if (exisiting != null) return; // Já existe, não faz nada 
 
     if (response.error != null) {
       throw Exception('A tentativa de marcar a recieta: ${response.error!.message}, como favorita falhou. 😕 <br> Tente novamente mais tarde.');
