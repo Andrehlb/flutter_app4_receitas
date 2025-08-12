@@ -4,49 +4,83 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class RecipeService {
   final SupabaseClient _supabaseClient = getIt<SupabaseClient>();
 
+  // Lista todas as receitas da tabela 'recipes' (id = UUID no Supabase)
   Future<List<Map<String, dynamic>>> fetchRecipes() async {
-    return await _supabaseClient
+    final data = await _supabaseClient
         .from('recipes')
         .select()
         .order('id', ascending: true);
+    return (data as List).cast<Map<String, dynamic>>();
   }
 
-  Future<List<dynamic>> getFavorites(String userId) async {
-    // TODO: implementar aqui a chamada do backend para buscar receitas favoritas
-    // Exemplo de implementação: GET /user/{userId}/favorites
-    // Retornar uma lisrta de mapas compatível com Recipe.fromJson
-    return []; // Mock tmeporário para compilar e me permitir continuar o desenvolvimento
+  // Busca as receitas favoritas do usuário autenticado
+  Future<List<Map<String, dynamic>>> getFavorites(String userId) async {
+    final currentUser = _supabaseClient.auth.currentUser;
+    if (currentUser == null) {
+      throw Exception('Usuário não autenticado. Faça login para ver favoritos.');
+    }
+    final uid = currentUser.id;
+
+    // 1) Busca IDs favoritos (recipe_id) do usuário na tabela 'favorites'
+    final favRows = await _supabaseClient
+        .from('favorites')
+        .select('recipe_id')
+        .eq('user_id', uid);
+
+    final favoriteIds = (favRows as List)
+        .map((r) => r['recipe_id']?.toString())
+        .where((id) => id != null && id.isNotEmpty)
+        .cast<String>()
+        .toList();
+
+    if (favoriteIds.isEmpty) return <Map<String, dynamic>>[];
+
+    // 2) Busca as receitas correspondentes na tabela 'recipes'
+    final recipes = await _supabaseClient
+        .from('recipes')
+        .select()
+        .in_('id', favoriteIds)
+        .order('id', ascending: true);
+
+    return (recipes as List).cast<Map<String, dynamic>>();
   }
 
+  // Adiciona uma receita aos favoritos do usuário autenticado
   Future<void> addFavorite(String recipeId, String userId) async {
-    // Vai usar o usuário autenticado do Supabase para cumprir as políticas RL
     final currentUser = _supabaseClient.auth.currentUser;
     if (currentUser == null) {
       throw Exception('Usuário não autenticado. Favor autenticar para adicionar favoritos.');
     }
     final uid = currentUser.id;
-    
-    // Evita duplicação de leitura de tabelas do supabase
+
+    // Evita duplicado (PK: user_id + recipe_id)
     final existing = await _supabaseClient
-        .from('favorites') // Tabela PolíticasRLS-Favorites
-        .select('recipeId')
-        .insert({'recipe_id': recipeId, 'user_id': userId});
+        .from('favorites')
+        .select('recipe_id')
+        .eq('user_id', uid)
+        .eq('recipe_id', recipeId)
+        .maybeSingle();
 
-        if (exisiting != null) return; // Já existe, não faz nada 
+    if (existing != null) return;
 
-    if (response.error != null) {
-      throw Exception('A tentativa de marcar a recieta: ${response.error!.message}, como favorita falhou. 😕 <br> Tente novamente mais tarde.');
-    }
+    await _supabaseClient.from('favorites').insert({
+      'user_id': uid,        // RLS: precisa ser o uid autenticado
+      'recipe_id': recipeId,
+    });
   }
 
+  // Remove uma receita dos favoritos do usuário autenticado
   Future<void> removeFavorite(String recipeId, String userId) async {
-    final response = await _supabaseClient
+    final currentUser = _supabaseClient.auth.currentUser;
+    if (currentUser == null) {
+      throw Exception('Usuário não autenticado. Favor autenticar para remover favoritos.');
+    }
+    final uid = currentUser.id;
+
+    await _supabaseClient
         .from('favorites')
         .delete()
-        .match({'recipe_id': recipeId, 'user_id': userId});
-
-    if (response.error != null) {
-      throw Exception('Falhou a tentativa de remover de favoritos a receita: ${response.error!.message} 😕 <br> Tente novamente mais tarde.');
-    }
+        .eq('user_id', uid)
+        .eq('recipe_id', recipeId);
   }
 }
