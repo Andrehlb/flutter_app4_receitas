@@ -19,7 +19,14 @@ class RecipeService {
   }
 
   Future<void> addFavorite(String recipeId, String userId) async {
-    final response = await _supabaseClient
+    // Vai usar o usuário autenticado do Supabase para cumprir as políticas RL
+    final currentUser = _supabaseClient.auth.currentUser;
+    if (currentUser == null) {
+      throw Exception('Usuário não autenticado. Favor autenticar para adicionar favoritos.');
+    }
+    final uid = currentUser.id;
+    
+    
         .from('favorites')
         .insert({'recipe_id': recipeId, 'user_id': userId});
 
