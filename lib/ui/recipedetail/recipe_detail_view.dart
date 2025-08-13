@@ -83,7 +83,7 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
                 height: 400,
                 width: double.infinity,
                 color: Theme.of(context).colorScheme.primary,
-                child: Icon(Icons.error),
+                child: const Icon(Icons.error),
               ),
             ),
             Padding(
@@ -149,15 +149,15 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
                           viewModel.isFavorite ? 'DESFAVORITAR' : 'FAVORITAR',
                         ),
                       ),
-                    ],
+                    ], // Row
                   ),
                   SizedBox(height: 32),
-                ],
+                ], // Column
               ),
             ),
-          ],
+          ], // Column
         ),
       );
     });
-  }
-}
+  } // build
+} // _RecipeDetailViewState
