@@ -1,6 +1,10 @@
-import 'package:app4_receitas/ui/base_screen.dart';
-import 'package:app4_receitas/ui/recipes/recipes_view.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:app4_receitas/ui/auth/auth_view.dart';
+import 'package:app4_receitas/ui/recipes/recipes_view.dart';
+import 'package:app4_receitas/ui/recipes/fav_recipes_view.dart';
+import 'package:app4_receitas/ui/recipes/recipe_detail_view.dart';
+import 'package:app4_receitas/ui/base_screen.dart';
 
 class AppRouter {
   late final GoRouter router;
