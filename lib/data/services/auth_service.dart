@@ -66,6 +66,6 @@ class AuthService {
         .eq('id', user.id)
         .maybeSingle();
 
-  // Verifica se o usuário está autenticado
-  bool get isAuthenticated => currentUser != null;
-}
+    if (row == null) return null;
+    return UserProfile.fromJson((row as Map).cast<String, dynamic>());
+  }
