@@ -12,9 +12,11 @@ import 'package:app4_receitas/ui/recipes/recipes_viewmodel.dart';
    // Register of services and controllers
    // Recipe Service
   getIt.registerLazySingleton<RecipeService>(() => RecipeService());
+  getIt.registerLazySingleton<AuthService>(() => AuthService());
 
    // Recipe Repository
  getIt.registerLazySingleton<RecipeRepository>(() => RecipeRepository());
+ getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
 
   // Recipe ViewModel
   getIt.registerLazySingleton<RecipesViewModel>(() => RecipesViewModel());
