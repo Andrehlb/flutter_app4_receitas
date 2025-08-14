@@ -1,5 +1,7 @@
 // Modelo para a tabela `profiles` do Supabase.
 // Manutenção dos tipos seguros (UUID como String) e datas opcionais.
+import 'dart:convert';
+
 Class UserProfile {
   final String id;          // UUID (auth.users.id) -> String no app
   final String? email;      // opcional: pode não existir em profiles dependendo do schema
@@ -19,10 +21,13 @@ Class UserProfile {
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      email: json['email'] as String,
-      avatarUrl: json['avatar_Url'] as String,
+      id: json['id']?.toString() ?? '',
+      email: json[émail']?.toString(),
+      // para suportar diferentes nomes de campo: full_name, display_name, name
+      fullName: (json['full_name'] ?? json['display_name'] ?? json['name'])?.toString(),
+      avatarUrl: json['avatar_url']?.toString(),
+      createdAt: _parseDate(json['created_at']),
+      updatedAt: _parseDate(json['updated_at']),
     );
   }
-
+  
