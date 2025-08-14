@@ -43,11 +43,28 @@ class AuthService {
 
     return res;
   }
-  
-  // Realiza o logout do usuário
-  Future<void> signOut() async {
-    await _supabaseClient.auth.signOut();
+
+  // Login com e-mail e senha
+  Future<AuthResponse> signInWithPassword({
+    required String email,
+    required String password,
+  }) {
+    return _supabaseClient.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
   }
+
+  // Perfil do usuário autenticado (tabela profiles)
+  Future<UserProfile?> getCurrentUserProfile() async {
+    final user = currentUser;
+    if (user == null) return null;
+
+    final row = await _supabaseClient
+        .from('profiles')
+        .select()
+        .eq('id', user.id)
+        .maybeSingle();
 
   // Verifica se o usuário está autenticado
   bool get isAuthenticated => currentUser != null;
