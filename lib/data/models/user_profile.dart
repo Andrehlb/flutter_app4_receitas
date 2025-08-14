@@ -7,16 +7,13 @@ Class UserProfile {
   final String? email;      // opcional: pode não existir em profiles dependendo do schema
   final String? fullName;   // full_name | display_name | name (flexível)
   final String? avatarUrl;  // avatar_url
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
 
   const UserProfile({
     required this.id,
-    this.name,
-    this.email,
-    this.avatarUrl,
-    this.createdAt,
-    this.updatedAt,
+    required this.name,
+    required this.email,
+    required this.avatarUrl,
+
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
