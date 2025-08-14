@@ -1,5 +1,6 @@
 import 'package:app4_receitas/di/service_locator.dart';
 import 'package:app4_receitas/data/models/user_profile.dart';
+import 'package:either_dart/either.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
