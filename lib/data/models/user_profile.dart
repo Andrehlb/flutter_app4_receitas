@@ -71,4 +71,10 @@ Class UserProfile {
     }
     return null;
   }
-  
+
+  // Precaução: quando o usuário estiver autenticado apenas no Supabase 
+  //e ainda não buscou a linha em profile
+  factory UserProfile.fromSupabaseUser(String uid, {String? email}) {
+  return userPrfile(id: uid, email: email);
+  }
+}
