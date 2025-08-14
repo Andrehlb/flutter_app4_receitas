@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app4_receitas/data/models/recipe.dart';
 import 'package:app4_receitas/data/repositories/recipe_repository.dart';
 import 'package:app4_receitas/di/service_locator.dart';
@@ -15,6 +16,65 @@ class FavRecipesViewModel extends GetxController {
   bool get isLoading => _isLoading.value;
   String? get errorMessage => _errorMessage.value;
 
+  // ========= Como feito pelo Guilherme (sem passar userId) =========
+  String? get _currentUid => Supabase.instance.client.auth.currentUser?.id;
+
+  // Busca favoritos pegando o userId do usuário autenticado (RLS)
+  Future<void> getFavRecipes() async {
+    try {
+      _isLoading.value = true;
+      _errorMessage.value = '';
+
+      final uid = _currentUid;
+      if (uid == null || uid.isEmpty) {
+        _errorMessage.value = 'Não tem encontramos com estes dados. \nPor favor, faz o login de novo \npara ver as receitas favoritas.';
+        _favRecipes.clear();
+        return;
+      }
+
+      _favRecipes.value = await _repository.getFavRecipes(uid);
+    } catch (e) {
+      _errorMessage.value = 'Falha ao buscar receitas: $e';
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  // Adiciona favorito pegando o userId do usuário autenticado (RLS)
+  Future<void> addFavoriteAuto(Recipe recipe) async {
+    try {
+      final uid = _currentUid;
+      if (uid == null || uid.isEmpty) {
+        _errorMessage.value = 'Usuário não autenticado. Faça login para favoritar.';
+        return;
+      }
+
+      await _repository.insertFavRecipe(recipe.id, uid);
+      if (!_favRecipes.any((r) => r.id == recipe.id)) {
+        _favRecipes.add(recipe);
+      }
+    } catch (e) {
+      _errorMessage.value = 'Não foi possível adicionar aos favoritos: $e';
+    }
+  }
+
+  // Remove favorito pegando o userId do usuário autenticado (RLS)
+  Future<void> removeFavoriteAuto(String recipeId) async {
+    try {
+      final uid = _currentUid;
+      if (uid == null || uid.isEmpty) {
+        _errorMessage.value = 'Usuário não autenticado. Faça login para remover favoritos.';
+        return;
+      }
+
+      await _repository.deleteFavRecipe(recipeId, uid);
+      _favRecipes.removeWhere((r) => r.id == recipeId);
+    } catch (e) {
+      _errorMessage.value = 'Não foi possível remover dos favoritos: $e';
+    }
+  }
+
+  // ========= Compatibilidade com o que você já tinha =========
   Future<void> loadFavorites(String userId) async {
     try {
       _isLoading.value = true;
@@ -27,7 +87,6 @@ class FavRecipesViewModel extends GetxController {
     }
   }
 
-  // Adiciona uma receita aos favoritos
   Future<void> addFavorite(String userId, Recipe recipe) async {
     try {
       await _repository.insertFavRecipe(recipe.id, userId);
@@ -40,7 +99,6 @@ class FavRecipesViewModel extends GetxController {
     }
   }
 
-  // Remove uma receita dos favoritos
   Future<void> removeFavorite(String userId, String recipeId) async {
     try {
       await _repository.deleteFavRecipe(recipeId, userId);
