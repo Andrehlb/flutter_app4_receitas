@@ -69,3 +69,15 @@ class AuthService {
     if (row == null) return null;
     return UserProfile.fromJson((row as Map).cast<String, dynamic>());
   }
+
+  // Buscar perfil por id
+  Future<UserProfile?> getProfileById(String uid) async {
+    final row = await _supabaseClient
+        .from('profiles')
+        .select()
+        .eq('id', uid)
+        .maybeSingle();
+
+    if (row == null) return null;
+    return UserProfile.fromJson((row as Map).cast<String, dynamic>());
+  }
