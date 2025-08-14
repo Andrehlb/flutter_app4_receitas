@@ -13,65 +13,24 @@ Class UserProfile {
     required this.name,
     required this.email,
     required this.avatarUrl,
-
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
       id: json['id']?.toString() ?? '',
       email: json[émail']?.toString(),
-      // para suportar diferentes nomes de campo: full_name, display_name, name
-      fullName: (json['full_name'] ?? json['display_name'] ?? json['name'])?.toString(),
-      avatarUrl: json['avatar_url']?.toString(),
-      createdAt: _parseDate(json['created_at']),
-      updatedAt: _parseDate(json['updated_at']),
+      // se sua coluna for "name" em vez de "username", a linha abaixo cobre os dois
+      username: (json['username'] ?? json['name'])?.toString() ?? '',
+      // no Supabase a convenção é 'avatar_url'
+      avatarUrl: (json['avatar_url'] ?? json['avatarUrl'])?.toString() ?? '',
     );
   }
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'email': email,
-      'full_name': fullName,
+      'username': username,
       'avatar_url': avatarUrl,
-      'created_at': createdAt?.toIso8601String(),
-      'updated_at': updatedAt?.toIso8601String(),
     };
-  }
-
-  UserProfile copyWith({
-    String? id,
-    String? email,
-    String? fullName,
-    String? avatarUrl,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) {
-    return UserProfile(
-      id: id ?? this.id,
-      email: email ?? this.email,
-      fullName: fullName ?? this.fullName,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
-
-  static DateTime? _parseDate(dynamic value) {
-    if (value == null) return null;
-    if (value is DateTime) return value;
-    if (value is String) {
-      try {
-        return DateTime.parse(value);
-      } catch (_) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  // Precaução: quando o usuário estiver autenticado apenas no Supabase 
-  //e ainda não buscou a linha em profile
-  factory UserProfile.fromSupabaseUser(String uid, {String? email}) {
-  return userPrfile(id: uid, email: email);
   }
 }
