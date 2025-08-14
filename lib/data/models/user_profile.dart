@@ -40,4 +40,22 @@ Class UserProfile {
       'updated_at': updatedAt?.toIso8601String(),
     };
   }
+
+  UserProfile copyWith({
+    String? id,
+    String? email,
+    String? fullName,
+    String? avatarUrl,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return UserProfile(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      fullName: fullName ?? this.fullName,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
   
