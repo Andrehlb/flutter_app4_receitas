@@ -15,17 +15,12 @@ class AuthService {
   Future<AuthResponse> signUpEmailPassword({
     required String email,
     required String password,
-    String? username,
-    String? avatarUrl,
-  }) async {
-    final res = await _supabaseClient.auth.signUp(
+  }) {
+    return _supabaseClient.auth.signInWithPassword(
       email: email,
       password: password,
-      data: {
-        if (username != null && username.isNotEmpty) 'username': username,
-        if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
-      },
     );
+  }
     
     // Se já houver user, tentamos sincronizar a linha em profiles (RLS pode exigir e-mail confirmado)
     final user = res.user;
