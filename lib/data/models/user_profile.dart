@@ -1,14 +1,20 @@
+// Modelo para a tabela `profiles` do Supabase.
+// Manutenção dos tipos seguros (UUID como String) e datas opcionais.
 Class UserProfile {
-  final String id;
-  final String name;
-  final String email;
-  final String avatarUrl;
+  final String id;          // UUID (auth.users.id) -> String no app
+  final String? email;      // opcional: pode não existir em profiles dependendo do schema
+  final String? fullName;   // full_name | display_name | name (flexível)
+  final String? avatarUrl;  // avatar_url
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
-  UserProfile({
+  const UserProfile({
     required this.id,
-    required this.name,
-    required this.email,
-    required this.avatarUrl,
+    this.name,
+    this.email,
+    this.avatarUrl,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
