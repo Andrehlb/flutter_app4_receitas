@@ -58,4 +58,17 @@ Class UserProfile {
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
+
+  static DateTime? _parseDate(dynamic value) {
+    if (value == null) return null;
+    if (value is DateTime) return value;
+    if (value is String) {
+      try {
+        return DateTime.parse(value);
+      } catch (_) {
+        return null;
+      }
+    }
+    return null;
+  }
   
