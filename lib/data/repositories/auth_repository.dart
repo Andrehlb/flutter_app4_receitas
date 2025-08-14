@@ -1,6 +1,7 @@
 import 'package:app4_receitas/di/service_locator.dart';
 import 'package:app4_receitas/data/models/user_profile.dart';
 import 'package:app4_receitas/data/services/auth_service.dart';
+import 'package:either_dart/either.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthRepository {
@@ -24,11 +25,20 @@ class AuthRepository {
     );
   }
 
+  // Mantido
   Future<AuthResponse> signInWithPassword({
     required String email,
     required String password,
   }) {
     return _service.signInWithPassword(email: email, password: password);
+  }
+
+  // Novo: login seguro com Either
+  Future<Either<String, AuthResponse>> signInWithPasswordSafe({
+    required String email,
+    required String password,
+  }) {
+    return _service.signInWithPasswordSafe(email: email, password: password);
   }
 
   Future<void> signOut() => _service.signOut();
