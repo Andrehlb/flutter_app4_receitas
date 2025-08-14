@@ -81,3 +81,9 @@ class AuthService {
     if (row == null) return null;
     return UserProfile.fromJson((row as Map).cast<String, dynamic>());
   }
+
+  // Criar/atualizar perfil (usado após confirmação de e-mail)
+  Future<void> upsertProfile(UserProfile profile) async {
+    await _supabaseClient.from('profiles').upsert(profile.toJson());
+  }
+}
