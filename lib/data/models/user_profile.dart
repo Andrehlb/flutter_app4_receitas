@@ -30,4 +30,14 @@ Class UserProfile {
       updatedAt: _parseDate(json['updated_at']),
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'full_name': fullName,
+      'avatar_url': avatarUrl,
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
+    };
+  }
   
