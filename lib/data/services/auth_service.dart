@@ -5,8 +5,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthService {
   final SupabaseClient _supabaseClient = getIt<SupabaseClient>();
 
-  // Retorna o usuário atual 
+  // Usuário atual (null se não autenticado)
   User? get currentUser => _supabaseClient.auth.currentUser;
+  bool get isLoggedIn => currentUser != null;
+  bool get isEmailConfirmed => currentUser?.emailConfirmedAt != null;
 
   // Realiza o login com email e senha
   Future<AuthResponse> signInWithPassword({
