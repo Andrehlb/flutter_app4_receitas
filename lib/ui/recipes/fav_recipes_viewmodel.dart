@@ -27,14 +27,14 @@ class FavRecipesViewModel extends GetxController {
 
       final uid = _currentUid;
       if (uid == null || uid.isEmpty) {
-        _errorMessage.value = 'Não tem encontramos com estes dados. \nPor favor, faz o login de novo \npara ver as receitas favoritas.';
+        _errorMessage.value = 'Ops! Não te encontramos com estes dados. \nPor favor, faz o login de novo \npara ver as receitas favoritas.';
         _favRecipes.clear();
         return;
       }
 
       _favRecipes.value = await _repository.getFavRecipes(uid);
     } catch (e) {
-      _errorMessage.value = 'Falha ao buscar receitas: $e';
+      _errorMessage.value = 'Ops! Aconteceu uma falha ao buscar receitas: $e. Por favor, tente mais tarde.';
     } finally {
       _isLoading.value = false;
     }
@@ -45,7 +45,7 @@ class FavRecipesViewModel extends GetxController {
     try {
       final uid = _currentUid;
       if (uid == null || uid.isEmpty) {
-        _errorMessage.value = 'Usuário não autenticado. Faça login para favoritar.';
+        _errorMessage.value = 'Ops! Não encontramos seus dados.\nFaz login novamde novo \npara adicionar receitas aos favoritos.';
         return;
       }
 
@@ -54,7 +54,7 @@ class FavRecipesViewModel extends GetxController {
         _favRecipes.add(recipe);
       }
     } catch (e) {
-      _errorMessage.value = 'Não foi possível adicionar aos favoritos: $e';
+      _errorMessage.value = 'Ops! Neste momento, Não foi possível adicionar a receita aos favoritos: $e';
     }
   }
 
@@ -63,14 +63,14 @@ class FavRecipesViewModel extends GetxController {
     try {
       final uid = _currentUid;
       if (uid == null || uid.isEmpty) {
-        _errorMessage.value = 'Usuário não autenticado. Faça login para remover favoritos.';
+        _errorMessage.value = 'Ops! Neste momento, Não foi possível adicionar a receita aos favortos';
         return;
       }
 
       await _repository.deleteFavRecipe(recipeId, uid);
       _favRecipes.removeWhere((r) => r.id == recipeId);
     } catch (e) {
-      _errorMessage.value = 'Não foi possível remover dos favoritos: $e';
+      _errorMessage.value = 'Ops! Neste momento, não foi possível remover a receita dos favoritos: $e';
     }
   }
 
@@ -81,7 +81,7 @@ class FavRecipesViewModel extends GetxController {
       _favRecipes.value = await _repository.getFavRecipes(userId);
     } catch (e) {
       _errorMessage.value =
-          'Algo deu errado ao carregar favoritos: $e, aguarde por favor.';
+          'Algo deu errado ao carregar favoritos: $e. Tente mais tarde, por favor.';
     } finally {
       _isLoading.value = false;
     }
@@ -95,7 +95,7 @@ class FavRecipesViewModel extends GetxController {
       }
     } catch (e) {
       _errorMessage.value =
-          'Não foi possível adicionar aos favoritos: $e. Tente novamente mais tarde.';
+          'Ops! Neste momento, não foi possível adicionar a receita aos favoritos: $e. Tente novamente mais tarde, por favor.';
     }
   }
 
@@ -105,7 +105,7 @@ class FavRecipesViewModel extends GetxController {
       _favRecipes.removeWhere((r) => r.id == recipeId);
     } catch (e) {
       _errorMessage.value =
-          'Não foi possível remover dos favoritos: $e. Tente novamente mais tarde.';
+          'Ops! Neste momento, não foi possível remover a receita dos favoritos: $e. Tente novamente mais tarde, por favor.';
     }
   }
 }
