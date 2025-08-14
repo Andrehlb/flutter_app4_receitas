@@ -22,22 +22,22 @@ class AuthService {
     );
   }
     
-    // Se já houver user, tentamos sincronizar a linha em profiles (RLS pode exigir e-mail confirmado)
-    final user = res.user;
-    if (user != null) {
-      try {
-        await _supabaseClient.from('profiles').upsert({
-          'id': user.id,
-          'email': user.email,
-          if (username != null && username.isNotEmpty) 'username': username,
-          if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
-        });
-      } catch (_) {
-        // Pode falhar por RLS se o e-mail ainda não estiver confirmado. Isso é esperado no fluxo da aula.
-      }
+  // Login “seguro” (novo): retorna Either<erro, sucesso>
+  Future<Either<String, AuthResponse>> signInWithPasswordSafe({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final res = await _supabaseClient.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+      return Right(res);
+    } on AuthException catch (e) {
+      return Left(_mapAuthError(e));
+    } catch (_) {
+      return const Left('Falha ao autenticar. Tente novamente.');
     }
-
-    return res;
   }
 
   // Login com e-mail e senha
