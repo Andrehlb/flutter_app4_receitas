@@ -40,18 +40,41 @@ class AuthService {
     }
   }
 
-  // Login com e-mail e senha
-  Future<AuthResponse> signInWithPassword({
+  // Cadastro (mantido do passo anterior)
+  Future<AuthResponse> signUpEmailPassword({
     required String email,
     required String password,
-  }) {
-    return _supabaseClient.auth.signInWithPassword(
+    String? username,
+    String? avatarUrl,
+  }) async {
+    final res = await _supabaseClient.auth.signUp(
       email: email,
       password: password,
+      data: {
+        if (username != null && username.isNotEmpty) 'username': username,
+        if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
+      },
     );
+
+    final user = res.user;
+    if (user != null) {
+      try {
+        await _supabaseClient.from('profiles').upsert({
+          'id': user.id,
+          'email': user.email,
+          if (username != null && username.isNotEmpty) 'username': username,
+          if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
+        });
+      } catch (_) {
+        // Pode falhar por RLS se e-mail não confirmado; esperado no fluxo da aula.
+      }
+    }
+
+    return res;
   }
 
-  // Perfil do usuário autenticado (tabela profiles)
+  Future<void> signOut() => _supabaseClient.auth.signOut();
+
   Future<UserProfile?> getCurrentUserProfile() async {
     final user = currentUser;
     if (user == null) return null;
@@ -66,7 +89,6 @@ class AuthService {
     return UserProfile.fromJson((row as Map).cast<String, dynamic>());
   }
 
-  // Buscar perfil por id
   Future<UserProfile?> getProfileById(String uid) async {
     final row = await _supabaseClient
         .from('profiles')
@@ -78,8 +100,35 @@ class AuthService {
     return UserProfile.fromJson((row as Map).cast<String, dynamic>());
   }
 
-  // Criar/atualizar perfil (usado após confirmação de e-mail)
   Future<void> upsertProfile(UserProfile profile) async {
     await _supabaseClient.from('profiles').upsert(profile.toJson());
+  }
+
+  // Mapeia erros comuns do Supabase Auth para mensagens claras
+  String _mapAuthError(AuthException e) {
+    final msg = (e.message ?? '').toLowerCase();
+
+    if (msg.contains('invalid login credentials') ||
+        msg.contains('invalid login') ||
+        msg.contains('invalid credentials')) {
+      return 'Credenciais inválidas. Verifique e-mail e senha.';
+    }
+
+    if (msg.contains('email not confirmed') ||
+        msg.contains('email not confirmed') ||
+        msg.contains('email confirmation required')) {
+      return 'E-mail não confirmado. Verifique sua caixa de entrada.';
+    }
+
+    if (msg.contains('over_email_send_rate_limit')) {
+      return 'Limite de envios de e-mail atingido. Aguarde alguns minutos.';
+    }
+
+    if (msg.contains('user not found') || msg.contains('no user found')) {
+      return 'Usuário não encontrado.';
+    }
+
+    // Fallback
+    return 'Falha ao autenticar: ${e.message}';
   }
 }
