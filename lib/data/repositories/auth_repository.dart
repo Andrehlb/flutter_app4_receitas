@@ -23,3 +23,22 @@ class AuthRepository {
       avatarUrl: avatarUrl,
     );
   }
+
+  Future<AuthResponse> signInWithPassword({
+    required String email,
+    required String password,
+  }) {
+    return _service.signInWithPassword(email: email, password: password);
+  }
+
+  Future<void> signOut() => _service.signOut();
+
+  Future<UserProfile?> getCurrentUserProfile() =>
+      _service.getCurrentUserProfile();
+
+  Future<UserProfile?> getProfileById(String uid) =>
+      _service.getProfileById(uid);
+
+  Future<void> upsertProfile(UserProfile profile) =>
+      _service.upsertProfile(profile);
+}
