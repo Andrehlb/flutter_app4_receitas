@@ -10,22 +10,40 @@ class AuthService {
   bool get isLoggedIn => currentUser != null;
   bool get isEmailConfirmed => currentUser?.emailConfirmedAt != null;
 
-  // Realiza o login com email e senha
-  Future<AuthResponse> signInWithPassword({
-    required String email, 
-    String password,
-    }) async {
-    final response = await _supabaseClient.auth.signInWithPassword(
+  // Cadastro com e-mail/senha. Observação: dependendo da config, pode exigir confirmação por e-mail.
+  Future<AuthResponse> signUpEmailPassword({
+    required String email,
+    required String password,
+    String? username,
+    String? avatarUrl,
+  }) async {
+    final res = await _supabaseClient.auth.signUp(
       email: email,
       password: password,
+      data: {
+        if (username != null && username.isNotEmpty) 'username': username,
+        if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
+      },
     );
-    return response;
     
-    if (response.error != null) {
-      throw Exception('Erro ao fazer login: ${response.error!.message}');
+    // Se já houver user, tentamos sincronizar a linha em profiles (RLS pode exigir e-mail confirmado)
+    final user = res.user;
+    if (user != null) {
+      try {
+        await _supabaseClient.from('profiles').upsert({
+          'id': user.id,
+          'email': user.email,
+          if (username != null && username.isNotEmpty) 'username': username,
+          if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
+        });
+      } catch (_) {
+        // Pode falhar por RLS se o e-mail ainda não estiver confirmado. Isso é esperado no fluxo da aula.
+      }
     }
-  }
 
+    return res;
+  }
+  
   // Realiza o logout do usuário
   Future<void> signOut() async {
     await _supabaseClient.auth.signOut();
