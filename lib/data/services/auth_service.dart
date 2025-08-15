@@ -1,5 +1,6 @@
 import 'package:app4_receitas/di/service_locator.dart';
 import 'package:app4_receitas/data/models/user_profile.dart';
+import 'package:app4_receitas/utils/app.error.dart';
 import 'package:either_dart/either.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -11,6 +12,24 @@ class AuthService {
   bool get isLoggedIn => currentUser != null;
   bool get isEmailConfirmed => currentUser?.emailConfirmedAt != null;
 
+  // 1) método com either (no estilo do Guilehrme)
+  // Esquerda = AppError (falha) | Direita = AuthResponse (sucesso)
+  Future<Either<AppError, AuthResponse>> signInWithPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final res = await _supabaseClient.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+      return Right(res);
+    } on AuthException catch (e) {
+      return Left(AppError(_mapAuthError(e), e));
+    } catch (e) {
+      return const Left(AppError('Autenticação falhou. Por favor, tente de novo.', e));
+    }
+  }
   // Cadastro com e-mail/senha. Observação: dependendo da config, pode exigir confirmação por e-mail.
   Future<AuthResponse> signUpEmailPassword({
     required String email,
