@@ -1,0 +1,76 @@
+Path files App4-recipes Dart-Flutter
+
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\data\models\recipe.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\data\models\user_profile.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\data\repositories\auth_repository.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\data\repositories\recipe_repository.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\data\services\auth_service.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\data\services\recipe_service.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\database\SQL\recipes_favorites_profile.sql (Está no supabase)
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\di\service_locator.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\routes\initialLocation\login.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\routes\app_router.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\ui\auth\auth_view.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\ui\auth\auth_viewmodel.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\ui\recipedetail\recipe_detail_view.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\ui\recipes\fav_recipes_viewmodel.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\ui\recipes\recipes_view.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\ui\recipes\recipes_view.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\ui\recipes\recipes_viewmodel.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\ui\widgets\custom_drawer.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\ui\widgets\recipe_card.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\ui\base_screen.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\utils\config\env.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\utils\theme\custom_theme_controller.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\utils\theme\custom_theme.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\utils\app.error.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\lib\main.dart
+C:\Users\GitHub-Repos\flutter_app4_receitas\.gitignore
+C:\Users\GitHub-Repos\flutter_app4_receitas\pubspec.yaml
+C:\Users\GitHub-Repos\flutter_app4_receitas\README.md
+
+Estrutura da pasta lib no repositório flutter_app4_receitas
+lib/
+  main.dart
+  data/
+    models/
+      recipe.dart
+      user_profile.dart
+    repositories/
+      auth_repository.dart
+      recipe_repository.dart
+    services/
+      auth_service.dart
+      recipe_service.dart
+  database/
+    recipes.sql
+    SQL/
+      recipes_favorites_profile.sql
+  di/
+    service_locator.dart
+  routes/
+    app_router.dart
+    initialLocation/
+      login.dart
+  ui/
+    base_screen.dart
+    auth/
+      auth_view.dart
+      auth_viewmodel.dart
+    recipedetail/
+      recipe_detail_view.dart
+    recipes/
+      fav_recipes_view.dart
+      fav_recipes_viewmodel.dart
+      recipes_view.dart
+      recipes_viewmodel.dart
+    widgets/
+      custom_drawer.dart
+      recipe_card.dart
+  utils/
+    app.error.dart
+    config/
+      env.dart
+    theme/
+      custom_theme.dart
+      custom_theme_controller.dart
