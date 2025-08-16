@@ -19,22 +19,65 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final res = await _supabaseClient.auth.signInWithPassword(
+      final response = await _supabaseClient.auth.signInWithPassword(
         email: email,
         password: password,
       );
-      return Right(res);
+      return Right(response); // Sucesso -> Right
     } on AuthException catch (e) {
+      final msg = (e.message ?? '').toLowerCase()
       return Left(AppError(_mapAuthError(e), e));
     } catch (e) {
       return const Left(AppError('Autenticação falhou. Por favor, tente de novo.', e));
     }
   }
-  // Cadastro com e-mail/senha. Observação: dependendo da config, pode exigir confirmação por e-mail.
-  Future<AuthResponse> signUpEmailPassword({
+
+  // 2) Mantendo a compatibilidade (caso haja chamadas antigas):
+  // retorna uma resposta "bruta" do Supabase (sem Either)
+  Future<AuthResponse> signInWithPasswordRaw({
     required String email,
     required String password,
   }) {
+    return _supabaseClient.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
+  }  
+
+  // Cadastro com e-mail/senha. Observação: dependendo da config, pode exigir confirmação por e-mail. 
+  // Pode falhar por RLS se o e-mail não estiver confirmado.
+  Future<AuthResponse> signUpEmailPassword({
+    required String email,
+    required String password,
+    String? username,
+    String? avatarUrl,
+  }) async {
+    final res = await _supabaseClient.auth.signUp(
+      email: email,
+      password: password,
+      data: {
+        if (username != null && username.isNotEmpty) 'username': username,
+        if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
+      },
+    );
+
+    final user = res.user;
+    if (user != null) {
+      try {
+        await _supabaseClient.from('profiles').upsert({
+          'id': user.id,
+          'email': user.email,
+          if (username != null && username.isNotEmpty) 'username': username,
+          if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
+        });
+      } catch (_) {
+        // Pode falhar por RLS se e-mail não confirmado; esperado no fluxo.
+      }
+    }
+
+    return res;
+  }
+
     return _supabaseClient.auth.signInWithPassword(
       email: email,
       password: password,
