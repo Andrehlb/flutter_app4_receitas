@@ -5,12 +5,17 @@ import 'package:either_dart/either.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
-  final SupabaseClient _supabaseClient = getIt<SupabaseClient>();
+  final SupabaseClient _supabaseClient;
+  // = getIt<SupabaseClient>();
+
+  AuthService({
+    SupabaseClient? supabaseClient, client
+  }) : _supabaseClient = client ?? Supabase.instance.client;
 
   // Usuário atual (null se não autenticado)
   User? get currentUser => _supabaseClient.auth.currentUser;
-  bool get isLoggedIn => currentUser != null;
-  bool get isEmailConfirmed => currentUser?.emailConfirmedAt != null;
+  //bool get isLoggedIn => currentUser != null;
+  //bool get isEmailConfirmed => currentUser?.emailConfirmedAt != null;
 
   // 1) método com either (no estilo do Guilehrme)
   // Esquerda = AppError (falha) | Direita = AuthResponse (sucesso)
