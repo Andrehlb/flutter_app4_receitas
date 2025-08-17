@@ -1,5 +1,5 @@
 class AppError {
-  final String massage;
+  final String message;
   final Object? cause;
 
   AppError(this.message, [this.cause]);
