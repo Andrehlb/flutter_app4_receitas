@@ -109,7 +109,7 @@ class AuthService {
   }
 
   // Cadastro (mantido do passo anterior)
-  Future<AuthResponse> signUpEmailPassword({
+ /* Future<AuthResponse> signUpEmailPassword({
     required String email,
     required String password,
     String? username,
@@ -139,7 +139,7 @@ class AuthService {
     }
 
     return res;
-  }
+  } // async */
 
   Future<void> signOut() => _supabaseClient.auth.signOut();
 

@@ -122,7 +122,7 @@ result.fold(
 ```
 ---
 ## O que chama o quê?
-
+```md
 UI (Tela) 
   ↓ chama
 ViewModel / Controller
@@ -132,6 +132,7 @@ AuthRepository  (lib/data/repositories/auth_repository.dart)
 AuthService     (lib/data/services/auth_service.dart)
   ↓ chama
 Supabase SDK    (supabase.auth.signInWithPassword)
+```
 ---
 ```md
 ViewModel → Repository → Service → Supabase
