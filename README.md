@@ -122,9 +122,18 @@ result.fold(
   (success) => print('Sucesso: ${success.user.email}'), // Right
 );
 ```
-
 ---
+## O que chama o quê?
 
+- ViewModel chama → AuthRepository.signInWithPasswordSafe(...)
+
+- AuthRepository chama → AuthService.signInWithPasswordSafe(...)
+
+- AuthService chama → supabase.auth.signInWithPassword(...)
+---
+```md
+ViewModel → Repository → Service → Supabase
+```
 ## 📦 Dependências principais
 
 ```yaml
