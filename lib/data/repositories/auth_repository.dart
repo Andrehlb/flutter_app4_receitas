@@ -26,11 +26,12 @@ class AuthRepository {
   }
 
   // Mantido
-  Future<AuthResponse> signInWithPassword({
+  //Future<AuthResponse> signInWithPassword({
+  Future<Either<AppError, AuthResponse>> signInWithPassword({
     required String email,
     required String password,
   }) {
-    return _service.signInWithPassword(email: email, password: password);
+    return _authService.signInWithPassword(email: email, password: password);
   }
 
   // Novo: login seguro com Either

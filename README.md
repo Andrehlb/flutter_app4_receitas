@@ -123,11 +123,15 @@ result.fold(
 ---
 ## O que chama o quê?
 
-- ViewModel chama → AuthRepository.signInWithPasswordSafe(...)
-
-- AuthRepository chama → AuthService.signInWithPasswordSafe(...)
-
-- AuthService chama → supabase.auth.signInWithPassword(...)
+UI (Tela) 
+  ↓ chama
+ViewModel / Controller
+  ↓ chama
+AuthRepository  (lib/data/repositories/auth_repository.dart)
+  ↓ chama
+AuthService     (lib/data/services/auth_service.dart)
+  ↓ chama
+Supabase SDK    (supabase.auth.signInWithPassword)
 ---
 ```md
 ViewModel → Repository → Service → Supabase
