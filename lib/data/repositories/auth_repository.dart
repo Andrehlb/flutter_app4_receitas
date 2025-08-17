@@ -6,7 +6,21 @@ import 'package:either_dart/either.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthRepository {
-  final AuthService _service = getIt<AuthService>();
+  final AuthService _service;
+  AuthRepository(this._service);
+
+  Future<Either<AppError, AuthResponse>> signInWithPasswordSafe({
+    required String email,
+    required String password,
+  }) {
+    return _service.signInWithPasswordSafe(email: email, password: password);
+  }
+
+  Future<void> signOut() => _service.signOut();
+}
+
+  
+  /* final AuthService _service = getIt<AuthService>();
 
   User? get currentUser => _service.currentUser;
   //bool get isLoggedIn => _service.isLoggedIn;
@@ -53,4 +67,4 @@ class AuthRepository {
 
   Future<void> upsertProfile(UserProfile profile) =>
       _service.upsertProfile(profile);
-}
+} */
