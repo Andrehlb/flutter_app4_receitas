@@ -26,179 +26,34 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final response = await signInWithPasswordRaw(
+      final response = await _supabase.auth.signInWithPasswordRaw(
         email: email,
         password: password,
       );
       return Right(response); // Sucesso -> Right
     } on AuthException catch (e) {
-      switch (e.message) {
+      /* switch (e.message) {
         case 'Invalid login credentials':
         return Left(
           AppError('Você não se cadastrou ainda ou digitou informação errada.', e),
         );
-        case 'Email not confirmed':
-          return Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada.', e));
-        default:
-          return Left(AppError('O login falhou', e));
+        case 'Email not confirmed': */
+      final msg = e.message?.toLowerCase() ?? '';
+      if (msg.contains('invalid login credentials')) {
+        return Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada e confirme, por favor..', e));
       }
-    }
-  }
-
-  // 2) Mantendo a compatibilidade (caso haja chamadas antigas):
-  // retorna uma resposta "bruta" do Supabase (sem Either)
-  Future<AuthResponse> signInWithPasswordRaw({
-    required String email,
-    required String password,
-  }) async {
-    final response = await _supabaseClient.auth.signInWithPassword(
-      email: email,
-      password: password,
-    );
-    return response;
-  }  
-
-  // Cadastro com e-mail/senha. Observação: dependendo da config, pode exigir confirmação por e-mail. 
-  // Pode falhar por RLS se o e-mail não estiver confirmado.
-  Future<AuthResponse> signUpEmailPassword({
-    required String email,
-    required String password,
-    String? username,
-    String? avatarUrl,
-  }) async {
-    final res = await _supabaseClient.auth.signUp(
-      email: email,
-      password: password,
-      data: {
-        if (username != null && username.isNotEmpty) 'username': username,
-        if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
-      },
-    );
-
-    final user = res.user;
-    if (user != null) {
-      try {
-        await _supabaseClient.from('profiles').upsert({
-          'id': user.id,
-          'email': user.email,
-          if (username != null && username.isNotEmpty) 'username': username,
-          if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
-        });
-      } catch (_) {
-        // Pode falhar por RLS se e-mail não confirmado; esperado no fluxo.
+      //default:
+      if (msg.contains('email not confirmed')) {}
+        return Left(AppError('Veja sua caixa de entrada e faça a confirmação antes de entrar: ${e.message}'));
       }
-    }
 
-    return res;
-  }
-
-  // Login “seguro” (novo): retorna Either<erro, sucesso>
-  Future<Either<String, AuthResponse>> signInWithPasswordSafe({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      final res = await _supabaseClient.auth.signInWithPassword(
-        email: email,
-        password: password,
-      );
-      return Right(res);
-    } on AuthException catch (e) {
-      return Left(_mapAuthError(e));
-    } catch (_) {
-      return const Left('Falha ao autenticar. Tente novamente.');
+      // Fallback para outros erros
+      return Left(AppError('Falha ao tentar acessar: ${e.message}'));
+    } catch (e) {
+      // Erro inesperado
+      return Left(AppError('Erro inesperado ao tentar acessar: $e));
     }
   }
 
-  // Cadastro (mantido do passo anterior)
- /* Future<AuthResponse> signUpEmailPassword({
-    required String email,
-    required String password,
-    String? username,
-    String? avatarUrl,
-  }) async {
-    final res = await _supabaseClient.auth.signUp(
-      email: email,
-      password: password,
-      data: {
-        if (username != null && username.isNotEmpty) 'username': username,
-        if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
-      },
-    );
-
-    final user = res.user;
-    if (user != null) {
-      try {
-        await _supabaseClient.from('profiles').upsert({
-          'id': user.id,
-          'email': user.email,
-          if (username != null && username.isNotEmpty) 'username': username,
-          if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar_url': avatarUrl,
-        });
-      } catch (_) {
-        // Pode falhar por RLS se e-mail não confirmado; esperado no fluxo da aula.
-      }
-    }
-
-    return res;
-  } // async */
-
-  Future<void> signOut() => _supabaseClient.auth.signOut();
-
-  Future<UserProfile?> getCurrentUserProfile() async {
-    final user = currentUser;
-    if (user == null) return null;
-
-    final row = await _supabaseClient
-        .from('profiles')
-        .select()
-        .eq('id', user.id)
-        .maybeSingle();
-
-    if (row == null) return null;
-    return UserProfile.fromJson((row as Map).cast<String, dynamic>());
-  }
-
-  Future<UserProfile?> getProfileById(String uid) async {
-    final row = await _supabaseClient
-        .from('profiles')
-        .select()
-        .eq('id', uid)
-        .maybeSingle();
-
-    if (row == null) return null;
-    return UserProfile.fromJson((row as Map).cast<String, dynamic>());
-  }
-
-  Future<void> upsertProfile(UserProfile profile) async {
-    await _supabaseClient.from('profiles').upsert(profile.toJson());
-  }
-
-  // Mapeia erros comuns do Supabase Auth para mensagens claras
-  String _mapAuthError(AuthException e) {
-    final msg = (e.message ?? '').toLowerCase();
-
-    if (msg.contains('invalid login credentials') ||
-        msg.contains('invalid login') ||
-        msg.contains('invalid credentials')) {
-      return 'Credenciais inválidas. Verifique e-mail e senha.';
-    }
-
-    if (msg.contains('email not confirmed') ||
-        msg.contains('email not confirmed') ||
-        msg.contains('email confirmation required')) {
-      return 'E-mail não confirmado. Verifique sua caixa de entrada.';
-    }
-
-    if (msg.contains('over_email_send_rate_limit')) {
-      return 'Limite de envios de e-mail atingido. Aguarde alguns minutos.';
-    }
-
-    if (msg.contains('user not found') || msg.contains('no user found')) {
-      return 'Usuário não encontrado.';
-    }
-
-    // Fallback
-    return 'Falha ao autenticar: ${e.message}';
-  }
+  Future<void> signOut() => _supabase.auth.signOut();
 }
