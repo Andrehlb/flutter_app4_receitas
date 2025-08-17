@@ -79,8 +79,8 @@ class AuthService {
   }
 
     return _supabaseClient.auth.signInWithPassword(
-      email = email,
-      password = password,
+      email: email,
+      password: password,
     );
   }
     

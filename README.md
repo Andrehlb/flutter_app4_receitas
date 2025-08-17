@@ -7,27 +7,28 @@
 * ✅ Resumo visual e técnico
 
 ```md
-
 Este é um projeto de criação de um aplicativo de receitas e sistemas de favoritos, usando Dart-Flutter e com
 uma arquitetura limpa, com Supabase.
 Este projeto em camadas com foco em boas práticas e uso de Vários pacotes, como o `either_dart` para tratamento funcional de sucesso/erro.
 
-
 Aqui é possível observar e aprender como organizar a lógica de autenticação com boas práticas e um fluxo robusto de login.
-
 ```
-
 ---
 
-## ✅ Onde tudo começa e termina?
+### ✅ Onde tudo começa e termina?
 
-- 👤 O **usuário digita** e-mail e senha na tela de login (`auth_view.dart`)
-- 📤 O **ViewModel envia** os dados para o `AuthRepository`
+### Início - Front-end
+- 👤 O **usuário digita** e-mail e senha na tela de login (`auth_view.dart`) e clica/toca em entrar
+### Processamento bem sucedido - comunicação Front com Back-end
+- 📤 O **ViewModel chama** o método `signInWithPassword` e **envia** os para o `AuthRepository`
 - 🔁 O **AuthRepository repassa** para o `AuthService`
+### Processamento bem sucedido - Back-end
 - 🌐 O **AuthService envia** ao Supabase (Back-end) usando `signInWithPassword`
 - 📥 A resposta pode ser:
   - ✅ Sucesso → retorna `Right(AuthResponse)`
-  - ❌ Erro → retorna `Left(AppError)`
+  ### Fim com erro - Back-end
+  - ❌ Erro → retorna `Left(AppError)`, este erro é tratado, exibe mensagens como "E-mail não confirmado" ou 
+  "Credenciais inválidas"
 
 O fluxo termina com o **ViewModel tratando o resultado** com `fold`, exibindo mensagens para o usuário conforme o erro retornado.
 
