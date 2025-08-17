@@ -7,9 +7,8 @@
 * ✅ Resumo visual e técnico
 
 ```md
-Este é um projeto de criação de um aplicativo de receitas e sistemas de favoritos, usando Dart-Flutter e com
-uma arquitetura limpa, com Supabase.
-Este projeto em camadas com foco em boas práticas e uso de Vários pacotes, como o `either_dart` para tratamento funcional de sucesso/erro.
+Este é um projeto de um aplicativo de receitas e sistemas de favoritos, usando Dart-Flutter, com uma arquitetura limpa, com Supabase.
+Este projeto está em camadas, com foco em boas práticas e uso de Vários pacotes, como o `either_dart` para tratamento funcional de sucesso/erro.
 
 Aqui é possível observar e aprender como organizar a lógica de autenticação com boas práticas e um fluxo robusto de login.
 ```
