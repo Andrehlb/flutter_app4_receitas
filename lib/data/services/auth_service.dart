@@ -85,12 +85,6 @@ class AuthService {
     return res;
   }
 
-    return _supabaseClient.auth.signInWithPassword(
-      email: email,
-      password: password,
-    );
-  }
-    
   // Login “seguro” (novo): retorna Either<erro, sucesso>
   Future<Either<String, AuthResponse>> signInWithPasswordSafe({
     required String email,
