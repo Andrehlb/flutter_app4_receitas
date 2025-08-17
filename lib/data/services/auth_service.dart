@@ -19,16 +19,16 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final response = await _supabaseClient.auth.signInWithPassword(
+      final response = await signInWithPasswordRaw(
         email: email,
         password: password,
       );
       return Right(response); // Sucesso -> Right
     } on AuthException catch (e) {
-      final msg = (e.message ?? '').toLowerCase()
-      return Left(AppError(_mapAuthError(e), e));
+      final msg = (e.message, e);
+      return Left(AppError(e.message, e)); // Falha -> Left - erro do Supabase
     } catch (e) {
-      return const Left(AppError('Autenticação falhou. Por favor, tente de novo.', e));
+      return Left(AppError('Autenticação falhou. Por favor, tente de novo.', e)); // Falha -> Left - erro genérico
     }
   }
 
@@ -37,11 +37,12 @@ class AuthService {
   Future<AuthResponse> signInWithPasswordRaw({
     required String email,
     required String password,
-  }) {
-    return _supabaseClient.auth.signInWithPassword(
+  }) async {
+    final response = await _supabaseClient.auth.signInWithPassword(
       email: email,
       password: password,
     );
+    return response;
   }  
 
   // Cadastro com e-mail/senha. Observação: dependendo da config, pode exigir confirmação por e-mail. 
