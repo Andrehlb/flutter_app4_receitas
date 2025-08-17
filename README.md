@@ -26,8 +26,7 @@ Aqui é possível observar e aprender como organizar a lógica de autenticação
 - 📥 A resposta pode ser:
   - ✅ Sucesso → retorna `Right(AuthResponse)`
   ### Fim com erro - Back-end
-  - ❌ Erro → retorna `Left(AppError)`, este erro é tratado, exibe mensagens como "E-mail não confirmado" ou 
-  "Credenciais inválidas"
+  - ❌ Erro → retorna `Left(AppError)`, este erro é tratado, exibe mensagens parecidas com "E-mail não confirmado" ou "Credenciais inválidas"
 
 O fluxo termina com o **ViewModel tratando o resultado** com `fold`, exibindo mensagens para o usuário conforme o erro retornado.
 
