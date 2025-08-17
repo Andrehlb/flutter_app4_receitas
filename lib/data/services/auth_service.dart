@@ -4,9 +4,10 @@ import 'package:app4_receitas/data/models/user_profile.dart';
 import 'package:app4_receitas/utils/app_error.dart';
 import 'package:either_dart/either.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:app4_receitas/utils/app_error.dart';
 
 class AuthService {
-  final SupabaseClient _supabaseClient;
+  final SupabaseClient _supabaseClient = Supabase.instance.client;
   // = getIt<SupabaseClient>();
 
   AuthService({
