@@ -7,11 +7,6 @@ import 'package:app4_receitas/utils/app_error.dart';
 
 class AuthService {
   final SupabaseClient _supabaseClient = Supabase.instance.client;
-  // = getIt<SupabaseClient>();
-
-  /* AuthService({
-    SupabaseClient? supabaseClient, client
-  }) : _supabaseClient = client ?? Supabase.instance.client; */
 
   // Usuário atual (null se não autenticado)
   User? get currentUser => _supabaseClient.auth.currentUser;
@@ -25,7 +20,7 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final response = await _supabase.auth.signInWithPasswordRaw(
+      final response = await _supabaseClient.auth.signInWithPassword(
         email: email,
         password: password,
       );
