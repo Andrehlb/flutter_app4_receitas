@@ -8,7 +8,7 @@ class AuthRepository {
   final AuthService _service = getIt<AuthService>();
 
   User? get currentUser => _service.currentUser;
-  bool get isLoggedIn => _service.isLoggedIn;
+  //bool get isLoggedIn => _service.isLoggedIn;
   bool get isEmailConfirmed => _service.isEmailConfirmed;
 
   Future<AuthResponse> signUpEmailPassword({
