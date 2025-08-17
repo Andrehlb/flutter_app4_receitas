@@ -24,30 +24,27 @@ class AuthService {
         email: email,
         password: password,
       );
-      return Right(response); // Sucesso -> Right
+      return either.Right(response); // Sucesso -> Right
     } on AuthException catch (e) {
-      /* switch (e.message) {
-        case 'Invalid login credentials':
-        return Left(
-          AppError('Você não se cadastrou ainda ou digitou informação errada.', e),
-        );
-        case 'Email not confirmed': */
       final msg = e.message?.toLowerCase() ?? '';
+
       if (msg.contains('invalid login credentials')) {
-        return Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada e confirme, por favor..', e));
-      }
+        return either.Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada e confirme, por favor..', e));
+      } // if do invalid login credentials
       //default:
-      if (msg.contains('email not confirmed')) {}
-        return Left(AppError('Veja sua caixa de entrada e faça a confirmação antes de entrar: ${e.message}'));
-      }
+      if (msg.contains('email not confirmed')) {
+        return either.Left(AppError('Veja sua caixa de entrada e faça a confirmação antes de entrar: ${e.message}'));
+      } // if do email not confirmed
 
       // Fallback para outros erros
-      return Left(AppError('Falha ao tentar acessar: ${e.message}'));
+      return either.Left(AppError('Falha ao tentar acessar: ${e.message}'));
     } catch (e) {
       // Erro inesperado
-      return Left(AppError('Erro inesperado ao tentar acessar: $e));
-    }
-  }
+      return either.Left(AppError('Erro inesperado ao tentar acessar: $e'));
+    } // catch
+  } // Future...signInWithPasswordSafe
 
-  Future<void> signOut() => _supabase.auth.signOut();
-}
+  Future<void> signOut() async{
+    await _supabaseClient.auth.signOut();
+  } // Future<void> signOut
+} // class AuthService

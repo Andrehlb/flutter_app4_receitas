@@ -17,7 +17,7 @@ dependencies:
   google_fonts: ^6.3.0
   supabase_flutter: ^2.9.1
   either_dart: ^1.0.0
-  dartz: ^0.10.1
+  # dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:
