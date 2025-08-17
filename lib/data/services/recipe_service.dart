@@ -50,7 +50,7 @@ class RecipeService {
     final recipes = await _supabaseClient
         .from('recipes')
         .select()
-        .in_('id', favoriteIds)
+        .filter('id', 'in', favoriteIds) // Filtra por IDs favoritos, Agora, as duas opções: .in('id', favoriteIds) ou .in_('id', favoriteIds) não funcionanram
         .order('id', ascending: true);
 
     return (recipes as List).cast<Map<String, dynamic>>();
