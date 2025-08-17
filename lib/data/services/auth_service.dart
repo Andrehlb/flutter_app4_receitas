@@ -25,10 +25,16 @@ class AuthService {
       );
       return Right(response); // Sucesso -> Right
     } on AuthException catch (e) {
-      final msg = (e.message, e);
-      return Left(AppError(e.message, e)); // Falha -> Left - erro do Supabase
-    } catch (e) {
-      return Left(AppError('Autenticação falhou. Por favor, tente de novo.', e)); // Falha -> Left - erro genérico
+      switch (e.message) {
+        case 'Invalid login credentials':
+        return Left(
+          AppError('Você não se cadastrou ainda ou digitou informação errada.', e),
+        );
+        case 'Email not confirmed':
+          return Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada.', e));
+        default:
+          return Left(AppError('O login falhou', e));
+      }
     }
   }
 
