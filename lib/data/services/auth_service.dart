@@ -10,9 +10,9 @@ class AuthService {
   final SupabaseClient _supabaseClient = Supabase.instance.client;
   // = getIt<SupabaseClient>();
 
-  AuthService({
+  /* AuthService({
     SupabaseClient? supabaseClient, client
-  }) : _supabaseClient = client ?? Supabase.instance.client;
+  }) : _supabaseClient = client ?? Supabase.instance.client; */
 
   // Usuário atual (null se não autenticado)
   User? get currentUser => _supabaseClient.auth.currentUser;
@@ -21,7 +21,7 @@ class AuthService {
 
   // 1) método com either (no estilo do Guilehrme)
   // Esquerda = AppError (falha) | Direita = AuthResponse (sucesso)
-  Future<Either<AppError, AuthResponse>> signInWithPassword({
+  Future<Either<AppError, AuthResponse>> signInWithPasswordSafe({
     required String email,
     required String password,
   }) async {
