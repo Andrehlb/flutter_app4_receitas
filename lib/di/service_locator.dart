@@ -8,17 +8,23 @@ import 'package:app4_receitas/data/repositories/auth_repository.dart';
  
  final getIt = GetIt.instance;
 
- Future<void> setupDependencies() async {
+  // Esta função no `main()`, sendo chamada antes do `runApp()` 
+ Future<void> setupLocator() async {
+  // Registra o AuthService
+  getIt.registerLazySingleton<AuthService>(() => AuthService());
+  // Repositories (os que dependem dos services)
+  getIt.registerLazySingleton<AuthRepository>(() => AuthRepository(getIt<AuthService>()));
+
   // Supabase Cleint
   getIt.registerSingleton<SupabaseClient>(Supabase.instance.client);
    // Register of services and controllers
    // Recipe Service
   getIt.registerLazySingleton<RecipeService>(() => RecipeService());
-  getIt.registerLazySingleton<AuthService>(() => AuthService());
+  
 
    // Recipe Repository
- getIt.registerLazySingleton<RecipeRepository>(() => RecipeRepository());
- getIt.registerLazySingleton<AuthRepository>(() => AuthRepository(getIt<AuthService>()));
+  // getIt.registerLazySingleton<RecipeRepository>(() => RecipeRepository(getIt<RecipeService>()));
+ 
 
   // Recipe ViewModel
   getIt.registerLazySingleton<RecipesViewModel>(() => RecipesViewModel());
