@@ -26,7 +26,7 @@ class AuthService {
       );
       return Right(response); // Sucesso -> Right
     } on AuthException catch (e) {
-      final msg = (e.message ?? '').toLowerCase();
+      final msg = e.message.toLowerCase();
 
       if (msg.contains('invalid login credentials')) {
         return Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada e confirme, por favor.'));
