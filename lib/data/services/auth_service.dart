@@ -24,23 +24,23 @@ class AuthService {
         email: email,
         password: password,
       );
-      return either.Right(response); // Sucesso -> Right
+      return Right(response); // Sucesso -> Right
     } on AuthException catch (e) {
-      final msg = e.message?.toLowerCase() ?? '';
+      final msg = (e.message ?? '').toLowerCase();
 
       if (msg.contains('invalid login credentials')) {
-        return either.Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada e confirme, por favor..', e));
+        return Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada e confirme, por favor.'));
       } // if do invalid login credentials
       //default:
       if (msg.contains('email not confirmed')) {
-        return either.Left(AppError('Veja sua caixa de entrada e faça a confirmação antes de entrar: ${e.message}'));
+        return Left(AppError('Veja sua caixa de entrada e faça a confirmação antes de entrar.'));
       } // if do email not confirmed
 
       // Fallback para outros erros
-      return either.Left(AppError('Falha ao tentar acessar: ${e.message}'));
+      return Left(AppError('Falha ao tentar acessar: ${e.message}'));
     } catch (e) {
       // Erro inesperado
-      return either.Left(AppError('Erro inesperado ao tentar acessar: $e'));
+      return Left(AppError('Erro inesperado ao tentar acessar: $e'));
     } // catch
   } // Future...signInWithPasswordSafe
 
