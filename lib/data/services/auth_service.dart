@@ -3,6 +3,7 @@
 // import 'package:app4_receitas/data/models/user_profile.dart';
 import 'package:either_dart/either.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:app4_receitas/services/auth_service.dart';
 import 'package:app4_receitas/utils/app_error.dart';
 
 class AuthService {
