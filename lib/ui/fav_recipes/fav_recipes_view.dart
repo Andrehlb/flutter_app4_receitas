@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app4_receitas/data/models/recipe.dart';
-import 'fav_recipes_viewmodel.dart';
+import '../fav_recipes/fav_recipes_viewmodel.dart';
 
 class FavRecipesView extends StatefulWidget {
   const FavRecipesView({super.key});
