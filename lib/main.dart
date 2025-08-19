@@ -19,7 +19,8 @@ Future<void> main() async {
     anonKey: Env.supabaseAnonKey,
   );
 
-  await setupLocator(); 
+  // Inicializando as dependências
+  await setupDependencies();
 
   runApp(const MainApp());
 }
