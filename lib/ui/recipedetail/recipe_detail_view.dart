@@ -1,29 +1,3 @@
-import 'package:flutter/foundation.dart';
-
-/// ViewModel mínimo só pra compilar.
-/// Depois ligamos no RecipeRepository/Service e populamos `state`.
-class RecipeDetailViewModel {
-  /// Estado mínimo (mock). Substituiremos depois por um model real.
-  final ValueNotifier<Map<String, dynamic>?> state = ValueNotifier(null);
-
-  Future<void> loadById(String id) async {
-    // TODO: buscar do repository/serviço. Por enquanto, mock para compilar:
-    await Future<void>.delayed(const Duration(milliseconds: 100));
-    state.value = {
-      'id': id,
-      'name': 'Receita $id',
-      'ingredients': <String>['1 x Item A', '2 x Item B'],
-      'instructions': <String>['Passo 1', 'Passo 2'],
-      'difficulty': 'Easy',
-      'cuisine': 'Italian',
-      'prep_time_minutes': 10,
-      'cook_time_minutes': 20,
-      'servings': 2,
-    };
-  }
-}
-
-/*
 import 'package:app4_receitas/di/service_locator.dart';
 //import 'package:app4_receitas/ui/recipedetail/recipe_detail_viewmodel.dart';
 //import 'package:app4_receitas/ui/widgets/recipe_row_details.dart';
@@ -187,5 +161,3 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
     });
   } // build
 } // _RecipeDetailViewState
-
-*/
