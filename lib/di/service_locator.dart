@@ -13,18 +13,19 @@ import 'package:app4_receitas/ui/recipes/recipes_viewmodel.dart';
  final getIt = GetIt.instance;
 
   Future<void> setupDependencies() async {
-  // SupabaseClient
+  // SupabaseClient // Se o AuthService precisar de SupabaseClient
   getIt.registerSingleton<SupabaseClient>(Supabase.instance.client);
-
-  // Services
+  // getIt.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
+  
+  // Services // Registrar o AuthService
   getIt.registerLazySingleton<RecipeService>(() => RecipeService());
   getIt.registerLazySingleton<AuthService>(() => AuthService());
 
-  // Repositories
+  // Repositories // Registrar o AuthRepository PASSANDO o AuthService
   getIt.registerLazySingleton<RecipeRepository>(() => RecipeRepository());
-  getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
+  getIt.registerLazySingleton<AuthRepository>(() => AuthRepository(getIt<AuthService>()));
 
-  // ViewModels
+  // ViewModels 
   getIt.registerLazySingleton<RecipesViewModel>(() => RecipesViewModel());
   getIt.registerLazySingleton<RecipeDetailViewModel>(() => RecipeDetailViewModel());
   getIt.registerLazySingleton<FavRecipesViewModel>(() => FavRecipesViewModel());
