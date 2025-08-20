@@ -1,7 +1,8 @@
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:app4_receitas/data/repositories/auth_repository.dart';
 import 'package:app4_receitas/di/service_locator.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 
 class AuthViewModel extends GetxController {
   final _repository = getIt<AuthRepository>();
