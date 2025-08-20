@@ -21,12 +21,12 @@ Future<void> main() async {
   // Inicializando as dependências
   await setupDependencies();
 
-  runApp(const MainApp());
+  runApp(const AndrehlbApp());
   // runnApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class AndrehlbApp extends StatelessWidget {
+  const AndrehlbApp({super.key});
 
   @override
   Widget build(BuildContext context) {
