@@ -22,6 +22,7 @@ Future<void> main() async {
   await setupDependencies();
 
   runApp(const MainApp());
+  // runnApp(const MyApp());
 }
 
 class MainApp extends StatelessWidget {
