@@ -1,7 +1,6 @@
 // import 'package:dartz/dartz.dart';
 // import 'package:app4_receitas/di/service_locator.dart';
-// import 'package:app4_receitas/data/models/user_profile.dart';
-
+import 'package:app4_receitas/data/models/user_profile.dart';
 import 'package:either_dart/either.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app4_receitas/data/services/auth_service.dart';
@@ -21,7 +20,11 @@ class AuthRepository {
   Future<void> signOut() => _service.signOut();
 }
 
-  
+  Future<Either<AppError, UserProfile>> get currentUser =>
+      _service.getCurrentUserProfile();
+
+  Future<Either<AppError, Map<String, dynamic>>> get currentUser =>
+    _service.getCurrentUserProfile;  
   /* final AuthService _service = getIt<AuthService>();
 
   User? get currentUser => _service.currentUser;
