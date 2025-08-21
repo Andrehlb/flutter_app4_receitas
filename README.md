@@ -146,7 +146,9 @@ dependencies:
   supabase_flutter: ^x.x.x
   either_dart: ^1.0.0
 ```
-
+---
+📡 Envio e recebimento de dados
+O envio de dados para servidores (como login, cadastro, formulários) depende do código nos seus ViewModels, Controllers ou Services.
 ---
 
 ## 🚀 Como rodar o projeto
