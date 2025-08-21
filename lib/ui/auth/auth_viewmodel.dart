@@ -89,7 +89,7 @@ class AuthViewModel extends GetxController {
   }
 
   Future<void> login() async {
-    final response = await _repository.signInWithPassword(
+    final response = await _repository.signInWithPasswordSafe(
       email: emailController.text,
       password: passwordController.text,
     );
