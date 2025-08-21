@@ -1,75 +1,71 @@
 // import 'package:dartz/dartz.dart';
 // import 'package:app4_receitas/di/service_locator.dart';
 import 'package:get/get.dart';
-import 'package:app4_receitas/data/models/user_profile.dart';
 import 'package:either_dart/either.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+//import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:app4_receitas/data/models/user_profile.dart';
 import 'package:app4_receitas/data/services/auth_service.dart';
-import 'package:app4_receitas/utils/app_error.dart'; 
+import 'package:app4_receitas/di/service_locator.dart';
+import 'package:app4_receitas/utils/app_error.dart';
 
-class AuthRepository final AuthService _service;
-  AuthRepository(this._service);
+class AuthRepository extends GetxController {
+  final _service = getIt<AuthService>();
 
-  Future<Either<AppError, AuthResponse>> signInWithPasswordSafe({
-    required String email,
-    required String password,
-  }) {
-    return _service.signInWithPasswordSafe(email: email, password: password);
-  }
-
-  Future<void> signOut() => _service.signOut();
-}
-
-  Future<Either<AppError, UserProfile>> get currentUser =>
-      _service.getCurrentUserProfile();
-
-  Future<Either<AppError, Map<String, dynamic>>> get currentUser =>
-    _service.getCurrentUserProfile;  
-  /* final AuthService _service = getIt<AuthService>();
-
-  User? get currentUser => _service.currentUser;
-  //bool get isLoggedIn => _service.isLoggedIn;
-  bool get isEmailConfirmed => _service.isEmailConfirmed;
-
-  Future<AuthResponse> signUpEmailPassword({
-    required String email,
-    required String password,
-    String? username,
-    String? avatarUrl,
-  }) {
-    return _service.signUpEmailPassword(
-      email: email,
-      password: password,
-      username: username,
-      avatarUrl: avatarUrl,
+  // Vai retornar o UserProfile
+  Future<Either<AppError, UserProfile>> get currentUser async {
+    final user = _service.currentUser;
+    final profile = await _service.fetchUserProfile(user!.id);
+    return profile.fold(
+      (left) => Left(left),
+      (right) => Right(UserProfile.fromSupabase(user, toJson(), right!)),
     );
   }
 
-  // Mantido
-  //Future<AuthResponse> signInWithPassword({
-  Future<Either<AppError, AuthResponse>> signInWithPassword({
+  Future<Either<AppError, UserProfile>> signInWithPassword({
     required String email,
     required String password,
-  }) {
-    return _authService.signInWithPassword(email: email, password: password);
-  }
+  }) async {
+    final result = await _service.signInWithPassword(
+      email: email,
+      password: password,
+    );
+    return result.fold(
+      (left) => Left(left),
+      (right) async {
+        final user = right.user!;
+        final profileResult = await _service.fetchUserProfile(user.id);
+        return profileResult.fold(
+          (left) => Left(left),
+          (right) => Right(UserProfile.fromSupabase(user, toJson(), right)),
+        ); // profileResult
+      }, //async from result
+    ); // return.fold
+  } // async form signInWithPassword
 
-  // Novo: login seguro com Either
-  Future<Either<String, AuthResponse>> signInWithPasswordSafe({
+  Future<Either<AppError, UserProfile>> signUp({
     required String email,
     required String password,
-  }) {
-    return _service.signInWithPasswordSafe(email: email, password: password);
+    required String name,
+    required String avatarUrl,
+  }) async {
+    final result = await _service.signUp(
+      email: email,
+      password: password,
+      name: name,
+      avatarUrl: avatarUrl,
+    );
+    return result.fold((left) => Left(left), (right) async {
+      final user = right.user!;
+      final profileResult = await _service.fetchUserProfile(user.id);
+      return profileResult.fold(
+        (left) => Left(left),
+        (right) => Right(UserProfile.fromSupabase(user, toJson(), right)),
+      );
+    });
   }
 
-  Future<void> signOut() => _service.signOut();
-
-  Future<UserProfile?> getCurrentUserProfile() =>
-      _service.getCurrentUserProfile();
-
-  Future<UserProfile?> getProfileById(String uid) =>
-      _service.getProfileById(uid);
-
-  Future<void> upsertProfile(UserProfile profile) =>
-      _service.upsertProfile(profile);
-} */
+  Future<Either<AppError, void>> signOut() async {
+    final result = await _service.signOut();
+    return result.fold((left) => Left(left), (right) => Right(null));
+  }
+} // Class
