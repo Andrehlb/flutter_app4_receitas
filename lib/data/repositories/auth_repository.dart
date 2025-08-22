@@ -53,19 +53,19 @@ class AuthRepository extends GetxController {
       password: password,
       name: name,
       avatarUrl: avatarUrl,
-    );
+    ); // _service.signUp
     return result.fold((left) => Left(left), (right) async {
       final user = right.user!;
       final profileResult = await _service.fetchUserProfile(user.id);
       return profileResult.fold(
         (left) => Left(left),
         (right) => Right(UserProfile.fromSupabase(user, toJson(), right)),
-      );
-    });
-  }
+      ); // profileResult.fold
+    }); // async from result.fold
+  } // async signUp
 
   Future<Either<AppError, void>> signOut() async {
     final result = await _service.signOut();
     return result.fold((left) => Left(left), (right) => Right(null));
-  }
+  } // async signOut
 } // Class
