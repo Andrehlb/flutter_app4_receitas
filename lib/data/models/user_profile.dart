@@ -45,7 +45,7 @@ class UserProfile {
       'username': username,
       'avatar_url': avatarUrl,
     };
-  };
+  }
 
   @override
   String toString() {
