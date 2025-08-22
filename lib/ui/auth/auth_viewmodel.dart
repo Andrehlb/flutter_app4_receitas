@@ -123,7 +123,7 @@ class AuthViewModel extends GetxController {
       (right) {
         _errorMessage.value =
             'O e-amil de confirmaçõ já foi enviado para tua caixa de entrada. Verifica por favor.'';
-        _isLoginMode.value = true; // Muda para modo de login
+        _isLoginMode.value = true; // Muda para modo de login após registro
         print(right);
         _clearFields();
       },
