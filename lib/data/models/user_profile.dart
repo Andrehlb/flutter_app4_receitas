@@ -26,10 +26,29 @@ class UserProfile {
     );
   }
 
+  factory UserProfile.fromSupabase(
+    Map<String, dynamic> userData,
+    Map<String, dynamic> profileData
+  ) {
+    return UserProfile(
+      id: userData['id'] ??'',
+      email: userData['email'] ?? '',
+      username: profileData['username'] ?? '',
+      avatarUrl: profileData['avatar_url'] ?? '',
+    );
+  }
+
   Map<String, dynamic> toJson() => {
+    return {
       'id': id,
       'email': email,
       'username': username,
       'avatar_url': avatarUrl,
+    };
   };
+
+  @override
+  String toString() {
+    return 'UserProfile(username: $username)';
+  }
 }
