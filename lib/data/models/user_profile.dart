@@ -38,7 +38,7 @@ class UserProfile {
     );
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'email': email,
