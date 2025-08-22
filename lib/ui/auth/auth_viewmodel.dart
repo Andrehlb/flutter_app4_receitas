@@ -93,12 +93,15 @@ class AuthViewModel extends GetxController {
       email: emailController.text,
       password: passwordController.text,
     );
-    response.fold((left) {
-      _errorMessage.value = left.message;
-      print(errorMessage);
-    }, (right) {
-      print(right);
-      return;
+    response.fold(
+      (left) {
+        _errorMessage.value = left.message;
+        print(errorMessage);
+      },
+      (right) {
+        print(right);
+        _clearFields()
+        return;
     });
   }
 
