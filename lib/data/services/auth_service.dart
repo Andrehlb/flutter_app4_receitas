@@ -33,9 +33,68 @@ class AuthService {
       switch (e.message) {
         case 'invalid login credentials':
           return Left(
-            AppError('Credenciais inválidas. Verifique seu e-mail e senha.'));
+            AppError('Oi! Estas credenciais estão inválidas. Dá uma olhadinha no teu e-mail e senha e tenta de novo, por favor.'));
         case 'email not confirmed':
-          return Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada.'));
+          return Left(AppError('Oi! tudo bem? Olha, este e-mail não confirmado ainda. Por favor, Verifica na tua caixa de entrada.'));
         default:
-          return Left(AppError('Erro ao fazer login: ${e.message}'));
+          return Left(AppError('Deu ruim o teu login usando: ${e.message}'));
+      } // switch
+    } // AuthException
+  } // SignInWithPassword
+
+  // Retorna os valores da tabela Profile
+  Future<Either<AppError, Map<String, dynamic>?>> fetchUserProfile(
+    String userId,
+  ) async {
+    try {
+      final profile = await _supabaseClient
+      .from('profiles')
+      .select()
+      .eq('id', userId)
+      .maybeSingle();
+      return Right(profile);
+    } catch (e) {
+      return Left(AppError('Hum! Este perfil: ${e.toString()}, não foi encontrado aqui. Quer fazer um perfiol novo ou consultar outro?'));
+    }
+  }
+
+  // Sign in - Registro do usuário
+  Future<Either<AppError, AuthResponse>> signUp({
+     required String email,
+    required String password,
+    required String username,
+    required String avatarUrl,
+  }) async {
+    try {
+      // Verificar se o username já está em uso
+      final existingUser = await _supabaseClient
+          .from('profiles')
+          .select()
+          .eq('username', username)
+          .maybeSingle();
+
+      if (existingUser != null) {
+        return Left(AppError('Vixi! Já tem alguém que usa este nome de usuário. \nRapidinho você escolhe outro'));
       }
+
+      final result = await insertUser(email: email, password: password);
+      return result.fold((left) => Left(left), (right) async {
+        await _supabaseClient.from('profiles').insert({
+          'id': right.right.user!.id,
+          'username': username,
+          'avatar_url': avatarUrl,
+        }); // supabase and insert
+        return Right(right);
+      }); // return result.fold
+    }  on PostgrestException catch (e) {
+      switch(e.code) {
+        case '23505': // Unique violation
+          return Left(AppError('Hey! Este e-mail já está cadastrado.'));
+        default:
+          return Left(AppError('Hum! Deu ruim o registro: ${e.message}, tem que fazer de novo'));
+      } // switch
+    } catch (e) {
+      return Left(AppError('Aconteceu um erro inesperado no teu registro: ${e.toString()}'));
+    } // try
+  } // async
+} // class AuthService
