@@ -119,4 +119,15 @@ class AuthService {
       } // switch
     } // on AuthException
   } // insertUser and async
+
+  Future<Either<AppError, void>> signOut() async {
+    try {
+      await _supabaseClient.auth.signOut();
+      return Right(null); // Sucesso
+    } on AuthException catch (e) {
+      return Left(AppError('Hum! Aconteceu um erro ao sair ${e.message}'));
+    } catch (e) {
+      return Left(AppError('Hum!, ainda está acontecendo um erro ao sair ${e.toString()}'));
+    } // catch
+  } // 
 } // class AuthService
