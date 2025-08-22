@@ -33,7 +33,7 @@ class AuthService {
       switch (e.message) {
         case 'invalid login credentials':
           return Left(
-            AppError('Oi! Estas credenciais estão inválidas. Dá uma olhadinha no teu e-mail e senha e tenta de novo, por favor.'));
+            AppError('Oi! Estas credenciais estão inválidas. Dá uma conferida no teu e-mail e senha e tenta de novo, por favor.'));
         case 'email not confirmed':
           return Left(AppError('Oi! tudo bem? Olha, este e-mail não confirmado ainda. Por favor, Verifica na tua caixa de entrada.'));
         default:
@@ -86,7 +86,7 @@ class AuthService {
         }); // supabase and insert
         return Right(right);
       }); // return result.fold
-    }  on PostgrestException catch (e) {
+    } on PostgrestException catch (e) {
       switch(e.code) {
         case '23505': // Unique violation
           return Left(AppError('Hey! Este e-mail já está cadastrado.'));
@@ -94,7 +94,29 @@ class AuthService {
           return Left(AppError('Hum! Deu ruim o registro: ${e.message}, tem que fazer de novo'));
       } // switch
     } catch (e) {
-      return Left(AppError('Aconteceu um erro inesperado no teu registro: ${e.toString()}'));
-    } // try
+      return Left(AppError('Aconteceu um erro inesperado ao registrar ${e.toString()}'));
+    } // catch
   } // async
+
+  Future<Either<AppError, AuthResponse>> insertUser({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await _supabaseClient.auth.signUp(
+        email: email,
+        password: password,
+      );
+      return Right(response);
+    } on AuthException catch (e) {
+      switch (e.message) {
+        case 'Email not confirmed':
+          return Left(
+            AppError('Oi! Este e-mail ainda não foi confirmado. Por favor, veja tua caixa de entrada.'),
+          );
+        default:
+          return Left(AppError('Hum! Aconteceu um erro ao registrar: ${e.message}, tenta de novo por favor.'));
+      } // switch
+    } // on AuthException
+  } // insertUser and async
 } // class AuthService
