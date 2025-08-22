@@ -33,7 +33,7 @@ class AuthRepository extends GetxController {
         final profileResult = await _service.fetchUserProfile(user.id);
         return profileResult.fold(
           (left) => Left(left),
-          (right) => Right(UserProfile.fromSupabase(user, toJson(), right)),
+          (right) => Right(UserProfile.fromSupabase(user.toJson(), right)),
         ); // profileResult
       }, //async from result
     ); // return.fold
