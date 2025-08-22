@@ -23,7 +23,7 @@ import 'package:app4_receitas/ui/recipes/recipes_viewmodel.dart';
 
   // Repositories // Registrar o AuthRepository PASSANDO o AuthService
   getIt.registerLazySingleton<RecipeRepository>(() => RecipeRepository());
-  getIt.registerLazySingleton<AuthRepository>(() => AuthRepository(getIt<AuthService>()));
+  getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
 
   // ViewModels 
   getIt.registerLazySingleton<RecipesViewModel>(() => RecipesViewModel());
