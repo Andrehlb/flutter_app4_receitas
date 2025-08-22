@@ -26,17 +26,14 @@ class AuthRepository extends GetxController {
       email: email,
       password: password,
     );
-    return result.fold(
-      (left) => Left(left),
-      (right) async {
-        final user = right.user!;
-        final profileResult = await _service.fetchUserProfile(user.id);
-        return profileResult.fold(
-          (left) => Left(left),
-          (right) => Right(UserProfile.fromSupabase(user.toJson(), right)),
-        ); // profileResult
-      }, //async from result
-    ); // return.fold
+    return result.fold((left) => Left(left),(right) async {
+      final user = right.user!;
+      final profileResult = await _service.fetchUserProfile(user.id);
+      return profileResult.fold(
+        (left) => Left(left),
+        (right) => Right(UserProfile.fromSupabase(user.toJson(), right)),
+      ); // profileResult
+    }); // return.fold and async
   } // async form signInWithPassword
 
   Future<Either<AppError, UserProfile>> signUp({
