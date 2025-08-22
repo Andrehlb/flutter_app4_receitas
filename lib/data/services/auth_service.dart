@@ -30,37 +30,12 @@ class AuthService {
       );
       return Right(response); // Sucesso -> Right
     } on AuthException catch (e) {
-      switch (e.code) {
+      switch (e.message) {
         case 'invalid login credentials':
-          return Left(AppError('Credenciais inválidas. Verifique seu e-mail e senha.'));
+          return Left(
+            AppError('Credenciais inválidas. Verifique seu e-mail e senha.'));
         case 'email not confirmed':
           return Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada.'));
         default:
           return Left(AppError('Erro ao fazer login: ${e.message}'));
       }
-
-
-      /* 
-      final msg = e.message.toLowerCase();
-
-      if (msg.contains('invalid login credentials')) {
-        return Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada e confirme, por favor.'));
-      } // if do invalid login credentials
-      //default:
-      if (msg.contains('email not confirmed')) {
-        return Left(AppError('Veja sua caixa de entrada e faça a confirmação antes de entrar.'));
-      } // if do email not confirmed
-
-      // Fallback para outros erros
-      return Left(AppError('Falha ao tentar acessar: ${e.message}'));
-    } catch (e) {
-      // Erro inesperado
-      return Left(AppError('Erro inesperado ao tentar acessar: $e'));
-    } // catch
-  } // Future...signInWithPasswordSafe
-
-  Future<void> signOut() async{
-    await _supabaseClient.auth.signOut();
-  } // Future<void> signOut
-} // class AuthService
-    */
