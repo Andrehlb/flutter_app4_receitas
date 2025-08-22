@@ -6,16 +6,20 @@ import 'package:app4_receitas/di/service_locator.dart';
 import 'package:app4_receitas/utils/app_error.dart';
 
 class AuthService {
-  final SupabaseClient _supabaseClient = Supabase.instance.client;
+  final SupabaseClient _supabaseClient = getIt<SupabaseClient>();
 
-  // Usuário atual (null se não autenticado)
+  // Retorna o Usuário atual (null se não autenticado)
   User? get currentUser => _supabaseClient.auth.currentUser;
   //bool get isLoggedIn => currentUser != null;
   //bool get isEmailConfirmed => currentUser?.emailConfirmedAt != null;
 
+  // Stream para "ouvir" mudanças no estado de autenticação
+  Stream<AuthState> get authStateChanges => _supabaseClient.auth.onAuthStateChange;
+
+  // Sign in with email and pass
   // 1) método com either (no estilo do Guilehrme)
   // Esquerda = AppError (falha) | Direita = AuthResponse (sucesso)
-  Future<Either<AppError, AuthResponse>> signInWithPasswordSafe({
+  Future<Either<AppError, AuthResponse>> signInWithPassword({
     required String email,
     required String password,
   }) async {
@@ -26,6 +30,17 @@ class AuthService {
       );
       return Right(response); // Sucesso -> Right
     } on AuthException catch (e) {
+      switch (e.code) {
+        case 'invalid login credentials':
+          return Left(AppError('Credenciais inválidas. Verifique seu e-mail e senha.'));
+        case 'email not confirmed':
+          return Left(AppError('E-mail não confirmado. Verifique sua caixa de entrada.'));
+        default:
+          return Left(AppError('Erro ao fazer login: ${e.message}'));
+      }
+
+
+      /* 
       final msg = e.message.toLowerCase();
 
       if (msg.contains('invalid login credentials')) {
@@ -48,3 +63,4 @@ class AuthService {
     await _supabaseClient.auth.signOut();
   } // Future<void> signOut
 } // class AuthService
+    */
