@@ -80,7 +80,7 @@ class AuthService {
       final result = await insertUser(email: email, password: password);
       return result.fold((left) => Left(left), (right) async {
         await _supabaseClient.from('profiles').insert({
-          'id': right.right.user!.id,
+          'id': result.right.user!.id,
           'username': username,
           'avatar_url': avatarUrl,
         }); // supabase and insert
