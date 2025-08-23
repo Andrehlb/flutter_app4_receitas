@@ -53,14 +53,17 @@ O fluxo termina com o **ViewModel** tratando o resultado com `fold`, exibindo me
 
 ---
 
-🚨 Tratamento de Erros
+### 🚨 Tratamento de Erros
 Tipos de erro mapeados:
 - ❌ invalid login credentials → "Oi! Estas credenciais estão inválidas. Dá uma conferida no teu e-mail e senha..."
 - 📧 email not confirmed → "Oi! tudo bem? Olha, este e-mail não foi confirmado ainda..."
 - 🌐 Erro de conexão → "Falha na conexão"
 - ⚠️ Erro genérico → "Aconteceu um erro inesperado..."
-<br>
-Como funciona:
+
+---
+
+#### Como funciona:
+
 ```markdown
 // AuthService captura exceções específicas
 on AuthException catch (e) {
