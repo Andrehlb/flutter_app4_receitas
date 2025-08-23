@@ -5,13 +5,11 @@
 * ✅ Diferença entre front-end e back-end
 * ✅ Scripts envolvidos
 * ✅ Resumo visual e técnico
-
-```md
+---
 Este é um projeto de um aplicativo de receitas e sistemas de favoritos, usando Dart-Flutter, com uma arquitetura limpa, com Supabase.
 Este projeto está em camadas, com foco em boas práticas e uso de Vários pacotes, como o `either_dart` para tratamento funcional de sucesso/erro.
-
 ---
-
+```md
 📱 UI Layer (Presentation)
 ├── Views (Telas) → auth_view.dart, recipes_view.dart
 ├── ViewModels (Lógica de apresentação) → auth_viewmodel.dart
@@ -31,11 +29,9 @@ Este projeto está em camadas, com foco em boas práticas e uso de Vários pacot
 ├── DI (Injeção de dependência) → service_locator.dart
 ├── Routes (Navegação) → app_router.dart
 └── Utils (Utilitários) → app_error.dart
-
----
-
-Aqui é possível observar e aprender como organizar a lógica de autenticação com boas práticas e um fluxo robusto de login.
 ```
+---
+Aqui é possível observar e aprender como organizar a lógica de autenticação com boas práticas e um fluxo robusto de login.
 ---
 
 ### ✅ Onde tudo começa e termina?
