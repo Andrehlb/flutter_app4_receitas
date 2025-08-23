@@ -110,8 +110,113 @@ on AuthException catch (e) {
 \[ViewModel trata com fold] → isLeft/isRight
 ↓
 \[Exibe feedback na UI]
-
 ````
+### 🍽️ Funcionalidades de Receitas
+
+ **Recursos implementados:**
+
+- ✅ Listar receitas → Busca todas as receitas do Supabase
+- ✅ Buscar receita por ID → Obtém detalhes específicos
+- ✅ Sistema de favoritos → Adicionar/remover favoritos
+- ✅ Perfil do usuário → Gerenciamento de conta
+
+**Fluxo das receitas:**
+
+```markdown
+RecipesView → RecipesViewModel → RecipeRepository → RecipeService → Supabase
+```
+**Como funciona o mapeamento de dados:**
+```markdown
+// rawList vem do Supabase como List<Map<String, dynamic>>
+[
+  {
+    "id": "1",
+    "name": "Bolo de Chocolate",
+    "ingredients": "chocolate, farinha, ovos"
+  }
+]
+
+// Convertido para List<Recipe> usando Recipe.fromJson()
+return rawList.map((m) => Recipe.fromJson(m)).toList();
+```
+## ⚙️ Configuração do Supabase
+
+**Variáveis de ambiente (.env):**
+```env
+SUPABASE_URL=sua_url_aqui
+SUPABASE_ANON_KEY=sua_chave_aqui
+```
+
+**Inicialização:**
+```dart
+await Supabase.initialize(
+  url: Env.supabaseUrl,
+  anonKey: Env.supabaseKey,
+);
+```
+
+**Service Locator (GetIt):**
+
+```dart
+void setupServiceLocator() {
+  getIt.registerLazySingleton<SupabaseClient>(
+    () => Supabase.instance.client,
+  );
+  getIt.registerLazySingleton<AuthService>(() => AuthService());
+  getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
+}
+```
+### 🧪 Testes
+
+**Estrutura de testes:**
+
+```plaintext
+test/
+├── unit/
+│   ├── repositories/
+│   │   └── auth_repository_test.dart
+│   ├── services/
+│   └── viewmodels/
+└── mocks/
+    └── auth_repository_test.mocks.dart
+```
+
+**Configuração de Mock:**
+
+```dart
+@GenerateMocks([AuthService])
+void main() {
+  late MockAuthService mockAuthService;
+  late AuthRepository authRepository;
+
+  setUpAll(() {
+    provideDummy<Either<AppError, AuthResponse>>(Right(AuthResponse()));
+    provideDummy<Either<AppError, Map<String, dynamic>>>(Right({}));
+    provideDummy<Either<AppError, void>>(Right(null));
+  });
+}
+```
+**Como rodar testes:**
+```bash
+flutter test
+```
+
+### 🧠 Resumo visual da função `signInWithPassword`
+
+```dart
+Future<Either<AppError, AuthResponse>> signInWithPassword(...) async {
+  try {
+    final res = await _supabaseClient.auth.signInWithPassword(...);
+    return Right(res); // ✅ Sucesso
+  } on AuthException catch (e) {
+    return Left(AppError(_mapAuthError(e))); // ❌ Erro de login
+  } catch (e) {
+    return Left(AppError('Autenticação falhou. Tente novamente.')); // ⚠️ Erro genérico
+  }
+}
+```
+
+
 
 ---
 
@@ -193,31 +298,102 @@ ViewModel → Repository → Service → Supabase
 dependencies:
   flutter:
     sdk: flutter
-  supabase_flutter: ^x.x.x
-  either_dart: ^1.0.0
+  supabase_flutter: ^2.9.1      # Backend como serviço
+  either_dart: ^1.0.0           # Programação funcional
+  get: ^4.7.2                   # Gerenciamento de estado
+  get_it: ^8.2.0                # Injeção de dependência
+  go_router: ^16.0.0            # Navegação
+  google_fonts: ^6.3.0          # Fontes personalizadas
+  flutter_speed_dial: ^7.0.0    # FAB com múltiplas ações
+  flutter_dotenv: ^5.2.1        # Variáveis de ambiente
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0         # Análise estática
 ```
 ---
-📡 Envio e recebimento de dados
-O envio de dados para servidores (como login, cadastro, formulários) depende do código nos seus ViewModels, Controllers ou Services.
+### 📡 Envio e recebimento de dados
+
+***O envio de dados para servidores (como login, cadastro, formulários) é gerenciado através da arquitetura em camadas:**
+
+- Dados do usuário → ViewModels coletam os dados
+- Processamento → Repositories organizam as chamadas
+- Comunicação → Services fazem as requisições HTTP
+- Persistência → Supabase armazena e valida os dados
 ---
+### 🚀 Como rodar o projeto
 
-## 🚀 Como rodar o projeto
-
+#### Instalar dependências
 ```bash
 flutter pub get
+```
+
+#### Rodar o app
+```bash
 flutter run
 ```
 
+#### Rodar testes
+```bash
+flutter test
+```
+
+#### Gerar mocks para testes
+```bash
+dart run build_runner build
+```
+--- 
+
+### 🔧 Configuração do ambiente
+
+#### 1. Criar arquivo `.env` na pasta assets:
+
+```env
+SUPABASE_URL=sua_url_do_supabase
+SUPABASE_ANON_KEY=sua_chave_anonima
+```
+#### 2. Configurar Supabase com as tabelas necessárias
+
+#### 3. Executar `flutter pub get`
 ---
 
-## ✅ Status
+### ✅ Status
+Para replicar a lista de status com **caixas de seleção coloridas** como na imagem, no `README.md` (usando Markdown puro), o GitHub **não permite alterar a cor dos checkboxes diretamente**.
+
+Mas você pode usar um formato **semelhante, limpo e funcional**, com **caixas de seleção Markdown padrão**, assim:
+
+---
+
+### ✅ Status
+
+```md
+- [x] Supabase configurado  
+- [x] Autenticação com email/senha funcionando  
+- [x] Either implementado  
+- [x] ViewModel consome resultado corretamente  
+- [x] Sistema de receitas implementado  
+- [x] Favoritos funcionando  
+- [ ] Testes unitários configurados  
+- [ ] Tratamento visual de erro e sucesso na interface  
+- [ ] Implementar cache local  
+- [ ] Adicionar testes de integração  
+```
+---
+**Resultado visual no GitHub:**
+
+### ✅ Status
 
 * [x] Supabase configurado
 * [x] Autenticação com email/senha funcionando
 * [x] Either implementado
 * [x] ViewModel consome resultado corretamente
-* [ ] Próximos passos: tratamento visual de erro e sucesso na interface
-
+* [x] Sistema de receitas implementado
+* [x] Favoritos funcionando
+* [ ] Testes unitários configurados
+* [ ] Tratamento visual de erro e sucesso na interface
+* [ ] Implementar cache local
+* [ ] Adicionar testes de integração
 ---
 
 Feito com 💙 para estudos e evolução como desenvolvedor Flutter.
