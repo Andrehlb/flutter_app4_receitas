@@ -49,7 +49,7 @@ Aqui é possível observar e aprender como organizar a lógica de autenticação
 
 ### 🏁 Fim
 
-O fluxo termina com o **ViewModel tratando o resultado** com `fold`, exibindo mensagens para o usuário conforme o erro retornado.
+O fluxo termina com o **ViewModel** tratando o resultado com `fold`, exibindo mensagens para o usuário conforme o erro retornado.
 
 ---
 
@@ -74,8 +74,6 @@ on AuthException catch (e) {
       }
   }
 ```
-
-
 ---
 
 ## ✅ FRONTEND vs BACKEND
