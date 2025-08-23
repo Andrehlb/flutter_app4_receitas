@@ -213,8 +213,6 @@ Future<Either<AppError, AuthResponse>> signInWithPassword(...) async {
 }
 ```
 
-
-
 ---
 
 ## 🧠 Resumo visual da função `signInWithPassword`
@@ -312,7 +310,7 @@ dev_dependencies:
 ---
 ### 📡 Envio e recebimento de dados
 
-***O envio de dados para servidores (como login, cadastro, formulários) é gerenciado através da arquitetura em camadas:**
+**O envio de dados para servidores (como login, cadastro, formulários) é gerenciado através da arquitetura em camadas:**
 
 - Dados do usuário → ViewModels coletam os dados
 - Processamento → Repositories organizam as chamadas
