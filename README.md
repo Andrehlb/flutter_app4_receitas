@@ -10,6 +10,30 @@
 Este é um projeto de um aplicativo de receitas e sistemas de favoritos, usando Dart-Flutter, com uma arquitetura limpa, com Supabase.
 Este projeto está em camadas, com foco em boas práticas e uso de Vários pacotes, como o `either_dart` para tratamento funcional de sucesso/erro.
 
+---
+
+📱 UI Layer (Presentation)
+├── Views (Telas) → auth_view.dart, recipes_view.dart
+├── ViewModels (Lógica de apresentação) → auth_viewmodel.dart
+└── Widgets (Componentes reutilizáveis) → custom_drawer.dart
+
+💼 Domain Layer (Regras de negócio)
+├── Models (Entidades) → recipe.dart, user_profile.dart
+├── Repositories (Contratos) → auth_repository.dart
+└── Use Cases (Regras específicas)
+
+🗄️ Data Layer (Dados)
+├── Services (Comunicação externa) → auth_service.dart
+├── Repositories (Implementações) → recipe_repository.dart
+└── Data Sources (Supabase, Cache, etc.)
+
+🔧 Infrastructure
+├── DI (Injeção de dependência) → service_locator.dart
+├── Routes (Navegação) → app_router.dart
+└── Utils (Utilitários) → app_error.dart
+
+---
+
 Aqui é possível observar e aprender como organizar a lógica de autenticação com boas práticas e um fluxo robusto de login.
 ```
 ---
@@ -25,10 +49,36 @@ Aqui é possível observar e aprender como organizar a lógica de autenticação
 - 🌐 O **AuthService envia** ao Supabase (Back-end) usando `signInWithPassword`
 - 📥 A resposta pode ser:
   - ✅ Sucesso → retorna `Right(AuthResponse)`
-  ### Fim com erro - Back-end
   - ❌ Erro → retorna `Left(AppError)`, este erro é tratado, exibe mensagens parecidas com "E-mail não confirmado" ou "Credenciais inválidas"
 
+### 🏁 Fim
+
 O fluxo termina com o **ViewModel tratando o resultado** com `fold`, exibindo mensagens para o usuário conforme o erro retornado.
+
+---
+
+🚨 Tratamento de Erros
+Tipos de erro mapeados:
+- ❌ invalid login credentials → "Oi! Estas credenciais estão inválidas. Dá uma conferida no teu e-mail e senha..."
+- 📧 email not confirmed → "Oi! tudo bem? Olha, este e-mail não foi confirmado ainda..."
+- 🌐 Erro de conexão → "Falha na conexão"
+- ⚠️ Erro genérico → "Aconteceu um erro inesperado..."
+<br>
+Como funciona:
+```markdown
+// AuthService captura exceções específicas
+on AuthException catch (e) {
+    switch (e.message) {
+        case 'invalid login credentials':
+          return Left(AppError('Oi! Estas credenciais estão inválidas...'));
+        case 'email not confirmed':
+          return Left(AppError('Oi! tudo bem? Olha, este e-mail não foi confirmado...'));
+        default:
+          return Left(AppError('Erro de autenticação desconhecido'));
+      }
+  }
+```
+
 
 ---
 

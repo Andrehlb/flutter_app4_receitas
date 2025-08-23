@@ -7,17 +7,20 @@ class RecipeRepository {
 
   Future<List<Recipe>> getRecipes() async {
     final raw = await _service.fetchRecipes();
+    // Map o raw para buscar receitas
     return raw.map((m) => Recipe.fromJson(m)).toList();
   }
 
   Future<Recipe?> getRecipeById(String id) async {
     final raw = await _service.fetchRecipeById(id);
+    // Converte o dado raw em objeto Recipe (se não for null)
     return raw != null ? Recipe.fromJson(raw) : null;
   }
 
   // Nomes iguais aos do professor
   Future<List<Recipe>> getFavRecipes(String userId) async {
     final rawList = await _service.fetchFavRecipes(userId);
+    // Converte/MAPEIA rawList em lista de objetos recipes.
     return rawList.map((m) => Recipe.fromJson(m)).toList();
   }
 
