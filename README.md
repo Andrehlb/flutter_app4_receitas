@@ -359,13 +359,6 @@ SUPABASE_ANON_KEY=sua_chave_anonima
 ---
 
 ### ✅ Status
-Para replicar a lista de status com **caixas de seleção coloridas** como na imagem, no `README.md` (usando Markdown puro), o GitHub **não permite alterar a cor dos checkboxes diretamente**.
-
-Mas você pode usar um formato **semelhante, limpo e funcional**, com **caixas de seleção Markdown padrão**, assim:
-
----
-
-### ✅ Status
 
 ```md
 - [x] Supabase configurado  
@@ -380,22 +373,6 @@ Mas você pode usar um formato **semelhante, limpo e funcional**, com **caixas d
 - [ ] Adicionar testes de integração  
 ```
 ---
-**Resultado visual no GitHub:**
-
-### ✅ Status
-
-* [x] Supabase configurado
-* [x] Autenticação com email/senha funcionando
-* [x] Either implementado
-* [x] ViewModel consome resultado corretamente
-* [x] Sistema de receitas implementado
-* [x] Favoritos funcionando
-* [ ] Testes unitários configurados
-* [ ] Tratamento visual de erro e sucesso na interface
-* [ ] Implementar cache local
-* [ ] Adicionar testes de integração
----
-
 Feito com 💙 para estudos e evolução como desenvolvedor Flutter.
 
 ```
