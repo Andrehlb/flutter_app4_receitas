@@ -369,13 +369,11 @@ SUPABASE_ANON_KEY=sua_chave_anonima
 ```
 ---
 Feito com 💙 para estudos e evolução como desenvolvedor Flutter.
-
-```
-
+---
 Agradecimentos:
 
 - Professor Guilherme
 - Raissa e demais meninas que vou pegar os nomes hahahaha para add aqui.
 - Monitores, idem vou pergar os nomes para add aqui..
 - Venturus, por me aceitarem, disponibilizarem esta oportunidade, pois sem o suporte de vocês, isto não seria possível.
-```
+
