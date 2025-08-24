@@ -34,4 +34,4 @@ class RecipeRepository {
   Future<void> deleteFavRecipe(String recipeId, String userId) async { // Método para deletar receita favorita
     await _service.deleteFavRecipe(recipeId, userId);
   } // Fim do método deleteFavRecipe
-}
+} // Fim da classe RecipeRepository
