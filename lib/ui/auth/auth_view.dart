@@ -263,3 +263,4 @@ class AuthView extends StatefulWidget {
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ), // ElevatedButton.styleFrom
         child: viewModel.isSubmitting
+            ? SizedBox(
