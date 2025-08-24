@@ -92,3 +92,19 @@ class AuthView extends StatefulWidget {
     return Column(
       children: [
         _animatedLogo(controller: _animationController),
+        const SizedBox(height: 16),
+        Text(
+          'Eu Amo Cozinhar',
+          style: GoogleFonts.dancingScript(
+            fontSize: 48,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          viewModel.isLoginMode ? 'Entre na sua conta' : 'Crie uma nova conta',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
+        ),
+      ],
+    );
+  }
