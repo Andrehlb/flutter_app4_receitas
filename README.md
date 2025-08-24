@@ -5,13 +5,16 @@
 * ✅ Diferença entre front-end e back-end
 * ✅ Scripts envolvidos
 * ✅ Resumo visual e técnico
+
 ---
 Este é um projeto de um aplicativo de receitas e sistemas de favoritos, usando Dart-Flutter, com uma arquitetura limpa, com Supabase.<br>
+--- 
 
 <p align="center">
   <img src="assets/images/App4-Recipes-initialPage.png" alt="Tela inicial do app" width="300"/>
 </p>
 
+---
 Este projeto está em camadas, com foco em boas práticas e uso de Vários pacotes, como o `either_dart` para tratamento funcional de sucesso/erro.
 ---
 ```md
