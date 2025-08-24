@@ -250,16 +250,16 @@ class AuthView extends StatefulWidget {
     );
   } // _buildErrorMessage
 
-Widget _buildSubmitButton() {
-  return SizedBox(
+  Widget _buildSubmitButton() { // botão de envio
+    return SizedBox(
       height: 50,
       child: ElevatedButton(
         onPressed: viewModel.submit,
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
-          ),
+          ), // shape
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        ),
+        ), // ElevatedButton.styleFrom
         child: viewModel.isSubmitting
