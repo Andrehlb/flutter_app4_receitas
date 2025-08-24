@@ -45,3 +45,31 @@ class AuthView extends StatefulWidget {
     _animationController.dispose();
     super.dispose();
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Obx(
+          () => Form(
+            key: viewModel.formKey,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildHeader(),
+                    const SizedBox(height: 32),
+                    _buildEmailField(),
+                    const SizedBox(height: 16),
+                    _buildPasswordField(),
+                    const SizedBox(height: 16),
+                    if (!viewModel.isLoginMode) ...[
+                      _buildConfirmPasswordField(),
+                      const SizedBox(height: 16),
+                      _buildUsernameField(),
+                      const SizedBox(height: 16),
+                      _buildAvatarUrlField(),
+                    ],
+                    const SizedBox(height: 32),
