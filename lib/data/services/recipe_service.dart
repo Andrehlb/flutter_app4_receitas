@@ -4,13 +4,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class RecipeService {
   final SupabaseClient _supabaseClient = getIt<SupabaseClient>();
 
-  // Lista todas as receitas
-  Future<List<Map<String, dynamic>>> fetchRecipes() async {
-    final data = await _supabaseClient
+  Future<List<Map<String, dynamic>>> fetchRecipes() async { // Método para buscar todas as receitas
+    final data = await _supabaseClient // Chama o Supabase para buscar receitas
         .from('recipes')
         .select()
         .order('id', ascending: true);
-    return (data as List).cast<Map<String, dynamic>>();
   }
 
   // Busca 1 receita por id (UUID)
