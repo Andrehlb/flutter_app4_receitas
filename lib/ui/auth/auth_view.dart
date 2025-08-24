@@ -11,4 +11,6 @@ class AuthView extends StatefulWidget {
   State<AuthView> createState() => _AuthViewState();
 }
 
+  class _AuthViewState extends State<AuthView>
+    with SingleTickerProviderStateMixin {
    final viewModel = getIt<AuthViewModel>();
