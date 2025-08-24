@@ -248,6 +248,5 @@ class AuthView extends StatefulWidget {
         ),
       ),
     );
-  }
+  } // _buildErrorMessage
 
-  
