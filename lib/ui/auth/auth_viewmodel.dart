@@ -85,7 +85,7 @@ class AuthViewModel extends GetxController {
     } else {
       await register();
     }
-    _isSubmitting.value = false;
+    _isSubmitting.value = false; // para habilitar o botão de submit
   }
 
   Future<void> login() async {
