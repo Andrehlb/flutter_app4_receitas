@@ -11,15 +11,8 @@ class RecipeService {
         .order('id', ascending: true);
   }
 
-  // Busca 1 receita por id (UUID)
-  Future<Map<String, dynamic>?> fetchRecipeById(String id) async {
-    final row = await _supabaseClient
-        .from('recipes')
-        .select()
-        .eq('id', id)
-        .maybeSingle();
-    if (row == null) return null;
-    return (row as Map).cast<String, dynamic>();
+  Future<Map<String, dynamic>?> fetchRecipeById(String id) async { // Método para buscar 1 receita por id (UUID)
+    return await _supabaseClient.from('recipes').select().eq('id', id).single();
   }
 
   // Retorna receitas favoritas do usuário AUTENTICADO (RLS)
