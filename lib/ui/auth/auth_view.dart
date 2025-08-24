@@ -73,3 +73,5 @@ class AuthView extends StatefulWidget {
                       _buildAvatarUrlField(),
                     ],
                     const SizedBox(height: 32),
+                    _buildErrorMessage(),
+                    const SizedBox(height: 32),
