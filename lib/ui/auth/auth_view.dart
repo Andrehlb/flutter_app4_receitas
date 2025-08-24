@@ -11,6 +11,37 @@ class AuthView extends StatefulWidget {
   State<AuthView> createState() => _AuthViewState();
 }
 
-  class _AuthViewState extends State<AuthView>
-    with SingleTickerProviderStateMixin {
-   final viewModel = getIt<AuthViewModel>();
+  class _AuthViewState extends State<AuthView> // Estado da View
+    with SingleTickerProviderStateMixin { // Para animações
+   final viewModel = getIt<AuthViewModel>(); // Instância do ViewModel
+
+     late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController =
+        AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 1000),
+        )..addStatusListener((listener) {
+          if (listener == AnimationStatus.completed) {
+            _animationController.reverse();
+          } else if (listener == AnimationStatus.dismissed) {
+            _animationController.forward();
+          }
+        });
+
+    _animation = Tween(begin: 50.0, end: 200.0).animate(_animationController);
+    _animation.addListener(() => setState(() {}));
+
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
