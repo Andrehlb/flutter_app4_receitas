@@ -41,41 +41,17 @@ class RecipeService {
       .eq('user_id', userId);
   }
 
-  // Insere favorito (usa usuário autenticado por causa do RLS)
   Future<void> insertFavRecipe(String recipeId, String userId) async {
-    final currentUser = _supabaseClient.auth.currentUser;
-    if (currentUser == null) {
-      throw Exception('Usuário não autenticado. Faça login para favoritar.');
-    }
-    final uid = currentUser.id;
-
-    final existing = await _supabaseClient
-        .from('favorites')
-        .select('recipe_id')
-        .eq('user_id', uid)
-        .eq('recipe_id', recipeId)
-        .maybeSingle();
-
-    if (existing != null) return;
-
     await _supabaseClient.from('favorites').insert({
-      'user_id': uid,
       'recipe_id': recipeId,
+      'user_id': userId,
     });
   }
 
-  // Remove favorito (do usuário autenticado)
   Future<void> deleteFavRecipe(String recipeId, String userId) async {
-    final currentUser = _supabaseClient.auth.currentUser;
-    if (currentUser == null) {
-      throw Exception('Usuário não autenticado. Faça login para remover favorito.');
-    }
-    final uid = currentUser.id;
-
     await _supabaseClient
         .from('favorites')
         .delete()
-        .eq('user_id', uid)
-        .eq('recipe_id', recipeId);
+        .eq('recipe_id', recipeId)
+        .eq('user_id', userId);
   }
-}
