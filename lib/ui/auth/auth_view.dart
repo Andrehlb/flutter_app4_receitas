@@ -264,3 +264,5 @@ class AuthView extends StatefulWidget {
         ), // ElevatedButton.styleFrom
         child: viewModel.isSubmitting
             ? SizedBox(
+              height: 20,
+              width: 20,
