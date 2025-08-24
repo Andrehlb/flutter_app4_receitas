@@ -108,3 +108,37 @@ class AuthView extends StatefulWidget {
       ],
     );
   }
+  Widget _animatedLogo({required AnimationController controller}) {
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) {
+        final sizeTween = Tween(
+          begin: 50.0,
+          end: 200.0,
+        ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
+
+        final colorTween = ColorTween(
+          begin: Theme.of(context).colorScheme.onError,
+          end: Theme.of(context).colorScheme.primary,
+        ).animate(CurvedAnimation(parent: controller, curve: Curves.bounceInOut));
+
+        final angleTween = Tween(
+          begin: 0.0,
+          end: 2 * 3.14,
+        ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
+
+        return Transform.rotate(
+          angle: angleTween.value,
+          child: SizedBox(
+            height: 200,
+            child: Icon(
+              Icons.restaurant_menu,
+              size: sizeTween.value,
+              color: colorTween.value,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
