@@ -5,7 +5,7 @@ class RecipeService {
   final SupabaseClient _supabaseClient = getIt<SupabaseClient>();
 
   Future<List<Map<String, dynamic>>> fetchRecipes() async { // Método para buscar todas as receitas
-    final data = await _supabaseClient // Chama o Supabase para buscar receitas
+    return await _supabaseClient // Chama o Supabase para buscar receitas
         .from('recipes')
         .select()
         .order('id', ascending: true);
