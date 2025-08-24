@@ -15,36 +15,30 @@ class RecipeService {
     return await _supabaseClient.from('recipes').select().eq('id', id).single();
   }
 
-  // Retorna receitas favoritas do usuário AUTENTICADO (RLS)
-  Future<List<Map<String, dynamic>>> fetchFavRecipes(String userId) async {
-    final currentUser = _supabaseClient.auth.currentUser;
-    if (currentUser == null) {
-      throw Exception('Usuário não autenticado. Faça login para ver favoritos.');
-    }
-    final uid = currentUser.id;
-
-    // 1) Busca IDs favoritos
-    final favRows = await _supabaseClient
-        .from('favorites')
-        .select('recipe_id')
-        .eq('user_id', uid);
-
-    final favoriteIds = (favRows as List)
-        .map((r) => r['recipe_id']?.toString())
-        .where((id) => id != null && id.isNotEmpty)
-        .cast<String>()
-        .toList();
-
-    if (favoriteIds.isEmpty) return <Map<String, dynamic>>[];
-
-    // 2) Busca as receitas correspondentes
-    final recipes = await _supabaseClient
-        .from('recipes')
-        .select()
-        .filter('id', 'in', favoriteIds) // Filtra por IDs favoritos, Agora, as duas opções: .in('id', favoriteIds) ou .in_('id', favoriteIds) não funcionanram
-        .order('id', ascending: true);
-
-    return (recipes as List).cast<Map<String, dynamic>>();
+  Future<List<Map<String, dynamic>>> fetchFavRecipes(String userId) async {   // Retorna receitas favoritas do usuário AUTENTICADO (RLS)
+    return await _supabaseClient
+      .from('favorites')
+      .select('''
+        recipes(
+          id,
+          name,
+          ingredients,
+          instructions,
+          prep_time_minutes,
+          cook_time_minutes,
+          servings,
+          difficulty,
+          cuisine,
+          calories_per_serving,
+          tags,
+          user_id,
+          image,
+          rating,
+          review_count,
+          meal_type
+        )
+      ''')
+      .eq('user_id', userId);
   }
 
   // Insere favorito (usa usuário autenticado por causa do RLS)
