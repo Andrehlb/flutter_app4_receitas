@@ -270,3 +270,6 @@ class AuthView extends StatefulWidget {
                   strokeWidth: 2,
                   color: Theme.of(context).colorScheme.onPrimary,
                 ), // CircularProgressIndicator
+              )
+            : Text(
+                viewModel.isLoginMode ? 'ENTRAR' : 'CADASTRAR',
