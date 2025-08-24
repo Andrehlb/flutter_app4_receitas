@@ -266,3 +266,7 @@ class AuthView extends StatefulWidget {
             ? SizedBox(
               height: 20,
               width: 20,
+              child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
