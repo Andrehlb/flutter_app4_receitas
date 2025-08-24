@@ -143,7 +143,7 @@ class AuthView extends StatefulWidget {
   }
 
 
-Widget _buildEmailField() {
+  Widget _buildEmailField() {
     return TextFormField(
       controller: viewModel.emailController,
       keyboardType: TextInputType.emailAddress,
@@ -233,3 +233,21 @@ Widget _buildEmailField() {
       validator: viewModel.validateAvatarUrl,
     );
   }
+
+  Widget _buildErrorMessage() {
+    return Obx(
+      () => Visibility(
+        visible: viewModel.errorMessage.isNotEmpty,
+        child: Text(
+          viewModel.errorMessage,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.error,
+            fontSize: 16,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
+  
