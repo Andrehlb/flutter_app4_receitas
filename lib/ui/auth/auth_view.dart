@@ -76,3 +76,18 @@ class AuthView extends StatefulWidget {
                     _buildErrorMessage(),
                     const SizedBox(height: 32),
                     _buildSubmitButton(),
+                    const SizedBox(height: 32),
+                    _buildToggleModeButton(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Column(
+      children: [
