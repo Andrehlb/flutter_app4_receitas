@@ -27,11 +27,11 @@ class RecipeRepository {
       .toList(); // Converte o Iterable em List
   } // Fim do método getFavRecipes
 
-  Future<void> insertFavRecipe(String recipeId, String userId) async {
-    await _service.insertFavRecipe(recipeId, userId);
-  }
+  Future<void> insertFavRecipe(String recipeId, String userId) async { // Método para inserir receita favorita
+    await _service.insertFavRecipe(recipeId, userId); // Chama o serviço para inserir receita favorita
+  } // Fim do método insertFavRecipe
 
-  Future<void> deleteFavRecipe(String recipeId, String userId) async {
+  Future<void> deleteFavRecipe(String recipeId, String userId) async { // Método para deletar receita favorita
     await _service.deleteFavRecipe(recipeId, userId);
-  }
+  } // Fim do método deleteFavRecipe
 }
