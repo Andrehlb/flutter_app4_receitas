@@ -8,17 +8,9 @@ class RecipeRepository {
   Future<List<Recipe>> getRecipes() async {
     try{
     final rawData = await _service.fetchRecipes();
-
-  // FIX: verificação se o rawData é nulo ou vazio antes de fazer o map
-  if (rawData == null) {
-    return []; // Retorna uma lista vazia se rawData for nulo
-  }
-
     return rawData.map((data) => Recipe.fromJson(data)).toList(); // Map o raw para buscar receitas
     } catch (e) {
-    print('Erro detalhado: $e');
-    return [];
-    // throw Exception('Falhou ao carregar as receitas 😢😞: ${e.toString()}');
+    throw Exception('Falhou ao carregar as receitas 😢😞: ${e.toString()}');
     }
   }
 
