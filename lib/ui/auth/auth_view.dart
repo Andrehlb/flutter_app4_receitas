@@ -277,3 +277,29 @@ class AuthView extends StatefulWidget {
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+      ),
+    );
+  } // _buildSubmitButton
+
+  Widget _buildToggleModeButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          viewModel.isLoginMode ? 'Não tem uma conta? ' : 'Já tem uma conta? ',
+        ),
+        TextButton(
+          onPressed: viewModel.isSubmitting ? null : viewModel.toggleMode,
+          child: Text(
+            viewModel.isLoginMode ? 'Cadastre-se' : 'Entre aqui',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ], // children
+    );
+  } // _buildToggleModeButton
+} // AuthView
