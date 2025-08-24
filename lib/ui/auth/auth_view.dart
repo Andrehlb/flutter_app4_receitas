@@ -91,3 +91,4 @@ class AuthView extends StatefulWidget {
   Widget _buildHeader() {
     return Column(
       children: [
+        _animatedLogo(controller: _animationController),
