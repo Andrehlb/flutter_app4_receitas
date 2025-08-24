@@ -11,7 +11,7 @@ class RecipeRepository {
     // Map o raw para buscar receitas
     return rawData.map((data) => Recipe.fromJson(data)).toList();
     } catch (e) {
-    throw Exception('Falhou o carregar as receitas 😢😞: ${e.toString()}');
+    throw Exception('Falhou ao carregar as receitas 😢😞: ${e.toString()}');
     }
   }
 
