@@ -269,4 +269,4 @@ class AuthView extends StatefulWidget {
               child: CircularProgressIndicator(
                   strokeWidth: 2,
                   color: Theme.of(context).colorScheme.onPrimary,
-                ),
+                ), // CircularProgressIndicator
