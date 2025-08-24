@@ -8,25 +8,24 @@ class RecipeRepository {
   Future<List<Recipe>> getRecipes() async {
     try{
     final rawData = await _service.fetchRecipes();
-    // Map o raw para buscar receitas
-    return rawData.map((data) => Recipe.fromJson(data)).toList();
+    return rawData.map((data) => Recipe.fromJson(data)).toList(); // Map o raw para buscar receitas
     } catch (e) {
     throw Exception('Falhou ao carregar as receitas 😢😞: ${e.toString()}');
     }
   }
 
   Future<Recipe?> getRecipeById(String id) async {
-    final raw = await _service.fetchRecipeById(id);
-    // Converte o dado raw em objeto Recipe (se não for null)
-    return raw != null ? Recipe.fromJson(raw) : null;
+    final rawData = await _service.fetchRecipeById(id); // Chama o serviço para buscar uma receita pelo ID
+    return rawData != null ? Recipe.fromJson(rawData) : null; // Converte o dado raw em objeto Recipe (se não for null)
   }
 
-  // Nomes iguais aos do professor
-  Future<List<Recipe>> getFavRecipes(String userId) async {
-    final rawList = await _service.fetchFavRecipes(userId);
-    // Converte/MAPEIA rawList em lista de objetos recipes.
-    return rawList.map((m) => Recipe.fromJson(m)).toList();
-  }
+  Future<List<Recipe>> getFavRecipes(String userId) async { // Nomes iguais aos do professor
+    final rawData = await _service.fetchFavRecipes(userId); // Chama o serviço para buscar receitas favoritas
+    return rawData
+      .where((data) => data['recipes'] != null) // filtra receitas não nulas
+      .map ((data) => Recipe.fromJson(data['recipes'] as Map<String, dynamic>)) // Converte cada dado em objeto Recipe
+      .toList(); // Converte o Iterable em List
+  } // Fim do método getFavRecipes
 
   Future<void> insertFavRecipe(String recipeId, String userId) async {
     await _service.insertFavRecipe(recipeId, userId);
