@@ -237,7 +237,7 @@ class AuthView extends StatefulWidget {
   Widget _buildErrorMessage() {
     return Obx(
       () => Visibility(
-        visible: viewModel.errorMessage.isNotEmpty,
+        visible: viewModel.errorMessage.isNotEmpty, // visible + valor booleano
         child: Text(
           viewModel.errorMessage,
           style: TextStyle(
