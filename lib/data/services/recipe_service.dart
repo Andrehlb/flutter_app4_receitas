@@ -39,19 +39,19 @@ class RecipeService {
         )
       ''')
       .eq('user_id', userId);
-  }
+  } // fetchFavRecipes
 
-  Future<void> insertFavRecipe(String recipeId, String userId) async {
+  Future<void> insertFavRecipe(String recipeId, String userId) async { // Insere favorito (usa usuário autenticado por causa do RLS)
     await _supabaseClient.from('favorites').insert({
       'recipe_id': recipeId,
       'user_id': userId,
     });
-  }
+  } // insertFavRecipe
 
-  Future<void> deleteFavRecipe(String recipeId, String userId) async {
+  Future<void> deleteFavRecipe(String recipeId, String userId) async { // Remove favorito (usa usuário autenticado por causa do RLS)
     await _supabaseClient
         .from('favorites')
         .delete()
         .eq('recipe_id', recipeId)
         .eq('user_id', userId);
-  }
+  } // deleteFavRecipe
