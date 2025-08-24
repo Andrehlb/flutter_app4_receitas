@@ -6,9 +6,13 @@ class RecipeRepository {
   final RecipeService _service = getIt<RecipeService>();
 
   Future<List<Recipe>> getRecipes() async {
-    final raw = await _service.fetchRecipes();
+    try{
+    final rawData = await _service.fetchRecipes();
     // Map o raw para buscar receitas
-    return raw.map((m) => Recipe.fromJson(m)).toList();
+    return rawData.map((data) => Recipe.fromJson(data)).toList();
+    } catch (e) {
+    throw Exception('Falhou o carregar as receitas 😢😞: ${e.toString()}');
+    }
   }
 
   Future<Recipe?> getRecipeById(String id) async {
