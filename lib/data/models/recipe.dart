@@ -54,6 +54,14 @@ class Recipe { // Modelo de Receita
       caloriesPerServing: json['calories_per_serving'] as int?,
       tags: _parseJsonListOptional(json['tags']),
       userId: json['user_id'] as String,
+      image: json['image'] as String?,
+      rating: json['rating'] != null
+          ? (json['rating'] as num).toDouble()
+          : null,
+      reviewCount: json['review_count'] as int?,
+      mealType: _parseJsonListOptional(json['meal_type']),
+    );
+  }
 
 
           ? json['servings'] as int
