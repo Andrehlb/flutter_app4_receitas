@@ -53,6 +53,7 @@ class Recipe { // Modelo de Receita
       cuisine: json['cuisine'] as String?,
       caloriesPerServing: json['calories_per_serving'] as int?,
       tags: _parseJsonListOptional(json['tags']),
+      userId: json['user_id'] as String,
 
 
           ? json['servings'] as int
