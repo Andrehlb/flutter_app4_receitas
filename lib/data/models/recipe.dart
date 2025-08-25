@@ -43,15 +43,18 @@ class Recipe { // Modelo de Receita
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
       id: json['id'] as String,
-  
+      name: json['name'] as String,
+      ingredients: _parseJsonList(json['ingredients']),
       instructions: _parseJsonList(json['instructions']),
-      prepTimeMinutes: json['prep_time_minutes'] is int
-          ? json['prep_time_minutes'] as int
-          : int.tryParse(json['prep_time_minutes']?.toString() ?? ''),
-      cookTimeMinutes: json['cook_time_minutes'] is int
-          ? json['cook_time_minutes'] as int
-          : int.tryParse(json['cook_time_minutes']?.toString() ?? ''),
-      servings: json['servings'] is int
+      prepTimeMinutes: json['prep_time_minutes'] as int?,
+      cookTimeMinutes: json['cook_time_minutes'] as int?,
+      servings: json['servings'] as int?,
+      difficulty: json['difficulty'] as String?,
+      cuisine: json['cuisine'] as String?,
+      caloriesPerServing: json['calories_per_serving'] as int?,
+      tags: _parseJsonListOptional(json['tags']),
+
+
           ? json['servings'] as int
           : int.tryParse(json['servings']?.toString() ?? ''),
       difficulty: json['difficulty']?.toString(),
