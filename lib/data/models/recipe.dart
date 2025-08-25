@@ -37,11 +37,12 @@ class Recipe { // Modelo de Receita
     this.mealType,
   });
 
+  // Construtor factory para criar Recipe a partir de JSON
+  // Utiliza o método _parseJsonList para garantir que os campos
+  // de lista sejam tratados corretamente.
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-      id: json['id']?.toString() ?? '',
-      name: (json['name'] ?? '').toString(),
-      ingredients: _parseJsonList(json['ingredients']),
+  
       instructions: _parseJsonList(json['instructions']),
       prepTimeMinutes: json['prep_time_minutes'] is int
           ? json['prep_time_minutes'] as int
