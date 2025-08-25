@@ -8,11 +8,12 @@ class AuthService {
 
   // Retorna o usuário atual
   User? get currentUser => _supabaseClient.auth.currentUser;
-  //bool get isLoggedIn => currentUser != null;
-  //bool get isEmailConfirmed => currentUser?.emailConfirmedAt != null;
 
-  // Stream para "ouvir" mudanças no estado de autenticação
-  Stream<AuthState> get authStateChanges => _supabaseClient.auth.onAuthStateChange;
+// Stream para ouvir mudanças na autenticação
+  Stream<AuthState> get authStateChanges =>
+      _supabaseClient.auth.onAuthStateChange;
+
+
 
   // Sign in with email and pass
   // 1) método com either (no estilo do Guilehrme)
