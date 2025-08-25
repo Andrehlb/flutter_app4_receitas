@@ -1,4 +1,4 @@
-class Recipe {
+class Recipe { // Modelo de Receita
   final String id; // UUID do Supabase tratado como String
   final String name;
   final List<String> ingredients;
