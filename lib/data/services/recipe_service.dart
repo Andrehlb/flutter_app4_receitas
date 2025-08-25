@@ -4,18 +4,18 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class RecipeService {
   final SupabaseClient _supabaseClient = getIt<SupabaseClient>();
 
-  Future<List<Map<String, dynamic>>> fetchRecipes() async { // Método para buscar todas as receitas
-    return await _supabaseClient // Chama o Supabase para buscar receitas
+  Future<List<Map<String, dynamic>>> fetchRecipes() async {
+    return await _supabaseClient
         .from('recipes')
         .select()
         .order('id', ascending: true);
   }
 
-  Future<Map<String, dynamic>?> fetchRecipeById(String id) async { // Método para buscar 1 receita por id (UUID)
+  Future<Map<String, dynamic>?> fetchRecipeById(String id) async {
     return await _supabaseClient.from('recipes').select().eq('id', id).single();
   }
 
-  Future<List<Map<String, dynamic>>> fetchFavRecipes(String userId) async {   // Retorna receitas favoritas do usuário AUTENTICADO (RLS)
+  Future<List<Map<String, dynamic>>> fetchFavRecipes(String userId) async {
     return await _supabaseClient
       .from('favorites')
       .select('''
@@ -39,21 +39,20 @@ class RecipeService {
         )
       ''')
       .eq('user_id', userId);
-  } // fetchFavRecipes
+  }
 
-  Future<void> insertFavRecipe(String recipeId, String userId) async { // Insere favorito (usa usuário autenticado por causa do RLS)
+  Future<void> insertFavRecipe(String recipeId, String userId) async {
     await _supabaseClient.from('favorites').insert({
       'recipe_id': recipeId,
       'user_id': userId,
     });
-  } // insertFavRecipe
+  }
 
-  Future<void> deleteFavRecipe(String recipeId, String userId) async { // Remove favorito (usa usuário autenticado por causa do RLS)
+  Future<void> deleteFavRecipe(String recipeId, String userId) async {
     await _supabaseClient
         .from('favorites')
         .delete()
         .eq('recipe_id', recipeId)
         .eq('user_id', userId);
-  } // deleteFavRecipe
-
-} // RecipeService
+  }
+}
