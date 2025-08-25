@@ -42,6 +42,7 @@ class Recipe { // Modelo de Receita
   // de lista sejam tratados corretamente.
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
+      id: json['id'] as String,
   
       instructions: _parseJsonList(json['instructions']),
       prepTimeMinutes: json['prep_time_minutes'] is int
