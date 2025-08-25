@@ -28,6 +28,8 @@ class UserProfile {
       id: userData['id'] ?? '',
       email: userData['email'] ?? '',
       username: profileData['username'] ?? '',
+      avatarUrl: profileData['avatar_url'] ?? '',
+
 
     Map<String, dynamic> profileData
   ) {
