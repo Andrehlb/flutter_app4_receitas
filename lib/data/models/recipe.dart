@@ -64,29 +64,8 @@ class Recipe { // Modelo de Receita
   }
 
   get value => null;
-  
 
-
-          ? json['servings'] as int
-          : int.tryParse(json['servings']?.toString() ?? ''),
-      difficulty: json['difficulty']?.toString(),
-      cuisine: json['cuisine']?.toString(),
-      caloriesPerServing: json['calories_per_serving'] is int
-          ? json['calories_per_serving'] as int
-          : int.tryParse(json['calories_per_serving']?.toString() ?? ''),
-      tags: _parseJsonListOptional(json['tags']),
-      userId: json['user_id']?.toString() ?? '',
-      image: json['image']?.toString(),
-      rating: (json['rating'] is num)
-          ? (json['rating'] as num).toDouble()
-          : double.tryParse(json['rating']?.toString() ?? ''),
-      reviewCount: json['review_count'] is int
-          ? json['review_count'] as int
-          : int.tryParse(json['review_count']?.toString() ?? ''),
-      mealType: _parseJsonListOptional(json['meal_type']),
-    );
-  }
-
+  // Recipe -> JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -112,9 +91,13 @@ class Recipe { // Modelo de Receita
     if (json is List) {
       return json.map((e) => e.toString()).toList();
     } else if (json is String) {
+      // Quando for uma string, tenta dividir por vírgulas
+      // e tratar como uma lista de strings
       try {
-        final List<dynamic> parsed =
-            json.split(',').map((e) => e.trim()).toList();
+        final List<dynamic> parsed = json
+            .split(',')
+            .map((e) => e.trim())
+            .toList();
         return parsed.map((e) => e.toString()).toList();
       } catch (e) {
         return [json];
