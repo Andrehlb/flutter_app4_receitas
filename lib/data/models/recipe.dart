@@ -10,7 +10,7 @@ class Recipe { // Modelo de Receita
   final String? cuisine;
   final int? caloriesPerServing;
   final List<String>? tags;
-  final String userId; // Também UUID (profiles.id/auth.users.id)
+  final String userId; // Também UUID (profiles.id/auth.users.id) como String
   final String? image;
   final double? rating;
   final int? reviewCount;
