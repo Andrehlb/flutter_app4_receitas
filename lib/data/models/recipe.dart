@@ -1,6 +1,6 @@
 class Recipe { // Modelo de Receita
   final String id; // UUID do Supabase tratado como String aqui
-  final String name;
+  final String name; // Nome da receita
   final List<String> ingredients;
   final List<String> instructions;
   final int? prepTimeMinutes;
