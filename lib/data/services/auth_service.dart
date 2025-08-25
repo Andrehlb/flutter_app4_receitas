@@ -13,11 +13,7 @@ class AuthService {
   Stream<AuthState> get authStateChanges =>
       _supabaseClient.auth.onAuthStateChange;
 
-
-
-  // Sign in with email and pass
-  // 1) método com either (no estilo do Guilehrme)
-  // Esquerda = AppError (falha) | Direita = AuthResponse (sucesso)
+// Sign in com email e password
   Future<Either<AppError, AuthResponse>> signInWithPassword({
     required String email,
     required String password,
@@ -27,34 +23,38 @@ class AuthService {
         email: email,
         password: password,
       );
-      return Right(response); // Sucesso -> Right
+      return Right(response);
     } on AuthException catch (e) {
       switch (e.message) {
-        case 'invalid login credentials':
+        case 'Invalid login credentials':
           return Left(
-            AppError('Oi! Estas credenciais estão inválidas. Dá uma conferida no teu e-mail e senha e tenta de novo, por favor.'));
-        case 'email not confirmed':
-          return Left(AppError('Oi! tudo bem? Olha, este e-mail não confirmado ainda. Por favor, Verifica na tua caixa de entrada.'));
+            AppError('Usuário não cadastrado ou credenciais inválidas'),
+          );
+        case 'Email not confirmed':
+          return Left(AppError('E-mail não confirmado'));
         default:
-          return Left(AppError('Deu ruim o teu login usando: ${e.message}'));
-      } // switch
-    } // AuthException
-  } // SignInWithPassword
+          return Left(AppError('Erro ao fazer login', e));
+      }
+    }
+  }
 
-  // Retorna os valores da tabela Profile
+  // Retorna os valores da tabela profile
   Future<Either<AppError, Map<String, dynamic>?>> fetchUserProfile(
     String userId,
   ) async {
     try {
       final profile = await _supabaseClient
-      .from('profiles')
-      .select()
-      .eq('id', userId)
-      .maybeSingle();
+          .from('profiles')
+          .select()
+          .eq('id', userId)
+          .maybeSingle();
       return Right(profile);
     } catch (e) {
-      return Left(AppError('Hum! Este perfil: ${e.toString()}, não foi encontrado aqui. Quer fazer um perfiol novo ou consultar outro?'));
+      return Left(AppError('Erro ao carregar profile'));
     }
+  }
+
+  // Sign Up - Registro de novo usuário
   }
 
   // Sign in - Registro do usuário
