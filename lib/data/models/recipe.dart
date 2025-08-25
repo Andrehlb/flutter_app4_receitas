@@ -63,6 +63,9 @@ class Recipe { // Modelo de Receita
     );
   }
 
+  get value => null;
+  
+
 
           ? json['servings'] as int
           : int.tryParse(json['servings']?.toString() ?? ''),
