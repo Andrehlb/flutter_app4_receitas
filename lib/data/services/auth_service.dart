@@ -1,12 +1,12 @@
-import 'package:either_dart/either.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app4_receitas/di/service_locator.dart';
 import 'package:app4_receitas/utils/app_error.dart';
+import 'package:either_dart/either.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
   final SupabaseClient _supabaseClient = getIt<SupabaseClient>();
 
-  // Retorna o Usuário atual (null se não autenticado)
+  // Retorna o usuário atual
   User? get currentUser => _supabaseClient.auth.currentUser;
   //bool get isLoggedIn => currentUser != null;
   //bool get isEmailConfirmed => currentUser?.emailConfirmedAt != null;
