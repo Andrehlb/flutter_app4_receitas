@@ -5,6 +5,7 @@ import 'package:app4_receitas/di/service_locator.dart'; // Mantém o setUpDepend
 import 'package:app4_receitas/routes/app_router.dart';
 import 'package:app4_receitas/utils/config/env.dart';
 import 'package:app4_receitas/utils/theme/custom_theme_controller.dart';
+
 Future<void> main() async {
   // Garante que o Flutter está inicializado
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,10 +14,7 @@ Future<void> main() async {
   await Env.init();
 
   // Inicializar o Supabase
-  await Supabase.initialize(    
-    url: Env.supabaseUrl,
-    anonKey: Env.supabaseAnonKey,
-  );
+  await Supabase.initialize(url: Env.supabaseUrl, anonKey: Env.supabaseAnonKey,);
 
   // Inicializando as dependências
   await setupDependencies();
