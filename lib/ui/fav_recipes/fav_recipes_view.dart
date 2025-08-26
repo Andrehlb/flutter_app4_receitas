@@ -16,20 +16,20 @@ class _FavRecipesViewState extends State<FavRecipesView>
     with SingleTickerProviderStateMixin {
   final viewModel = getIt<FavRecipesViewModel>();
 
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
   @override
   void initState() {
     super.initState();
-    final user = Supabase.instance.client.auth.currentUser;
-    _userId = user?.id;
 
-    if (_userId != null) {
-      vm.loadFavorites(_userId!);
-    } else {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Get.snackbar('Login necessário', 'Faça login para ver seus favoritos.');
-      });
-    }
-  }
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+
+    _animation = Tween(begin: 0.0, end: 200.0).animate(_animationController);
+    _animation.addListener(() => setState(() {}));
 
   Future<void> _refresh() async {
     if (_userId != null) {
