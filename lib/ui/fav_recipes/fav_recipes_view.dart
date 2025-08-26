@@ -1,8 +1,9 @@
+import 'package:app4_receitas/di/service_locator.dart';
+import 'package:app4_receitas/ui/fav_recipes/fav_recipes_viewmodel.dart';
+import 'package:app4_receitas/ui/widgets/recipe_card.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:app4_receitas/data/models/recipe.dart';
-import '../fav_recipes/fav_recipes_viewmodel.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:go_router/go_router.dart';
 
 class FavRecipesView extends StatefulWidget {
   const FavRecipesView({super.key});
@@ -11,7 +12,6 @@ class FavRecipesView extends StatefulWidget {
   State<FavRecipesView> createState() => _FavRecipesViewState();
 }
 
-class _FavRecipesViewState extends State<FavRecipesView> {
   final FavRecipesViewModel vm = Get.put(FavRecipesViewModel());
   String? _userId;
 
