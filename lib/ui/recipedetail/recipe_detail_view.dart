@@ -202,3 +202,22 @@ class RecipeDetailView extends StatefulWidget {
                 ],
               ),
             ),
+            Positioned.fill(
+              child: Center(
+                child: FadeTransition(
+                  opacity: _animation,
+                  child: ScaleTransition(
+                    scale: Tween(begin: 0.0, end: 1.0).animate(_animation),
+                    child: Obx(() {
+                      return Icon(
+                        viewModel.isFavorite
+                            ? Icons.favorite
+                            : Icons.heart_broken,
+                        color: viewModel.isFavorite ? Colors.red : Colors.grey,
+                        size: 200,
+                      );
+                    }),
+                  ),
+                ),
+              ),
+            ),
