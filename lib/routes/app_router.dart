@@ -26,4 +26,4 @@ class AppRouter {
 
     router = GoRouter(
       initialLocation: '/login',
-      
+      refreshListenable: _authStateNotifier,
