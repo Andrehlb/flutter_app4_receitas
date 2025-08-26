@@ -21,23 +21,24 @@ class RecipeDetailView extends StatefulWidget {
 
   late AnimationController _animationController;
   late Animation<double> _animation;
-  
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      viewModel.getRecipes();
-    });
-  }
 
   @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      if (viewModel.isLoading) {
-        return Center(
-          child: SizedBox(
-            height: 96,
-            width: 96,
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+
+    _animation =
+        CurvedAnimation(parent: _animationController, curve: Curves.bounceInOut)
+          ..addListener(() => setState(() {}))
+          ..addStatusListener((listener) {
+            if (listener == AnimationStatus.completed) {
+              _animationController.reverse();
+            }
+          });
+
+
             child: CircularProgressIndicator(strokeWidth: 12),
           ),
         );
