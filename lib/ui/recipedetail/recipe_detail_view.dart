@@ -6,14 +6,14 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RecipesView extends StatefulWidget {
-  const RecipesView({super.key});
+class RecipeDetailView extends StatefulWidget {
+  const RecipeDetailView({super.key, required this.id});
+
+  final String id;
 
   @override
-  State<RecipesView> createState() => _RecipesViewState();
+  State<RecipeDetailView> createState() => _RecipeDetailViewState();
 }
-
-class _RecipesViewState extends State<RecipesView> {
 
   final viewModel = getIt<RecipesViewModel>();
 
