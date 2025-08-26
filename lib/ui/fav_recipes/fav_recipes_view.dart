@@ -97,25 +97,25 @@ class _FavRecipesViewState extends State<FavRecipesView>
                           ),
                           const SizedBox(height: 16),
                           Expanded(
-                            
-                  tooltip: 'Remover dos favoritos',
-                  onPressed: () => _remove(r),
-                ),
-                onTap: () {
-                  // TODO: navegar para tela de detalhes, se existir
-                },
-              );
-            },
-          ),
-        );
-      }),
-    );
-  }
-
-  String _buildSubtitle(Recipe r) {
-    final parts = <String>[];
-    if (r.difficulty != null && r.difficulty!.isNotEmpty) {
-      parts.add(r.difficulty!);
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                top: 200 - _animation.value,
+                              ),
+                              child: ListView.builder(
+                                itemCount: viewModel.favRecipes.length,
+                                itemBuilder: (context, index) {
+                                  final recipe = viewModel.favRecipes[index];
+                                  return Stack(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () =>
+                                            context.go('/recipe/${recipe.id}'),
+                                        child: RecipeCard(recipe: recipe),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
     }
     final total = r.totalTimeMinutes;
     if (total > 0) parts.add('$total min');
