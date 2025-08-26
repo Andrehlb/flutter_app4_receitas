@@ -29,3 +29,7 @@ class AppRouter {
       refreshListenable: _authStateNotifier,
       routes: [
         GoRoute(path: '/login', builder: (context, state) => const AuthView()),
+        ShellRoute(
+          builder: (context, state, child) => BaseScreen(child: child),
+          routes: [
+            GoRoute(path: '/', builder: (context, state) => RecipesView()),
