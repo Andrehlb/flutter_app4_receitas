@@ -38,11 +38,11 @@ class RecipeDetailView extends StatefulWidget {
             }
           });
 
-
-            child: CircularProgressIndicator(strokeWidth: 12),
-          ),
-        );
-      }
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      viewModel.loadRecipe(widget.id);
+    });
+  }
 
       if (viewModel.errorMessage != '') {
         return Center(
