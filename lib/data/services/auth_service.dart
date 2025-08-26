@@ -55,23 +55,23 @@ class AuthService {
   }
 
   // Sign Up - Registro de novo usuário
-  }
-
-  // Sign in - Registro do usuário
   Future<Either<AppError, AuthResponse>> signUp({
-     required String email,
+    required String email,
     required String password,
     required String username,
     required String avatarUrl,
   }) async {
     try {
-      // Verificar se o username já está em uso
-      final existingUser = await _supabaseClient
+      // Verificar se o username está disponível
+      final existingUsername = await _supabaseClient
           .from('profiles')
           .select()
           .eq('username', username)
           .maybeSingle();
 
+      if (existingUsername != null) {
+        return Left(AppError('Username não disponível'));
+      }
       if (existingUser != null) {
         return Left(AppError('Vixi! Já tem alguém que usa este nome de usuário. \nRapidinho você escolhe outro'));
       }
