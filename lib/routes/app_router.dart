@@ -8,20 +8,13 @@ import 'package:app4_receitas/ui/recipedetail/recipe_detail_view.dart';
 import 'package:app4_receitas/ui/recipes/recipes_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 class AppRouter {
   late final GoRouter router;
 
   final _service = getIt<AuthService>();
 
   late final ValueNotifier<bool> _authStateNotifier;
-      routes: [
-        ShellRoute(
-          builder: (context, state, child) => BaseScreen(child: child),
-          routes: [
-            GoRoute(path: '/', builder: (context, state) => RecipesView()),
-          ],
-        ),
-      ],
-    );
-  }
-}
+
+  AppRouter() {
+    
