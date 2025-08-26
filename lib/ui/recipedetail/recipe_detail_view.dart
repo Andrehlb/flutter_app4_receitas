@@ -195,3 +195,6 @@ class RecipeDetailView extends StatefulWidget {
                             }),
                           ],
                         ),
+                        SizedBox(height: 32),
+                      ],
+                    ),
