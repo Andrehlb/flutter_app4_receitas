@@ -31,8 +31,8 @@ class _FavRecipesViewState extends State<FavRecipesView>
     _animation = Tween(begin: 0.0, end: 200.0).animate(_animationController);
     _animation.addListener(() => setState(() {}));
 
-  Future<void> _refresh() async {
-    if (_userId != null) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+      viewModel.getFavRecipes();
       await vm.loadFavorites(_userId!);
     }
   }
