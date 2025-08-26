@@ -57,3 +57,6 @@ class AppRouter {
 
         return null;
       },
+    );
+  }
+}
