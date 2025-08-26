@@ -18,6 +18,10 @@ class RecipeDetailView extends StatefulWidget {
   class _RecipeDetailViewState extends State<RecipeDetailView>
     with SingleTickerProviderStateMixin {
   final viewModel = getIt<RecipeDetailViewModel>();
+
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+  
   @override
   void initState() {
     super.initState();
