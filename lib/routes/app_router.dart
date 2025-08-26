@@ -17,4 +17,10 @@ class AppRouter {
   late final ValueNotifier<bool> _authStateNotifier;
 
   AppRouter() {
+
+      _authStateNotifier = ValueNotifier<bool>(_service.currentUser != null);
+
+    _service.authStateChanges.listen((state) async {
+      _authStateNotifier.value = _service.currentUser != null;
+    });
     
