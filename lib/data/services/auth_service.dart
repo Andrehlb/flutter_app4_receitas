@@ -78,24 +78,21 @@ class AuthService {
         await _supabaseClient.from('profiles').insert({
           'id': result.right.user!.id,
           'username': username,
-        await _supabaseClient.from('profiles').insert({
-          'id': result.right.user!.id,
-          'username': username,
-          'avatar_url': avatarUrl,
-        }); // supabase and insert
+        
+        });
         return Right(right);
-      }); // return result.fold
+      });
     } on PostgrestException catch (e) {
       switch(e.code) {
-        case '23505': // Unique violation
-          return Left(AppError('Hey! Este e-mail já está cadastrado.'));
+        case '23505':
+          return Left(AppError('E-mail já registrado'));
         default:
-          return Left(AppError('Hum! Deu ruim o registro: ${e.message}, tem que fazer de novo'));
-      } // switch
+          return Left(AppError('Erro ao registrar usuário', e));
+      }
     } catch (e) {
-      return Left(AppError('Aconteceu um erro inesperado ao registrar ${e.toString()}'));
-    } // catch
-  } // async
+      return Left(AppError('Erro inesperado ao registrar usuário', e));
+    }
+  }
 
   Future<Either<AppError, AuthResponse>> insertUser({
     required String email,
@@ -111,22 +108,22 @@ class AuthService {
       switch (e.message) {
         case 'Email not confirmed':
           return Left(
-            AppError('Oi! Este e-mail ainda não foi confirmado. Por favor, veja tua caixa de entrada.'),
+            AppError('E-mail não confirmado. Verifique sua caixa de entrada'),
           );
         default:
-          return Left(AppError('Hum! Aconteceu um erro ao registrar: ${e.message}, tenta de novo por favor.'));
-      } // switch
-    } // on AuthException
-  } // insertUser and async
+          return Left(AppError('Erro ao fazer cadastro', e));
+      }
+    }
+  }
 
   Future<Either<AppError, void>> signOut() async {
     try {
       await _supabaseClient.auth.signOut();
-      return Right(null); // Sucesso
+      return Right(null);
     } on AuthException catch (e) {
-      return Left(AppError('Hum! Aconteceu um erro ao sair ${e.message}'));
+      return Left(AppError('Erro ao sair', e));
     } catch (e) {
-      return Left(AppError('Hum!, ainda está acontecendo um erro ao sair ${e.toString()}'));
-    } // catch
-  } // 
+      return Left(AppError('Erro inesperado ao sair', e));
+    }
+  } // signOut
 } // class AuthService
