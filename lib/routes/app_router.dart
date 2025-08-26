@@ -12,6 +12,8 @@ class AppRouter {
   late final GoRouter router;
 
   final _service = getIt<AuthService>();
+
+  late final ValueNotifier<bool> _authStateNotifier;
       routes: [
         ShellRoute(
           builder: (context, state, child) => BaseScreen(child: child),
