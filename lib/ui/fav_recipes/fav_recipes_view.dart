@@ -14,6 +14,7 @@ class FavRecipesView extends StatefulWidget {
 
 class _FavRecipesViewState extends State<FavRecipesView>
     with SingleTickerProviderStateMixin {
+  final viewModel = getIt<FavRecipesViewModel>();
 
   @override
   void initState() {
