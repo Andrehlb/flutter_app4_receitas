@@ -43,3 +43,17 @@ class AppRouter {
           ],
         ),
       ],
+      redirect: (context, state) {
+        final isLoggedIn = _authStateNotifier.value;
+        final currentPath = state.uri.path;
+
+        if(!isLoggedIn && currentPath != '/login') {
+          return '/login';
+        }
+
+        if(isLoggedIn && currentPath == '/login') {
+          return '/';
+        }
+
+        return null;
+      },
