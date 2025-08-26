@@ -23,4 +23,5 @@ class AppRouter {
     _service.authStateChanges.listen((state) async {
       _authStateNotifier.value = _service.currentUser != null;
     });
-    
+
+    router = GoRouter(
