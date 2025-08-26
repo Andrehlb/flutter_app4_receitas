@@ -25,3 +25,5 @@ class AppRouter {
     });
 
     router = GoRouter(
+      initialLocation: '/login',
+      
