@@ -12,8 +12,8 @@ class FavRecipesView extends StatefulWidget {
   State<FavRecipesView> createState() => _FavRecipesViewState();
 }
 
-  final FavRecipesViewModel vm = Get.put(FavRecipesViewModel());
-  String? _userId;
+class _FavRecipesViewState extends State<FavRecipesView>
+    with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
