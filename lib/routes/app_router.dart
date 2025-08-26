@@ -28,3 +28,4 @@ class AppRouter {
       initialLocation: '/login',
       refreshListenable: _authStateNotifier,
       routes: [
+        GoRoute(path: '/login', builder: (context, state) => const AuthView()),
