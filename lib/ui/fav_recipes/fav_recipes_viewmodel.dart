@@ -8,7 +8,7 @@ import 'package:app4_receitas/di/service_locator.dart';
 class FavRecipesViewModel extends GetxController {
   final _repository = getIt<RecipeRepository>();
   final _authRepository = getIt<AuthRepository>();
-  
+
   final RxList<Recipe> _favRecipes = <Recipe>[].obs;
   final RxBool _isLoading = false.obs;
   final RxString _errorMessage = ''.obs;
@@ -18,23 +18,17 @@ class FavRecipesViewModel extends GetxController {
   bool get isLoading => _isLoading.value;
   String? get errorMessage => _errorMessage.value;
 
-  // ========= Como feito pelo Guilherme (sem passar userId) =========
-  String? get _currentUid => Supabase.instance.client.auth.currentUser?.id;
-
-  // Busca favoritos pegando o userId do usuário autenticado (RLS)
   Future<void> getFavRecipes() async {
     try {
       _isLoading.value = true;
       _errorMessage.value = '';
+      var userId = '';
+      await _authRepository.currentUser.fold(
+        (left) => _errorMessage.value = left.message,
+        (right) => userId = right.id,
+      );
 
-      final uid = _currentUid;
-      if (uid == null || uid.isEmpty) {
-        _errorMessage.value = 'Ops! Não te encontramos com estes dados. \nPor favor, faz o login de novo \npara ver as receitas favoritas.';
-        _favRecipes.clear();
-        return;
-      }
-
-      _favRecipes.value = await _repository.getFavRecipes(uid);
+      _favRecipes.value = await _repository.getFavRecipes(userId);
     } catch (e) {
       _errorMessage.value = 'Ops! Aconteceu uma falha ao buscar receitas: $e. Por favor, tente mais tarde.';
     } finally {
