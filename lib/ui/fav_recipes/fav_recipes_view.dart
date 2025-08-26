@@ -43,62 +43,61 @@ class _FavRecipesViewState extends State<FavRecipesView>
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Receitas favoritas'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed:
-                _userId == null ? null : () => vm.loadFavorites(_userId!),
-            tooltip: 'Atualizar favoritos',
+    return Obx(() {
+      if (viewModel.isLoading) {
+        return Center(
+          child: SizedBox(
+            height: 96,
+            width: 96,
+            child: CircularProgressIndicator(strokeWidth: 12),
           ),
-        ],
-      ),
-      body: Obx(() {
-        if (vm.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        final error = vm.errorMessage;
-        if (error != null && error.isNotEmpty) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(error, textAlign: TextAlign.center),
+        );
+      }
+      
+      if (viewModel.errorMessage != '') {
+        return Center(
+          child: Container(
+            padding: EdgeInsets.all(32),
+            child: Column(
+              spacing: 32,
+              children: [
+                Text(
+                  'Erro: ${viewModel.errorMessage}',
+                  style: TextStyle(fontSize: 24),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    viewModel.getFavRecipes();
+                  },
+                  child: Text('TENTAR NOVAMENTE'),
+                ),
+              ],
             ),
-          );
-        }
+          ),
+        );
+      }
 
-        if (_userId == null) {
-          return const Center(
-            child: Text('Faça login para ver seus favoritos.'),
-          );
-        }
-
-        final items = vm.favRecipes;
-        if (items.isEmpty) {
-          return const Center(
-            child: Text('Você ainda não tem receitas favoritas.'),
-          );
-        }
-
-        return RefreshIndicator(
-          onRefresh: _refresh,
-          child: ListView.separated(
-            itemCount: items.length,
-            separatorBuilder: (_, __) => const Divider(height: 1),
-            itemBuilder: (context, index) {
-              final r = items[index];
-              return ListTile(
-                leading: _RecipeAvatar(imageUrl: r.image, fallbackText: r.name),
-                title: Text(r.name),
-                subtitle: Text(_buildSubtitle(r)),
-                trailing: IconButton(
-                  icon: const Icon(Icons.favorite, color: Colors.red),
+      return Container(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Expanded(
+              child: viewModel.favRecipes.isNotEmpty
+                  ? Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            '${viewModel.favRecipes.length} favorita(s)',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Expanded(
+                            
                   tooltip: 'Remover dos favoritos',
                   onPressed: () => _remove(r),
                 ),
