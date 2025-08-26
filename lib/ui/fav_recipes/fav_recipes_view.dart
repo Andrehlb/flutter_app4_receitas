@@ -37,13 +37,12 @@ class _FavRecipesViewState extends State<FavRecipesView>
     });
   }
 
-  Future<void> _remove(Recipe r) async {
-    if (_userId == null) return;
-    await vm.removeFavorite(_userId!, r.id);
-    if (mounted) {
-      Get.snackbar('Favoritos', 'Removido de favoritos');
-    }
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
