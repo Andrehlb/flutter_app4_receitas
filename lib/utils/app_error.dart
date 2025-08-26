@@ -5,5 +5,7 @@ class AppError {
   AppError(this.message, [this.cause]);
 
   @override
-  String toString() => 'AppError{message: $message, cause: $cause}';
+  String toString() {
+    return 'AppError{message: $message, cause: $cause}';
+  }
 }
