@@ -27,81 +27,11 @@ class FavRecipesViewModel extends GetxController {
         (left) => _errorMessage.value = left.message,
         (right) => userId = right.id,
       );
-
       _favRecipes.value = await _repository.getFavRecipes(userId);
     } catch (e) {
-      _errorMessage.value = 'Ops! Aconteceu uma falha ao buscar receitas: $e. Por favor, tente mais tarde.';
+      _errorMessage.value = 'Ops! Aconteceu uma falha ao buscar receitas: ${e.toString()}. Por favor, tente mais tarde.';
     } finally {
       _isLoading.value = false;
-    }
-  }
-
-  // Adiciona favorito pegando o userId do usuário autenticado (RLS)
-  Future<void> addFavoriteAuto(Recipe recipe) async {
-    try {
-      final uid = _currentUid;
-      if (uid == null || uid.isEmpty) {
-        _errorMessage.value = 'Ops! Não encontramos seus dados.\nFaz login novamde novo \npara adicionar receitas aos favoritos.';
-        return;
-      }
-
-      await _repository.insertFavRecipe(recipe.id, uid);
-      if (!_favRecipes.any((r) => r.id == recipe.id)) {
-        _favRecipes.add(recipe);
-      }
-    } catch (e) {
-      _errorMessage.value = 'Ops! Neste momento, Não foi possível adicionar a receita aos favoritos: $e';
-    }
-  }
-
-  // Remove favorito pegando o userId do usuário autenticado (RLS)
-  Future<void> removeFavoriteAuto(String recipeId) async {
-    try {
-      final uid = _currentUid;
-      if (uid == null || uid.isEmpty) {
-        _errorMessage.value = 'Ops! Neste momento, Não foi possível adicionar a receita aos favortos';
-        return;
-      }
-
-      await _repository.deleteFavRecipe(recipeId, uid);
-      _favRecipes.removeWhere((r) => r.id == recipeId);
-    } catch (e) {
-      _errorMessage.value = 'Ops! Neste momento, não foi possível remover a receita dos favoritos: $e';
-    }
-  }
-
-  // ========= Compatibilidade com o que você já tinha =========
-  Future<void> loadFavorites(String userId) async {
-    try {
-      _isLoading.value = true;
-      _favRecipes.value = await _repository.getFavRecipes(userId);
-    } catch (e) {
-      _errorMessage.value =
-          'Algo deu errado ao carregar favoritos: $e. Tente mais tarde, por favor.';
-    } finally {
-      _isLoading.value = false;
-    }
-  }
-
-  Future<void> addFavorite(String userId, Recipe recipe) async {
-    try {
-      await _repository.insertFavRecipe(recipe.id, userId);
-      if (!_favRecipes.any((r) => r.id == recipe.id)) {
-        _favRecipes.add(recipe);
-      }
-    } catch (e) {
-      _errorMessage.value =
-          'Ops! Neste momento, não foi possível adicionar a receita aos favoritos: $e. Tente novamente mais tarde, por favor.';
-    }
-  }
-
-  Future<void> removeFavorite(String userId, String recipeId) async {
-    try {
-      await _repository.deleteFavRecipe(recipeId, userId);
-      _favRecipes.removeWhere((r) => r.id == recipeId);
-    } catch (e) {
-      _errorMessage.value =
-          'Ops! Neste momento, não foi possível remover a receita dos favoritos: $e. Tente novamente mais tarde, por favor.';
     }
   }
 }
