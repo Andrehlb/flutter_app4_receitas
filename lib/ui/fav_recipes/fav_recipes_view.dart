@@ -33,7 +33,7 @@ class _FavRecipesViewState extends State<FavRecipesView>
 
   WidgetsBinding.instance.addPostFrameCallback((_) {
       viewModel.getFavRecipes();
-      await vm.loadFavorites(_userId!);
+      _animationController.forward();
     }
   }
 
