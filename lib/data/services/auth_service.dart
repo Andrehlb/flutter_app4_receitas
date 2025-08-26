@@ -72,12 +72,12 @@ class AuthService {
       if (existingUsername != null) {
         return Left(AppError('Username não disponível'));
       }
-      if (existingUser != null) {
-        return Left(AppError('Vixi! Já tem alguém que usa este nome de usuário. \nRapidinho você escolhe outro'));
-      }
 
       final result = await insertUser(email: email, password: password);
       return result.fold((left) => Left(left), (right) async {
+        await _supabaseClient.from('profiles').insert({
+          'id': result.right.user!.id,
+          'username': username,
         await _supabaseClient.from('profiles').insert({
           'id': result.right.user!.id,
           'username': username,
