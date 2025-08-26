@@ -34,7 +34,7 @@ class _FavRecipesViewState extends State<FavRecipesView>
   WidgetsBinding.instance.addPostFrameCallback((_) {
       viewModel.getFavRecipes();
       _animationController.forward();
-    }
+    });
   }
 
   Future<void> _remove(Recipe r) async {
