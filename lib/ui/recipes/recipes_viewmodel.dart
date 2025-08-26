@@ -18,6 +18,7 @@ class RecipesViewModel extends GetxController {
   Future<void> getRecipes() async {
     try {
       _isLoading.value = true;
+      _errorMessage.value = '';
       _recipes.value = await _repository.getRecipes();
     } catch (e) {
       _errorMessage.value = 'Falha ao buscar receitas: ${e.toString()}';
