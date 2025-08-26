@@ -33,3 +33,13 @@ class AppRouter {
           builder: (context, state, child) => BaseScreen(child: child),
           routes: [
             GoRoute(path: '/', builder: (context, state) => RecipesView()),
+            GoRoute(
+              path: '/recipe/:id',
+              builder: (context, state) =>
+                  RecipeDetailView(id: state.pathParameters['id']!),
+            ),
+            GoRoute(path: '/favorites', builder: (context, state) => FavRecipesView()),
+            GoRoute(path: '/profile', builder: (context, state) => ProfileView()),
+          ],
+        ),
+      ],
