@@ -1,6 +1,6 @@
 import 'package:app4_receitas/di/service_locator.dart';
-import 'package:app4_receitas/ui/recipes/recipes_viewmodel.dart';
-import 'package:app4_receitas/ui/widgets/recipe_card.dart';
+import 'package:app4_receitas/ui/recipedetail/recipe_detail_viewmodel.dart';
+import 'package:app4_receitas/ui/widgets/recipe_row_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
