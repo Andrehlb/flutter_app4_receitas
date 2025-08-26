@@ -17,7 +17,7 @@ class RecipeDetailView extends StatefulWidget {
 
   class _RecipeDetailViewState extends State<RecipeDetailView>
     with SingleTickerProviderStateMixin {
-      
+  final viewModel = getIt<RecipeDetailViewModel>();
   @override
   void initState() {
     super.initState();
