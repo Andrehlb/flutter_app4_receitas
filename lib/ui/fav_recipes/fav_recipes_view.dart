@@ -116,26 +116,35 @@ class _FavRecipesViewState extends State<FavRecipesView>
                                   );
                                 },
                               ),
-    }
-    final total = r.totalTimeMinutes;
-    if (total > 0) parts.add('$total min');
-    if (r.cuisine != null && r.cuisine!.isNotEmpty) parts.add(r.cuisine!);
-    return parts.join(' • ');
-  }
-}
-
-class _RecipeAvatar extends StatelessWidget {
-  final String? imageUrl;
-  final String fallbackText;
-  const _RecipeAvatar({required this.imageUrl, required this.fallbackText});
-
-  @override
-  Widget build(BuildContext context) {
-    if (imageUrl != null && imageUrl!.startsWith('http')) {
-      return CircleAvatar(backgroundImage: NetworkImage(imageUrl!));
-    }
-    return CircleAvatar(
-      child: Text(fallbackText.isNotEmpty ? fallbackText[0] : '?'),
-    );
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Center(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 64),
+                          Icon(
+                            Icons.favorite,
+                            size: 96,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 32),
+                          Text(
+                            'Adicione suas receitas favoritas!',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
