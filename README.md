@@ -12,6 +12,7 @@ Este é um projeto de um aplicativo de receitas e sistemas de favoritos, usando 
 
 <p align="center">
   <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage.png" alt="Tela inicial do app" width="300"/>
+  <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage2.png" alt="Tela inicial do app" width="300"/>
 </p>
 
 ---
