@@ -222,3 +222,6 @@ class RecipeDetailView extends StatefulWidget {
               ),
             ),
           ],
+        );
+      },
+    );
