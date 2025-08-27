@@ -145,6 +145,7 @@ class AuthView extends StatefulWidget {
 
   Widget _buildEmailField() {
     return TextFormField(
+      key: const ValueKey('emailField'),
       controller: viewModel.emailController,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
@@ -161,6 +162,7 @@ class AuthView extends StatefulWidget {
   Widget _buildPasswordField() {
     return Obx(
       () => TextFormField(
+        key: const ValueKey('passwordField'),
         controller: viewModel.passwordController,
         obscureText: viewModel.obscurePassword,
         textInputAction: TextInputAction.done,
@@ -254,6 +256,7 @@ class AuthView extends StatefulWidget {
     return SizedBox(
       height: 50,
       child: ElevatedButton(
+        key: const ValueKey('submitButton'),
         onPressed: viewModel.submit,
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
