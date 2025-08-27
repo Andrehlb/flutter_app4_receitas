@@ -18,25 +18,18 @@ Este é um projeto de um aplicativo de receitas e sistemas de favoritos, usando 
 
 <table align="center">
   <tr>
-    <td align="center" width="50%">
-      <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage-1a.png" 
-           alt="Animação - Ícone Grande" 
-           width="280" height="480"/>
+    <td align="center" width="100%" colspan="2">
+      <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage-antesDepois-garfoFaca-VSCode.png" 
+           alt="App4 Receitas – Eu Amo Cozinhar: Before and After Animation (Image Resize and Color Change)" 
+           width="600"/>
       <br>
-      <em>🍽️ Ícone Grande (Início da animação)</em>
-    </td>
-    <td align="center" width="50%">
-      <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage-2a.png" 
-           alt="Animação - Ícone Pequeno" 
-           width="280" height="480"/>
-      <br>
-      <em>🔄 Ícone Pequeno (Final da animação)</em>
+      <em>🍽️ App4 Receitas - Visualização da animação de antes e depois no App4 Receitas – Eu Amo Cozinhar, com destaque para a transição de imagem (tamanho e cor), acompanhada do desenvolvimento em tempo real no VS Code.</em>
     </td>
   </tr>
 </table>
 
 <p align="center">
-  <strong>⚡ Animação fluída do garfo e faca com rotação e mudança de tamanho</strong>
+  <strong>⚡ Comparação visual do desenvolvimento - Antes e Depois no VS Code</strong>
 </p>
 
 ---
