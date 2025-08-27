@@ -47,6 +47,8 @@
 - ✅ **UI moderna** com animações fluidas
 - ✅ **Tratamento funcional de erros** com Either
 
+[⬆️ Voltar ao Índice](#-índice)
+
 ---
 
 ## 🏗️ **Arquitetura**
@@ -79,6 +81,8 @@ O projeto segue os princípios da **Clean Architecture** organizada em camadas:
 ```
 UI → ViewModel → Repository → Service → Supabase
 ```
+
+[⬆️ Voltar ao Índice](#-índice)
 
 ---
 
@@ -135,6 +139,8 @@ result.fold(
 - ❌ **Sem exceções soltas**: Erros são parte do tipo de retorno
 - ✅ **Código mais limpo**: Fluxo de erro previsível
 
+[⬆️ Voltar ao Índice](#-índice)
+
 ---
 
 ## 🍽️ **Funcionalidades**
@@ -153,6 +159,8 @@ result.fold(
 ```
 RecipesView → RecipesViewModel → RecipeRepository → RecipeService → Supabase
 ```
+
+[⬆️ Voltar ao Índice](#-índice)
 
 ---
 
@@ -192,6 +200,8 @@ integration_test/
 - ✅ **Navigation**: Rotas e transições
 - ✅ **State Management**: GetX controllers
 - ✅ **Error Handling**: Tratamento de falhas
+
+[⬆️ Voltar ao Índice](#-índice)
 
 ---
 
@@ -301,6 +311,8 @@ flutter test integration_test/app_test.dart -d android
 dart run build_runner build
 ```
 
+[⬆️ Voltar ao Índice](#-índice)
+
 ---
 
 ## ⚙️ **Configuração**
@@ -353,6 +365,8 @@ GoRouter(
 );
 ```
 
+[⬆️ Voltar ao Índice](#-índice)
+
 ---
 
 ## 📦 **Dependências**
@@ -380,6 +394,8 @@ dev_dependencies:
   mockito: ^5.4.4               # Mocks para testes
   build_runner: ^2.4.12         # Gerador de código
 ```
+
+[⬆️ Voltar ao Índice](#-índice)
 
 ---
 
@@ -450,6 +466,8 @@ flutter logs
 # Pressione 'R' no terminal
 ```
 
+[⬆️ Voltar ao Índice](#-índice)
+
 ---
 
 ## ✅ **Status do Projeto**
@@ -477,6 +495,8 @@ flutter logs
 - [x] **Testes automatizados** funcionando
 - [x] **Documentação** completa
 
+[⬆️ Voltar ao Índice](#-índice)
+
 ---
 
 ## 👥 **Créditos**
@@ -488,11 +508,15 @@ flutter logs
 - **Equipe Venturus** - Oportunidade e suporte
 - **Colegas de turma** - Colaboração e feedback
 
+[⬆️ Voltar ao Índice](#-índice)
+
 ---
 
 ## 📄 **Licença**
 
 Este projeto está sob licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+[⬆️ Voltar ao Índice](#-índice)
 
 ---
 
