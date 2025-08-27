@@ -29,7 +29,7 @@ Este é um projeto de um aplicativo de receitas e sistemas de favoritos, usando 
 </table>
 
 <p align="center">
-  <strong>⚡ Comparação visual do desenvolvimento - Eu Amo Cozinhar: Before and After Animation (Image Resize and Color Change)</strong>
+  <strong>⚡ Comparação visual do desenvolvimento - App4 Receitas – Eu Amo Cozinhar: Before and After Animation (Image Resize and Color Change)</strong>
 </p>
 
 ---
