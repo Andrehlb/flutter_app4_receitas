@@ -221,12 +221,66 @@ SUPABASE_ANON_KEY=sua_chave_anonima
 ```
 
 ### **4. Executar o Aplicativo**
+
+#### **Windows (Desktop)**
 ```bash
 # Desenvolvimento
-flutter run
+flutter run -d windows
 
 # Release
-flutter run --release
+flutter run -d windows --release
+```
+
+#### **Android (Emulador/Dispositivo)**
+
+**Pré-requisitos Android:**
+- Android Studio instalado
+- SDK do Android configurado (API 34 recomendado)
+- Emulador Android ou dispositivo físico conectado
+
+**Passos:**
+
+1. **Verificar dispositivos disponíveis:**
+```bash
+flutter devices
+```
+
+2. **Criar/Iniciar emulador Android:**
+```bash
+# Listar emuladores disponíveis
+flutter emulators
+
+# Iniciar um emulador (substitua pelo nome do seu)
+flutter emulators --launch Pixel_7_API_34
+```
+
+3. **Executar no Android:**
+```bash
+# Desenvolvimento (detecta automaticamente o dispositivo Android)
+flutter run
+
+# Especificar Android explicitamente
+flutter run -d android
+
+# Release
+flutter run -d android --release
+```
+
+**📱 Configurar Emulador Android (se necessário):**
+1. Abra **Android Studio**
+2. Vá em **Tools** → **AVD Manager**
+3. Clique em **Create Virtual Device**
+4. Escolha **Phone** → **Pixel 7**
+5. Selecione **API Level 34** (Android 14)
+6. Clique em **▶️ Start** no emulador
+
+#### **Web (Navegador)**
+```bash
+# Desenvolvimento
+flutter run -d chrome
+
+# Release
+flutter run -d web --release
 ```
 
 ### **5. Executar Testes**
@@ -237,8 +291,11 @@ flutter test
 # Testes específicos
 flutter test test/ui/auth/auth_simple_test.dart --reporter expanded
 
-# Testes de integração
+# Testes de integração (Windows)
 flutter test integration_test/app_test.dart -d windows
+
+# Testes de integração (Android - emulador deve estar rodando)
+flutter test integration_test/app_test.dart -d android
 
 # Gerar mocks (quando necessário)
 dart run build_runner build
@@ -322,6 +379,75 @@ dev_dependencies:
   flutter_lints: ^5.0.0         # Análise estática
   mockito: ^5.4.4               # Mocks para testes
   build_runner: ^2.4.12         # Gerador de código
+```
+
+---
+
+## 🔧 **Solução de Problemas**
+
+### **Problemas Comuns no Android**
+
+#### **❌ "No connected devices"**
+```bash
+# Verificar se o emulador está rodando
+flutter devices
+
+# Se não aparecer nenhum dispositivo Android:
+# 1. Abra Android Studio
+# 2. Tools → AVD Manager
+# 3. Inicie um emulador
+```
+
+#### **❌ "Android SDK not found"**
+```bash
+# Verificar configuração do Flutter
+flutter doctor
+
+# Se Android SDK não estiver configurado:
+# 1. Instale Android Studio
+# 2. Configure SDK Manager
+# 3. Adicione ANDROID_HOME nas variáveis de ambiente
+```
+
+#### **❌ "Gradle build failed"**
+```bash
+# Limpar build do Android
+flutter clean
+flutter pub get
+cd android
+./gradlew clean
+cd ..
+flutter run -d android
+```
+
+#### **❌ "App não conecta com Supabase no Android"**
+- ✅ Verificar se o arquivo `.env` está na pasta `assets/`
+- ✅ Confirmar se as URLs no `.env` estão corretas
+- ✅ Verificar permissões de internet no `android/app/src/main/AndroidManifest.xml`:
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+### **Comandos Úteis para Debug**
+
+```bash
+# Verificar configuração completa
+flutter doctor -v
+
+# Listar todos os dispositivos e emuladores
+flutter devices -v
+
+# Executar com logs detalhados
+flutter run -d android -v
+
+# Verificar logs do dispositivo
+flutter logs
+
+# Hot reload manual (durante execução)
+# Pressione 'r' no terminal
+
+# Hot restart manual (durante execução)  
+# Pressione 'R' no terminal
 ```
 
 ---
