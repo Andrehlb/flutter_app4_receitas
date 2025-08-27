@@ -16,9 +16,27 @@
 Este é um projeto de um aplicativo de receitas e sistemas de favoritos, usando Dart-Flutter, com uma arquitetura limpa, com Supabase.<br>
 --- 
 
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage-1a.png" 
+           alt="Animação - Ícone Grande" 
+           width="280" height="480"/>
+      <br>
+      <em>🍽️ Ícone Grande (Início da animação)</em>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage-2a.png" 
+           alt="Animação - Ícone Pequeno" 
+           width="280" height="480"/>
+      <br>
+      <em>🔄 Ícone Pequeno (Final da animação)</em>
+    </td>
+  </tr>
+</table>
+
 <p align="center">
-  <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage-1a.png" alt="Tela inicial do app" width="300"/>
-  <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage-2a.png" alt="Tela inicial do app" width="300"/>
+  <strong>⚡ Animação fluída do garfo e faca com rotação e mudança de tamanho</strong>
 </p>
 
 ---
