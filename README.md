@@ -1,69 +1,376 @@
-# 📲 App4 🍽️ Receitas – Autenticação com Supabase
+# 📲 App4 🍽️ Receitas – Eu Amo Cozinhar
 
 ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 ![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen?style=for-the-badge&logo=flutter&logoColor=white)
 ![Architecture](https://img.shields.io/badge/Architecture-Clean-blue?style=for-the-badge&logo=dart&logoColor=white)
 
-* ✅ Onde tudo começa e termina
-* ✅ Fluxo completo da autenticação
-* ✅ Diferença entre front-end e back-end
-* ✅ Scripts envolvidos
-* ✅ Testes unitários e de integração implementados
-* ✅ Resumo visual e técnico
-
----
-Este é um projeto de um aplicativo de receitas e sistemas de favoritos, usando Dart-Flutter, com uma arquitetura limpa, com Supabase.<br>
---- 
+> **Um aplicativo completo de receitas com autenticação, favoritos e arquitetura limpa usando Flutter + Supabase**
 
 <table align="center">
   <tr>
     <td align="center" width="100%" colspan="2">
       <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage-antesDepois-garfoFaca-VSCode.png" 
-           alt="App4 Receitas – Eu Amo Cozinhar: Before and After Animation (Image Resize and Color Change)" 
+           alt="App4 Receitas – Eu Amo Cozinhar: Before and After Animation" 
            width="600"/>
       <br>
-      <em>🍽️ App4 Receitas - Visualização da animação de antes e depois no App4 Receitas – Eu Amo Cozinhar, com destaque para a transição de imagem (tamanho e cor), acompanhada do desenvolvimento em tempo real no VS Code.</em>
+      <em>🍽️ Evolução visual do projeto - Antes e depois da animação do logo</em>
     </td>
   </tr>
 </table>
 
-<p align="center">
-  <strong>⚡ Comparação visual do desenvolvimento - App4 Receitas – Eu Amo Cozinhar: Before and After Animation (Image Resize and Color Change)</strong>
-</p>
+---
+
+## 📑 **Índice**
+
+1. [🎯 Visão Geral](#-visão-geral)
+2. [🏗️ Arquitetura](#️-arquitetura)
+3. [🔐 Sistema de Autenticação](#-sistema-de-autenticação)
+4. [🍽️ Funcionalidades](#️-funcionalidades)
+5. [🧪 Estratégia de Testes](#-estratégia-de-testes)
+6. [🚀 Como Executar](#-como-executar)
+7. [⚙️ Configuração](#️-configuração)
+8. [📦 Dependências](#-dependências)
+9. [✅ Status do Projeto](#-status-do-projeto)
 
 ---
-Este projeto está em camadas, com foco em boas práticas e uso de Vários pacotes, como o `either_dart` para tratamento funcional de sucesso/erro.
+
+## 🎯 **Visão Geral**
+
+**App4 Receitas** é um aplicativo Flutter que demonstra a implementação de:
+
+- ✅ **Autenticação completa** com Supabase
+- ✅ **Arquitetura limpa** (Clean Architecture)
+- ✅ **Gerenciamento de estado** reativo com GetX
+- ✅ **Sistema de favoritos** persistente
+- ✅ **Testes abrangentes** (unitários, widgets e integração)
+- ✅ **UI moderna** com animações fluidas
+- ✅ **Tratamento funcional de erros** com Either
+
 ---
-```md
+
+## 🏗️ **Arquitetura**
+
+O projeto segue os princípios da **Clean Architecture** organizada em camadas:
+
+```
 📱 UI Layer (Presentation)
-├── Views (Telas) → auth_view.dart, recipes_view.dart
-├── ViewModels (Lógica de apresentação) → auth_viewmodel.dart
-└── Widgets (Componentes reutilizáveis) → custom_drawer.dart
+├── Views (Telas) → auth_view.dart, recipes_view.dart, profile_view.dart
+├── ViewModels (Lógica de apresentação) → auth_viewmodel.dart, recipes_viewmodel.dart
+└── Widgets (Componentes reutilizáveis) → custom_bnb.dart, recipe_card.dart
 
 💼 Domain Layer (Regras de negócio)
 ├── Models (Entidades) → recipe.dart, user_profile.dart
-├── Repositories (Contratos) → auth_repository.dart
-└── Use Cases (Regras específicas)
+├── Repositories (Contratos) → auth_repository.dart, recipe_repository.dart
+└── Use Cases (Casos de uso específicos)
 
 🗄️ Data Layer (Dados)
-├── Services (Comunicação externa) → auth_service.dart
-├── Repositories (Implementações) → recipe_repository.dart
-└── Data Sources (Supabase, Cache, etc.)
+├── Services (Comunicação externa) → auth_service.dart, recipe_service.dart
+├── Repositories (Implementações) → Implementação dos contratos
+└── Data Sources (Supabase, Cache local)
 
 🔧 Infrastructure
 ├── DI (Injeção de dependência) → service_locator.dart
 ├── Routes (Navegação) → app_router.dart
-└── Utils (Utilitários) → app_error.dart
+└── Utils (Utilitários) → app_error.dart, env.dart
 ```
----
-Aqui é possível observar e aprender como organizar a lógica de autenticação com boas práticas e um fluxo robusto de login.
+
+### **Fluxo de Dados**
+```
+UI → ViewModel → Repository → Service → Supabase
+```
+
 ---
 
-### ✅ Onde tudo começa e termina?
+## 🔐 **Sistema de Autenticação**
 
-### Início - Front-end
-- 👤 O **usuário digita** e-mail e senha na tela de login (`auth_view.dart`) e clica/toca em entrar
+### **Fluxo Completo do Login**
+
+```mermaid
+graph TD
+    A[👤 Usuário digita credenciais] --> B[📱 AuthView]
+    B --> C[🎯 AuthViewModel]
+    C --> D[📦 AuthRepository]
+    D --> E[🌐 AuthService]
+    E --> F[☁️ Supabase]
+    F --> G{Resposta}
+    G -->|✅ Sucesso| H[Right AuthResponse]
+    G -->|❌ Erro| I[Left AppError]
+    H --> J[🏠 Navegar para Home]
+    I --> K[⚠️ Exibir erro na UI]
+```
+
+### **Tratamento de Erros**
+
+O sistema mapeia erros específicos do Supabase para mensagens amigáveis:
+
+| Erro do Supabase | Mensagem para o Usuário |
+|------------------|-------------------------|
+| `invalid_login_credentials` | "Credenciais inválidas. Verifique seu e-mail e senha." |
+| `email_not_confirmed` | "E-mail não confirmado ainda. Verifique sua caixa de entrada." |
+| `network_error` | "Falha na conexão. Tente novamente." |
+| `generic_error` | "Erro inesperado. Tente novamente mais tarde." |
+
+### **Por que Either?**
+
+```dart
+// ❌ Tratamento tradicional com exceções
+try {
+  final user = await authService.signIn(email, password);
+  navigateToHome();
+} catch (e) {
+  showError(e.toString());
+}
+
+// ✅ Tratamento funcional com Either
+final result = await authService.signIn(email, password);
+result.fold(
+  (error) => showError(error.message),
+  (user) => navigateToHome(),
+);
+```
+
+**Vantagens:**
+- 🧠 **Tratamento explícito**: Você é obrigado a lidar com erros
+- ❌ **Sem exceções soltas**: Erros são parte do tipo de retorno
+- ✅ **Código mais limpo**: Fluxo de erro previsível
+
+---
+
+## 🍽️ **Funcionalidades**
+
+### **Implementadas**
+- ✅ **Autenticação**: Login, registro, logout
+- ✅ **Listagem de receitas**: Busca todas as receitas do Supabase
+- ✅ **Detalhes da receita**: Visualização completa com ingredientes
+- ✅ **Sistema de favoritos**: Adicionar/remover favoritos persistentes
+- ✅ **Perfil do usuário**: Gerenciamento de conta e avatar
+- ✅ **Navegação**: Bottom navigation e drawer customizados
+- ✅ **Temas**: Modo claro/escuro dinâmico
+- ✅ **Animações**: Transições suaves entre telas
+
+### **Fluxo das Receitas**
+```
+RecipesView → RecipesViewModel → RecipeRepository → RecipeService → Supabase
+```
+
+---
+
+## 🧪 **Estratégia de Testes**
+
+### **Estrutura Organizada**
+```
+test/
+├── ui/
+│   └── auth/
+│       ├── auth_simple_test.dart      # Testes unitários rápidos
+│       └── auth_view_widget_test.dart # Testes com mocks
+integration_test/
+└── app_test.dart                      # Testes E2E completos
+```
+
+### **Tipos de Teste**
+
+#### **1. Testes Unitários** ⚡
+- **Tempo**: ~5 segundos
+- **Propósito**: Verificar widgets isolados
+- **Comando**: `flutter test test/ui/auth/auth_simple_test.dart`
+
+#### **2. Testes com Mocks** 🎭
+- **Ferramentas**: Mockito + Build Runner
+- **Propósito**: Testar com dependências simuladas
+- **Setup**: `dart run build_runner build`
+
+#### **3. Testes de Integração (E2E)** 🌐
+- **Propósito**: Fluxo completo do usuário
+- **Inclui**: Integração real com Supabase
+- **Comando**: `flutter test integration_test/app_test.dart -d windows`
+
+### **Cobertura de Testes**
+- ✅ **UI Components**: Widgets e formulários
+- ✅ **Authentication Flow**: Login e registro
+- ✅ **Navigation**: Rotas e transições
+- ✅ **State Management**: GetX controllers
+- ✅ **Error Handling**: Tratamento de falhas
+
+---
+
+## 🚀 **Como Executar**
+
+### **Pré-requisitos**
+- Flutter 3.0+
+- Dart 3.0+
+- Conta no Supabase
+
+### **1. Clonar o Repositório**
+```bash
+git clone https://github.com/Andrehlb/flutter_app4_receitas.git
+cd flutter_app4_receitas
+```
+
+### **2. Instalar Dependências**
+```bash
+flutter pub get
+```
+
+### **3. Configurar Variáveis de Ambiente**
+Criar arquivo `assets/.env`:
+```env
+SUPABASE_URL=sua_url_do_supabase
+SUPABASE_ANON_KEY=sua_chave_anonima
+```
+
+### **4. Executar o Aplicativo**
+```bash
+# Desenvolvimento
+flutter run
+
+# Release
+flutter run --release
+```
+
+### **5. Executar Testes**
+```bash
+# Todos os testes
+flutter test
+
+# Testes específicos
+flutter test test/ui/auth/auth_simple_test.dart --reporter expanded
+
+# Testes de integração
+flutter test integration_test/app_test.dart -d windows
+
+# Gerar mocks (quando necessário)
+dart run build_runner build
+```
+
+---
+
+## ⚙️ **Configuração**
+
+### **Supabase Setup**
+```dart
+// Inicialização no main.dart
+await Supabase.initialize(
+  url: Env.supabaseUrl,
+  anonKey: Env.supabaseAnonKey,
+);
+```
+
+### **Injeção de Dependências (GetIt)**
+```dart
+void setupServiceLocator() {
+  // Clients
+  getIt.registerSingleton<SupabaseClient>(Supabase.instance.client);
+  
+  // Services
+  getIt.registerLazySingleton<AuthService>(() => AuthService());
+  getIt.registerLazySingleton<RecipeService>(() => RecipeService());
+  
+  // Repositories
+  getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
+  getIt.registerLazySingleton<RecipeRepository>(() => RecipeRepository());
+  
+  // ViewModels
+  getIt.registerFactory<AuthViewModel>(() => AuthViewModel());
+  getIt.registerFactory<RecipesViewModel>(() => RecipesViewModel());
+}
+```
+
+### **Navegação (GoRouter)**
+```dart
+GoRouter(
+  initialLocation: '/login',
+  routes: [
+    GoRoute(path: '/login', builder: (context, state) => AuthView()),
+    ShellRoute(
+      builder: (context, state, child) => BaseScreen(child: child),
+      routes: [
+        GoRoute(path: '/', builder: (context, state) => RecipesView()),
+        GoRoute(path: '/recipe/:id', builder: (context, state) => RecipeDetailView(id: state.pathParameters['id']!)),
+        GoRoute(path: '/favorites', builder: (context, state) => FavRecipesView()),
+        GoRoute(path: '/profile', builder: (context, state) => ProfileView()),
+      ],
+    ),
+  ],
+);
+```
+
+---
+
+## 📦 **Dependências**
+
+### **Principais**
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  supabase_flutter: ^2.9.1      # Backend as a Service
+  either_dart: ^1.0.0           # Programação funcional
+  get: ^4.7.2                   # Gerenciamento de estado
+  get_it: ^8.2.0                # Injeção de dependência
+  go_router: ^16.0.0            # Navegação declarativa
+  google_fonts: ^6.3.0          # Fontes customizadas
+  flutter_speed_dial: ^7.0.0    # FAB com múltiplas ações
+  flutter_dotenv: ^5.2.1        # Variáveis de ambiente
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0         # Análise estática
+  mockito: ^5.4.4               # Mocks para testes
+  build_runner: ^2.4.12         # Gerador de código
+```
+
+---
+
+## ✅ **Status do Projeto**
+
+### **Funcionalidades**
+- [x] **Supabase** configurado e funcionando
+- [x] **Autenticação** completa (login, registro, logout)
+- [x] **Either** implementado para tratamento de erros
+- [x] **Sistema de receitas** com CRUD completo
+- [x] **Favoritos** persistentes funcionando
+- [x] **Testes unitários** configurados ✅
+- [x] **Testes de integração** implementados ✅
+- [x] **Mocks** com Mockito funcionando ✅
+- [x] **Arquitetura limpa** implementada ✅
+- [ ] **Tratamento visual** aprimorado de erros
+- [ ] **Cache local** para offline
+- [ ] **Push notifications**
+- [ ] **Busca avançada** de receitas
+
+### **Qualidade do Código**
+- [x] **Lint rules** configuradas
+- [x] **Clean Architecture** implementada
+- [x] **Injeção de dependência** com GetIt
+- [x] **Programação funcional** com Either
+- [x] **Testes automatizados** funcionando
+- [x] **Documentação** completa
+
+---
+
+## 👥 **Créditos**
+
+**Desenvolvido por:** [André Henrique](https://github.com/Andrehlb)
+
+**Agradecimentos especiais:**
+- **Professor Guilherme** - Orientação técnica
+- **Equipe Venturus** - Oportunidade e suporte
+- **Colegas de turma** - Colaboração e feedback
+
+---
+
+## 📄 **Licença**
+
+Este projeto está sob licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+**Feito com 💙 para aprendizado e evolução como desenvolvedor Flutter.**
 ### Processamento bem sucedido - comunicação Front com Back-end
 - 📤 O **ViewModel chama** o método `signInWithPassword` e **envia** os para o `AuthRepository`
 - 🔁 O **AuthRepository repassa** para o `AuthService`
