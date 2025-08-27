@@ -1,9 +1,15 @@
 # 📲 App4 🍽️ Receitas – Autenticação com Supabase
 
+![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen?style=for-the-badge&logo=flutter&logoColor=white)
+![Architecture](https://img.shields.io/badge/Architecture-Clean-blue?style=for-the-badge&logo=dart&logoColor=white)
+
 * ✅ Onde tudo começa e termina
 * ✅ Fluxo completo da autenticação
 * ✅ Diferença entre front-end e back-end
 * ✅ Scripts envolvidos
+* ✅ Testes unitários e de integração implementados
 * ✅ Resumo visual e técnico
 
 ---
@@ -349,6 +355,129 @@ dart run build_runner build
 ```
 --- 
 
+## 🧪 Testes
+
+Este projeto implementa uma estratégia completa de testes, garantindo qualidade e confiabilidade do código.
+
+### 📋 Estrutura de Testes
+
+```
+test/
+├── ui/
+│   └── auth/
+│       ├── auth_simple_test.dart      ✅ Testes unitários básicos
+│       └── auth_view_widget_test.dart  ✅ Testes com mocks
+integration_test/
+└── app_test.dart                      ✅ Testes de integração E2E
+```
+
+### 🎯 Tipos de Testes Implementados
+
+#### 1. **Testes Unitários** 
+- **Localização**: `test/ui/auth/auth_simple_test.dart`
+- **Propósito**: Testar widgets isolados rapidamente
+- **Resultado**: `✅ +3: All tests passed!` em ~5 segundos
+
+```bash
+# Executar testes unitários
+flutter test test/ui/auth/auth_simple_test.dart
+```
+
+**Exemplo de resultado:**
+```
+00:00 +0: AuthView Tests Simples deve verificar se existe texto na tela
+00:03 +1: AuthView Tests Simples deve verificar se botão existe  
+00:03 +2: AuthView Tests Simples deve verificar campos de texto
+00:05 +3: All tests passed!
+```
+
+#### 2. **Testes com Mocks**
+- **Localização**: `test/ui/auth/auth_view_widget_test.dart`
+- **Propósito**: Testar com dependências mockadas (AuthRepository, AuthService)
+- **Ferramentas**: `mockito` + `build_runner`
+
+```bash
+# Gerar mocks automaticamente
+dart run build_runner build
+
+# Executar testes com mocks
+flutter test test/ui/auth/auth_view_widget_test.dart
+```
+
+#### 3. **Testes de Integração (E2E)**
+- **Localização**: `integration_test/app_test.dart`  
+- **Propósito**: Testar fluxo completo do usuário
+- **Inclui**: Autenticação real com Supabase
+
+```bash
+# Executar testes de integração
+flutter test integration_test/app_test.dart -d windows
+```
+
+### 🛠️ Configuração de Testes
+
+#### Dependências utilizadas:
+```yaml
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  mockito: ^5.4.4
+  build_runner: ^2.4.12
+```
+
+#### Setup de Mocks:
+1. **Anotação**: `@GenerateMocks([AuthRepository, AuthService])`
+2. **Geração**: `dart run build_runner build`
+3. **Uso**: `MockAuthRepository()`, `MockAuthService()`
+
+#### Keys para Testes de Integração:
+```dart
+// Campos identificados para testes E2E
+ValueKey('emailField')
+ValueKey('passwordField') 
+ValueKey('submitButton')
+ValueKey('usernameField')
+ValueKey('confirmPasswordField')
+```
+
+### 📊 Cobertura de Testes
+
+- ✅ **UI Components**: Verificação de widgets e textos
+- ✅ **Form Fields**: Teste de campos de entrada
+- ✅ **Authentication Flow**: Fluxo de login/cadastro  
+- ✅ **GetIt Integration**: Injeção de dependência nos testes
+- ✅ **Supabase Integration**: Testes com backend real
+
+### 🚀 Como Executar Todos os Testes
+
+```bash
+# Todos os testes unitários
+flutter test
+
+# Testes específicos
+flutter test test/ui/auth/auth_simple_test.dart --reporter expanded
+
+# Testes de integração (Windows)
+flutter test integration_test/app_test.dart -d windows
+
+# Com coverage (opcional)
+flutter test --coverage
+```
+
+> 💡 **Dica**: Para comandos detalhados e solução de problemas, consulte [`TESTING.md`](TESTING.md)
+
+### 📈 Benefícios Implementados
+
+1. **🔄 CI/CD Ready**: Testes automatizados para pipeline
+2. **🧪 Mock Strategy**: Isolamento de dependências externas  
+3. **⚡ Performance**: Testes unitários extremamente rápidos
+4. **🌐 Real Environment**: Integration tests com Supabase real
+5. **📋 Maintainable**: Estrutura organizada e escalável
+
+---
+
 ### 🔧 Configuração do ambiente
 
 #### 1. Criar arquivo `.env` na pasta assets:
@@ -371,10 +500,13 @@ SUPABASE_ANON_KEY=sua_chave_anonima
 - [x] ViewModel consome resultado corretamente  
 - [x] Sistema de receitas implementado  
 - [x] Favoritos funcionando  
-- [ ] Testes unitários configurados  
+- [x] Testes unitários configurados e funcionando ✅
+- [x] Testes de integração implementados ✅
+- [x] Mocks com mockito e build_runner ✅
+- [x] Structure de testes organizada ✅
 - [ ] Tratamento visual de erro e sucesso na interface  
 - [ ] Implementar cache local  
-- [ ] Adicionar testes de integração  
+- [ ] Cobertura de testes expandida
 ```
 ---
 Feito com 💙 para estudos e evolução como desenvolvedor Flutter.

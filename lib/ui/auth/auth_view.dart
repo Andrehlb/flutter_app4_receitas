@@ -187,6 +187,7 @@ class AuthView extends StatefulWidget {
 
   Widget _buildConfirmPasswordField() {
     return TextFormField(
+      key: const ValueKey('confirmPasswordField'),
       controller: viewModel.confirmPasswordController,
       obscureText: viewModel.obscurePassword,
       textInputAction: TextInputAction.done,
@@ -210,6 +211,7 @@ class AuthView extends StatefulWidget {
 
   Widget _buildUsernameField() {
     return TextFormField(
+      key: const ValueKey('usernameField'),
       controller: viewModel.usernameController,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
