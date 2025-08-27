@@ -355,7 +355,7 @@ dev_dependencies:
 
 ## 👥 **Créditos**
 
-**Desenvolvido por:** [André Henrique](https://github.com/Andrehlb)
+**Desenvolvido por:** [André Luiz Barbosa](https://github.com/Andrehlb)
 
 **Agradecimentos especiais:**
 - **Professor Guilherme** - Orientação técnica
