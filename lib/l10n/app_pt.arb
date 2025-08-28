@@ -1,0 +1,22 @@
+{
+  "appTitle": "Eu Amo Cozinhar",
+  "login": "Login",
+  "email": "E-mail",
+  "password": "Senha",
+  "loginButton": "Entrar",
+  "dontHaveAccount": "Não tem uma conta?",
+  "register": "Cadastre-se",
+  "home": "Início",
+  "recipes": "Receitas",
+  "favorites": "Favoritas",
+  "profile": "Perfil",
+  "settings": "Configurações",
+  "language": "Idioma",
+  "selectLanguage": "Selecionar Idioma",
+  "english": "English",
+  "portuguese": "Português",
+  "logout": "Sair",
+  "loginError": "Erro no login. Verifique suas credenciais.",
+  "networkError": "Erro de rede. Verifique sua conexão.",
+  "genericError": "Ocorreu um erro inesperado."
+}

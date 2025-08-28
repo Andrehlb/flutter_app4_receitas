@@ -1,10 +1,13 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app4_receitas/di/service_locator.dart'; // Mantém o setUpDependencies()
 import 'package:app4_receitas/routes/app_router.dart';
 import 'package:app4_receitas/utils/config/env.dart';
 import 'package:app4_receitas/utils/theme/custom_theme_controller.dart';
+import 'package:app4_receitas/services/localization_service.dart';
+import 'package:app4_receitas/l10n/generated/app_localizations.dart';
 
 Future<void> main() async {
   // Garante que o Flutter está inicializado
@@ -19,6 +22,9 @@ Future<void> main() async {
   // Inicializando as dependências
   await setupDependencies();
 
+  // Inicializar serviço de localização
+  Get.put(LocalizationService());
+
   runApp(const AndrehlbApp());
   // runnApp(const MyApp());
 }
@@ -32,6 +38,7 @@ class AndrehlbApp extends StatelessWidget {
     // * Get.put
     // Usado para injetar dependências no GetX
     final theme = Get.put(CustomThemeController());
+    final localizationService = Get.find<LocalizationService>();
 
     // * Obx
     // Usado para tornar um widget reativo
@@ -42,6 +49,17 @@ class AndrehlbApp extends StatelessWidget {
         theme: theme.customTheme,
         darkTheme: theme.customThemeDark,
         themeMode: theme.isDark.value ? ThemeMode.dark : ThemeMode.light,
+        
+        // Configuração de internacionalização
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: LocalizationService.supportedLocales,
+        locale: localizationService.currentLocale,
+        
         routerConfig: AppRouter().router,
       ),
     );

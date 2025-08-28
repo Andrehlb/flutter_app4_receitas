@@ -2,6 +2,7 @@ import 'package:app4_receitas/di/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:app4_receitas/ui/widgets/language_selector.dart';
 import 'auth_viewmodel.dart';
 
 class AuthView extends StatefulWidget {
@@ -49,6 +50,16 @@ class AuthView extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 16.0),
+            child: LanguageSelector(),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Obx(

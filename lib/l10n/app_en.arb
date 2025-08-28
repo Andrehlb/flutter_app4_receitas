@@ -1,0 +1,82 @@
+{
+  "appTitle": "Eu Amo Cozinhar",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Login button text"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email input label"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password input label"
+  },
+  "loginButton": "Enter",
+  "@loginButton": {
+    "description": "Login button text"
+  },
+  "dontHaveAccount": "Don't have an account?",
+  "@dontHaveAccount": {
+    "description": "Text for users without account"
+  },
+  "register": "Register",
+  "@register": {
+    "description": "Register button text"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Home screen title"
+  },
+  "recipes": "Recipes",
+  "@recipes": {
+    "description": "Recipes section title"
+  },
+  "favorites": "Favorites",
+  "@favorites": {
+    "description": "Favorites section title"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile section title"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings section title"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language selection title"
+  },
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "Language selection dialog title"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language option"
+  },
+  "portuguese": "Português",
+  "@portuguese": {
+    "description": "Portuguese language option"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button text"
+  },
+  "loginError": "Login error. Please check your credentials.",
+  "@loginError": {
+    "description": "Error message for failed login"
+  },
+  "networkError": "Network error. Please check your connection.",
+  "@networkError": {
+    "description": "Error message for network issues"
+  },
+  "genericError": "An unexpected error occurred.",
+  "@genericError": {
+    "description": "Generic error message"
+  }
+}
