@@ -92,6 +92,7 @@ UI → ViewModel → Repository → Service → Supabase
 
 ### **Fluxo Completo do Login**
 
+#### **📱 Versão Visual (Funciona no Browser)**
 ```mermaid
 graph TD
     A[👤 Usuário digita credenciais] --> B[📱 AuthView]
@@ -104,6 +105,31 @@ graph TD
     G -->|❌ Erro| I[Left AppError]
     H --> J[🏠 Navegar para Home]
     I --> K[⚠️ Exibir erro na UI]
+```
+
+#### **📋 Versão Textual (Funciona no App GitHub Mobile)**
+```
+🔄 FLUXO DE AUTENTICAÇÃO
+
+1. 👤 Usuário digita credenciais
+   ↓
+2. 📱 AuthView (UI Layer)
+   ↓
+3. 🎯 AuthViewModel (Presentation Layer)  
+   ↓
+4. 📦 AuthRepository (Domain Layer)
+   ↓
+5. 🌐 AuthService (Data Layer)
+   ↓
+6. ☁️ Supabase (Backend)
+   ↓
+7. 🔀 Resposta:
+   ├── ✅ Sucesso → Right(AuthResponse) → 🏠 Navegar para Home
+   └── ❌ Erro → Left(AppError) → ⚠️ Exibir erro na UI
+
+📊 RESULTADO:
+• ✅ Login bem-sucedido: Usuário autenticado e redirecionado
+• ❌ Login com erro: Mensagem de erro específica exibida
 ```
 
 ### **Tratamento de Erros**
