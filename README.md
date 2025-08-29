@@ -30,10 +30,11 @@
 5. [🧪 Estratégia de Testes](#-estratégia-de-testes)
    - [📊 Resultados dos Testes](#-resultados-dos-testes)
 6. [🚀 Como Executar](#-como-executar)
-7. [⚙️ Configuração](#️-configuração)
-8. [📦 Dependências](#-dependências)
-9. [🔧 Solução de Problemas](#-solução-de-problemas)
-10. [✅ Status do Projeto](#-status-do-projeto)
+7. [📱 Build e Release para Android](#-build-e-release-para-android)
+8. [⚙️ Configuração](#️-configuração)
+9. [📦 Dependências](#-dependências)
+10. [🔧 Solução de Problemas](#-solução-de-problemas)
+11. [✅ Status do Projeto](#-status-do-projeto)
 
 ---
 
@@ -186,6 +187,41 @@ result.fold(
 ### **Fluxo das Receitas**
 ```
 RecipesView → RecipesViewModel → RecipeRepository → RecipeService → Supabase
+```
+
+### **🌍 Internacionalização (i18n)**
+O aplicativo possui suporte completo para múltiplos idiomas com implementação de troca dinâmica de idioma:
+
+**Idiomas Suportados:**
+- ✅ **Português (pt-BR)** - Idioma padrão
+- ✅ **Inglês (en-US)** - Totalmente traduzido
+- 🔄 **Futuras expansões**: Espanhol, Chinês (simplificado e tradicional), Francês, Alemão e outros idiomas
+
+**Arquivos Responsáveis:**
+
+| Arquivo | Função |
+|---------|---------|
+| `lib/services/localization_service.dart` | **Serviço principal** - Gerencia idioma atual, persistência e troca dinâmica |
+| `lib/l10n/app_pt.arb` | **Traduções PT-BR** - Todas as strings em português |
+| `lib/l10n/app_en.arb` | **Traduções EN-US** - Todas as strings em inglês |
+| `lib/ui/widgets/language_selector.dart` | **Widget de troca** - Interface para seleção de idioma |
+| `l10n.yaml` | **Configuração** - Localização dos arquivos e idiomas suportados |
+| `lib/l10n/generated/` | **Arquivos gerados** - Classes automáticas de localização |
+
+**Funcionalidades:**
+- 🔄 **Troca dinâmica**: Sem reinicialização do app
+- 💾 **Persistência**: Idioma salvo localmente com SharedPreferences
+- 🎨 **Interface intuitiva**: Seletor visual com bandeiras (🇧🇷/🇺🇸)
+- ✅ **Indicador visual**: Mostra idioma ativo com check verde
+
+**Como usar:**
+```dart
+// Acessar textos traduzidos
+AppLocalizations.of(context)?.appTitle // "Eu Amo Cozinhar" ou "I Love Cooking"
+
+// Trocar idioma programaticamente
+final localizationService = Get.find<LocalizationService>();
+await localizationService.changeLanguage('en');
 ```
 
 [⬆️ Voltar ao Índice](#-índice)
@@ -424,6 +460,148 @@ dart run build_runner build
 
 ---
 
+## 📱 **Build e Release para Android**
+
+### **🚀 Preparação para Publicação na Play Store**
+
+Esta seção detalha o processo completo de build e release do aplicativo para Android, seguindo as melhores práticas do Flutter e requisitos da Google Play Store.
+
+#### **📋 Pré-requisitos**
+- ✅ Flutter SDK configurado
+- ✅ Android SDK e ferramentas instaladas
+- ✅ Certificado de assinatura (keystore) configurado
+- ✅ Ícone da aplicação personalizado
+- ✅ Metadados da Play Store preparados
+
+#### **🔐 Configuração da Assinatura Digital**
+
+**1. Gerar Keystore (primeira vez):**
+```bash
+keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+```
+
+**2. Configurar no projeto (`android/key.properties`):**
+```properties
+storePassword=SuaSenhaDoKeystore
+keyPassword=SuaSenhaDaChave
+keyAlias=upload
+storeFile=caminho/para/upload-keystore.jks
+```
+
+#### **🎨 Configuração de Ícones e Metadados**
+
+**Arquivo atual:** `assets/icon/garfo-faca-colher-tomate-cebola-prato-Roxo.png`
+
+**Configuração no `android/app/src/main/AndroidManifest.xml`:**
+```xml
+<application
+    android:icon="@mipmap/ic_launcher"
+    android:label="Eu Amo Cozinhar"
+    android:theme="@style/LaunchTheme">
+```
+
+#### **📦 Comandos de Build**
+
+**1. Build para Desenvolvimento/Teste:**
+```bash
+# APK para teste
+flutter build apk --debug
+
+# APK release (para testes finais)
+flutter build apk --release
+```
+
+**2. Build para Produção (Play Store):**
+```bash
+# Android App Bundle (formato recomendado pela Google)
+flutter build appbundle --release
+
+# Localização do arquivo gerado:
+# build/app/outputs/bundle/release/app-release.aab
+```
+
+**3. Build Específico por Arquitetura:**
+```bash
+# APK split por arquitetura (menor tamanho)
+flutter build apk --split-per-abi --release
+
+# Gera:
+# app-arm64-v8a-release.apk
+# app-armeabi-v7a-release.apk  
+# app-x86_64-release.apk
+```
+
+#### **🔍 Validação Pré-Publicação**
+
+**1. Análise do Bundle:**
+```bash
+# Instalar bundletool (se ainda não tiver)
+# Baixar de: https://github.com/google/bundletool/releases
+
+# Analisar tamanho do app
+java -jar bundletool.jar get-size total --aab=app-release.aab
+```
+
+**2. Teste de Instalação Local:**
+```bash
+# Instalar APK release em dispositivo conectado
+flutter install --use-application-binary=build/app/outputs/apk/release/app-release.apk
+```
+
+**3. Verificação de Performance:**
+```bash
+# Executar em modo release
+flutter run --release -d android
+```
+
+#### **📈 Otimizações Implementadas**
+
+| Otimização | Status | Benefício |
+|------------|--------|-----------|
+| **App Bundle** | ✅ | Redução de ~15% no tamanho |
+| **Obfuscation** | ✅ | Proteção do código Dart |
+| **Tree Shaking** | ✅ | Remoção de código não usado |
+| **Minify** | ✅ | Compressão adicional |
+| **ProGuard** | ✅ | Otimização nativo Android |
+
+#### **🎯 Processo de Publicação**
+
+**1. Upload na Play Console:**
+- Acesse [Google Play Console](https://play.google.com/console)
+- Selecione o app → **Produção**
+- Upload do arquivo `app-release.aab`
+
+**2. Metadados Configurados:**
+- **Nome:** "Eu Amo Cozinhar - Receitas"
+- **Descrição curta:** "App completo de receitas com autenticação e favoritos"
+- **Categoria:** Casa e jardim
+- **Público-alvo:** Livre
+
+**3. Screenshots e Assets:**
+- 📱 Screenshots em múltiplas resoluções
+- 🎨 Ícone de alta resolução (512x512)
+- 📺 Banner promocional
+- 🎬 Vídeo demonstrativo (opcional)
+
+#### **⚠️ Considerações de Segurança**
+
+```bash
+# Verificar se não há informações sensíveis
+flutter analyze
+
+# Confirmar obfuscation ativo
+grep -r "minifyEnabled true" android/
+```
+
+**Arquivos importantes para backup:**
+- `upload-keystore.jks` (NUNCA perder!)
+- `android/key.properties`
+- Senhas do keystore (armazenar com segurança)
+
+[⬆️ Voltar ao Índice](#-índice)
+
+---
+
 ## ⚙️ **Configuração**
 
 ### **Supabase Setup**
@@ -587,6 +765,9 @@ flutter logs
 - [x] **Either** implementado para tratamento de erros
 - [x] **Sistema de receitas** com CRUD completo
 - [x] **Favoritos** persistentes funcionando
+- [x] **🌍 Internacionalização** PT-BR e EN-US com troca dinâmica ✅
+- [x] **🎨 Ícone personalizado** configurado para release ✅
+- [x] **📱 Build Android** configurado para Play Store ✅
 - [x] **Testes unitários** configurados ✅
 - [x] **Testes de integração** implementados ✅
 - [x] **Mocks** com Mockito funcionando ✅

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app4_receitas/ui/widgets/language_selector.dart';
+import 'package:app4_receitas/l10n/generated/app_localizations.dart';
 import 'auth_viewmodel.dart';
 
 class AuthView extends StatefulWidget {
@@ -100,12 +101,14 @@ class AuthView extends StatefulWidget {
   }
 
   Widget _buildHeader() {
+    final l10n = AppLocalizations.of(context);
+    
     return Column(
       children: [
         _animatedLogo(controller: _animationController),
         const SizedBox(height: 16),
         Text(
-          'Eu Amo Cozinhar',
+          l10n?.appTitle ?? 'Eu Amo Cozinhar',
           style: GoogleFonts.dancingScript(
             fontSize: 48,
             fontWeight: FontWeight.bold,
@@ -113,8 +116,10 @@ class AuthView extends StatefulWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          viewModel.isLoginMode ? 'Entre na sua conta' : 'Crie uma nova conta',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
+          viewModel.isLoginMode 
+            ? (l10n?.signInSubtitle ?? 'Entre na sua conta')
+            : (l10n?.signUpSubtitle ?? 'Crie uma nova conta'),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
         ),
       ],
     );
@@ -155,14 +160,15 @@ class AuthView extends StatefulWidget {
 
 
   Widget _buildEmailField() {
+    final l10n = AppLocalizations.of(context);
     return TextFormField(
       key: const ValueKey('emailField'),
       controller: viewModel.emailController,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        labelText: 'E-mail',
-        hintText: 'Digite seu e-mail',
+        labelText: l10n?.emailLabel ?? 'E-mail',
+        hintText: l10n?.emailHint ?? 'Digite seu e-mail',
         prefixIcon: const Icon(Icons.email_outlined),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -171,6 +177,7 @@ class AuthView extends StatefulWidget {
   }
 
   Widget _buildPasswordField() {
+    final l10n = AppLocalizations.of(context);
     return Obx(
       () => TextFormField(
         key: const ValueKey('passwordField'),
@@ -178,8 +185,8 @@ class AuthView extends StatefulWidget {
         obscureText: viewModel.obscurePassword,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-          labelText: 'Senha',
-          hintText: 'Digite sua senha',
+          labelText: l10n?.passwordLabel ?? 'Senha',
+          hintText: l10n?.passwordHint ?? 'Digite sua senha',
           prefixIcon: const Icon(Icons.lock_outlined),
           suffixIcon: IconButton(
             icon: Icon(
@@ -288,7 +295,9 @@ class AuthView extends StatefulWidget {
                 ), // CircularProgressIndicator
               )
             : Text(
-                viewModel.isLoginMode ? 'ENTRAR' : 'CADASTRAR',
+                viewModel.isLoginMode 
+                  ? (AppLocalizations.of(context)?.signInButton ?? 'ENTRAR')
+                  : (AppLocalizations.of(context)?.signUpButton ?? 'CADASTRAR'),
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -299,16 +308,21 @@ class AuthView extends StatefulWidget {
   } // _buildSubmitButton
 
   Widget _buildToggleModeButton() {
+    final l10n = AppLocalizations.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          viewModel.isLoginMode ? 'Não tem uma conta? ' : 'Já tem uma conta? ',
+          viewModel.isLoginMode 
+            ? (l10n?.noAccountQuestion ?? 'Não tem uma conta? ')
+            : (l10n?.hasAccountQuestion ?? 'Já tem uma conta? '),
         ),
         TextButton(
           onPressed: viewModel.isSubmitting ? null : viewModel.toggleMode,
           child: Text(
-            viewModel.isLoginMode ? 'Cadastre-se' : 'Entre aqui',
+            viewModel.isLoginMode 
+              ? (l10n?.signUpLink ?? 'Cadastre-se')
+              : (l10n?.signInLink ?? 'Entre aqui'),
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.bold,

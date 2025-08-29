@@ -101,8 +101,20 @@ abstract class AppLocalizations {
   /// The title of the application
   ///
   /// In en, this message translates to:
-  /// **'Eu Amo Cozinhar'**
+  /// **'I Love Cooking'**
   String get appTitle;
+
+  /// Sign in subtitle text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to your account'**
+  String get signInSubtitle;
+
+  /// Sign up subtitle text
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new account'**
+  String get signUpSubtitle;
 
   /// Login button text
   ///
@@ -127,6 +139,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter'**
   String get loginButton;
+
+  /// Email input label
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailLabel;
+
+  /// Email input hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get emailHint;
+
+  /// Password input label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// Password input hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get passwordHint;
+
+  /// Sign in button text
+  ///
+  /// In en, this message translates to:
+  /// **'SIGN IN'**
+  String get signInButton;
+
+  /// Sign up button text
+  ///
+  /// In en, this message translates to:
+  /// **'SIGN UP'**
+  String get signUpButton;
+
+  /// Question for users without account
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? '**
+  String get noAccountQuestion;
+
+  /// Question for users with account
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? '**
+  String get hasAccountQuestion;
+
+  /// Sign up link text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get signUpLink;
+
+  /// Sign in link text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in here'**
+  String get signInLink;
+
+  /// Language selection dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
 
   /// Text for users without account
   ///
@@ -175,12 +253,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get language;
-
-  /// Language selection dialog title
-  ///
-  /// In en, this message translates to:
-  /// **'Select Language'**
-  String get selectLanguage;
 
   /// English language option
   ///

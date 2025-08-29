@@ -32,6 +32,7 @@ dev_dependencies:
   dwds: ^25.0.2
   mockito: ^5.4.4
   build_runner: ^2.4.12
+  flutter_launcher_icons: ^0.14.1
 
 
 flutter:
@@ -40,3 +41,19 @@ flutter:
   assets:
     - assets/.env
     - assets/images/
+
+# Configuração do ícone do app
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_icon.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/images/app_icon.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/images/app_icon.png"
+    icon_size: 48

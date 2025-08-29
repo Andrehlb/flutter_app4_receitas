@@ -1,7 +1,15 @@
 {
-  "appTitle": "Eu Amo Cozinhar",
+  "appTitle": "I Love Cooking",
   "@appTitle": {
     "description": "The title of the application"
+  },
+  "signInSubtitle": "Sign in to your account",
+  "@signInSubtitle": {
+    "description": "Sign in subtitle text"
+  },
+  "signUpSubtitle": "Create a new account",
+  "@signUpSubtitle": {
+    "description": "Sign up subtitle text"
   },
   "login": "Login",
   "@login": {
@@ -18,6 +26,50 @@
   "loginButton": "Enter",
   "@loginButton": {
     "description": "Login button text"
+  },
+  "emailLabel": "Email",
+  "@emailLabel": {
+    "description": "Email input label"
+  },
+  "emailHint": "Enter your email",
+  "@emailHint": {
+    "description": "Email input hint"
+  },
+  "passwordLabel": "Password",
+  "@passwordLabel": {
+    "description": "Password input label"
+  },
+  "passwordHint": "Enter your password",
+  "@passwordHint": {
+    "description": "Password input hint"
+  },
+  "signInButton": "SIGN IN",
+  "@signInButton": {
+    "description": "Sign in button text"
+  },
+  "signUpButton": "SIGN UP",
+  "@signUpButton": {
+    "description": "Sign up button text"
+  },
+  "noAccountQuestion": "Don't have an account? ",
+  "@noAccountQuestion": {
+    "description": "Question for users without account"
+  },
+  "hasAccountQuestion": "Already have an account? ",
+  "@hasAccountQuestion": {
+    "description": "Question for users with account"
+  },
+  "signUpLink": "Sign up",
+  "@signUpLink": {
+    "description": "Sign up link text"
+  },
+  "signInLink": "Sign in here",
+  "@signInLink": {
+    "description": "Sign in link text"
+  },
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "Language selector tooltip"
   },
   "dontHaveAccount": "Don't have an account?",
   "@dontHaveAccount": {

@@ -9,7 +9,13 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Eu Amo Cozinhar';
+  String get appTitle => 'I Love Cooking';
+
+  @override
+  String get signInSubtitle => 'Sign in to your account';
+
+  @override
+  String get signUpSubtitle => 'Create a new account';
 
   @override
   String get login => 'Login';
@@ -22,6 +28,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginButton => 'Enter';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get emailHint => 'Enter your email';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get passwordHint => 'Enter your password';
+
+  @override
+  String get signInButton => 'SIGN IN';
+
+  @override
+  String get signUpButton => 'SIGN UP';
+
+  @override
+  String get noAccountQuestion => 'Don\'t have an account? ';
+
+  @override
+  String get hasAccountQuestion => 'Already have an account? ';
+
+  @override
+  String get signUpLink => 'Sign up';
+
+  @override
+  String get signInLink => 'Sign in here';
+
+  @override
+  String get selectLanguage => 'Select Language';
 
   @override
   String get dontHaveAccount => 'Don\'t have an account?';
@@ -46,9 +85,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get language => 'Language';
-
-  @override
-  String get selectLanguage => 'Select Language';
 
   @override
   String get english => 'English';

@@ -12,6 +12,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get appTitle => 'Eu Amo Cozinhar';
 
   @override
+  String get signInSubtitle => 'Entre na sua conta';
+
+  @override
+  String get signUpSubtitle => 'Crie uma nova conta';
+
+  @override
   String get login => 'Login';
 
   @override
@@ -22,6 +28,39 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get loginButton => 'Entrar';
+
+  @override
+  String get emailLabel => 'E-mail';
+
+  @override
+  String get emailHint => 'Digite seu e-mail';
+
+  @override
+  String get passwordLabel => 'Senha';
+
+  @override
+  String get passwordHint => 'Digite sua senha';
+
+  @override
+  String get signInButton => 'ENTRAR';
+
+  @override
+  String get signUpButton => 'CADASTRAR';
+
+  @override
+  String get noAccountQuestion => 'Não tem uma conta? ';
+
+  @override
+  String get hasAccountQuestion => 'Já tem uma conta? ';
+
+  @override
+  String get signUpLink => 'Cadastre-se';
+
+  @override
+  String get signInLink => 'Entre aqui';
+
+  @override
+  String get selectLanguage => 'Selecionar Idioma';
 
   @override
   String get dontHaveAccount => 'Não tem uma conta?';
@@ -46,9 +85,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get language => 'Idioma';
-
-  @override
-  String get selectLanguage => 'Selecionar Idioma';
 
   @override
   String get english => 'English';
