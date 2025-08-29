@@ -520,6 +520,10 @@ flutter build appbundle --release
 # build/app/outputs/bundle/release/app-release.aab
 ```
 
+**📚 Documentação Oficial:**
+- **Android App Bundle**: [developer.android.com/guide/app-bundle](https://developer.android.com/guide/app-bundle)
+- **Flutter Build Modes**: [docs.flutter.dev/deployment/android](https://docs.flutter.dev/deployment/android)
+
 **3. Build Específico por Arquitetura:**
 ```bash
 # APK split por arquitetura (menor tamanho)
@@ -663,6 +667,8 @@ GoRouter(
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:        # Suporte a internacionalização
+    sdk: flutter
   supabase_flutter: ^2.9.1      # Backend as a Service
   either_dart: ^1.0.0           # Programação funcional
   get: ^4.7.2                   # Gerenciamento de estado
@@ -671,6 +677,18 @@ dependencies:
   google_fonts: ^6.3.0          # Fontes customizadas
   flutter_speed_dial: ^7.0.0    # FAB com múltiplas ações
   flutter_dotenv: ^5.2.1        # Variáveis de ambiente
+  shared_preferences: ^2.2.2    # Persistência local (idioma selecionado)
+```
+
+### **📚 Links Úteis das Dependências**
+
+| Pacote | Função | Link Oficial |
+|--------|---------|--------------|
+| **flutter_localizations** | Suporte nativo a i18n/l10n | [pub.dev/packages/flutter_localizations](https://pub.dev/packages/flutter_localizations) |
+| **supabase_flutter** | Backend e autenticação | [pub.dev/packages/supabase_flutter](https://pub.dev/packages/supabase_flutter) |
+| **get** | Gerenciamento de estado | [pub.dev/packages/get](https://pub.dev/packages/get) |
+| **either_dart** | Programação funcional | [pub.dev/packages/either_dart](https://pub.dev/packages/either_dart) |
+| **shared_preferences** | Persistência de preferências | [pub.dev/packages/shared_preferences](https://pub.dev/packages/shared_preferences) |
 
 dev_dependencies:
   flutter_test:
