@@ -4,6 +4,7 @@
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 ![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen?style=for-the-badge&logo=flutter&logoColor=white)
 ![Architecture](https://img.shields.io/badge/Architecture-Clean-blue?style=for-the-badge&logo=dart&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 
 > **Um aplicativo completo de receitas com autenticação, favoritos e arquitetura limpa usando Flutter + Supabase**
 
@@ -822,7 +823,24 @@ flutter logs
 
 ## 📄 **Licença**
 
-Este projeto está sob licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está sob a **Licença MIT** - uma das licenças de código aberto mais permissivas e amplamente utilizadas.
+
+### **✅ O que você pode fazer:**
+- ✅ Usar comercialmente
+- ✅ Modificar o código
+- ✅ Distribuir
+- ✅ Uso privado
+
+### **📋 Requisitos:**
+- 📋 Incluir o aviso de copyright
+- 📋 Incluir o texto da licença
+
+### **📄 Arquivo Completo:**
+Consulte o arquivo **[LICENSE](LICENSE)** para o texto completo da licença.
+
+### **🔗 Mais Informações:**
+- [Sobre a Licença MIT](https://choosealicense.com/licenses/mit/)
+- [Open Source Initiative - MIT](https://opensource.org/licenses/MIT)
 
 [⬆️ Voltar ao Índice](#-índice)
 
