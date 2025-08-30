@@ -412,18 +412,18 @@ final localizationService = Get.find<LocalizationService>();  // Interface
 
 | Aspecto | Implementação Original | Nossa Implementação | Melhoria |
 |---------|----------------------|-------------------|----------|
-| **Linhas de código** | ~40 linhas | ~120 linhas | +200% funcionalidade |
-| **Acoplamento** | ⚠️ Alto (3+ dependências) | ✅ Baixo (1 service) | -66% dependências |
-| **Testabilidade** | ⚠️ Difícil (mock complexo) | ✅ Fácil (mock service) | +80% coverage possível |
-| **Persistência** | ❌ Não | ✅ SharedPreferences | +100% UX |
-| **Reusabilidade** | ⚠️ Limitada | ✅ 2 widgets + service | +200% flexibilidade |
-| **Manutenibilidade** | ⚠️ Espalhada | ✅ Centralizada | +150% produtividade |
+| **Linhas de código** | ~40 linhas | ~120 linhas | 3x mais funcionalidades |
+| **Acoplamento** | ⚠️ Alto (3+ dependências) | ✅ Baixo (1 service) | Reduz dependências |
+| **Testabilidade** | ⚠️ Difícil (mock complexo) | ✅ Fácil (mock único) | Simplifica testes |
+| **Persistência** | ❌ Não | ✅ SharedPreferences | Experiência contínua |
+| **Reusabilidade** | ⚠️ Widget único | ✅ 2 widgets + service | Múltiplas interfaces |
+| **Manutenibilidade** | ⚠️ Lógica espalhada | ✅ Centralizada | Facilita evolução |
 
 ### **🧪 Testabilidade Comparativa**
 
 #### **Implementação Original - Teste Complexo:**
 ```dart
-// ❌ Teste difícil: muitos mocks necessários
+// ❌ Teste difícil: múltiplas dependências para mockar
 testWidgets('should change language', (tester) async {
   final mockController = MockLocaleController();
   final mockLocale = Locale('pt', 'BR');
@@ -431,21 +431,22 @@ testWidgets('should change language', (tester) async {
   await tester.pumpWidget(
     MaterialApp(
       home: LanguageSelector(
-        onLanguageChanged: mockController.changeLocale,
-        currentLocale: mockLocale,
+        onLanguageChanged: mockController.changeLocale,  // Dependência 1
+        currentLocale: mockLocale,                       // Dependência 2
       ),
     ),
   );
   
-  // Teste complexo com múltiplos mocks...
+  // Precisa mockar comportamento de múltiplos objetos
+  // Teste frágil: quebra se mudar assinatura do widget
 });
 ```
 
-#### **Implementação proposta - Teste Simples:**
+#### **Nossa Implementação - Teste Simplificado:**
 ```dart
-// ✅ Teste simples: apenas mock do service
+// ✅ Teste simples: apenas 1 mock necessário
 testWidgets('should change language via service', (tester) async {
-  final mockService = MockLocalizationService();
+  final mockService = MockLocalizationService();        // Mock único
   GetIt.instance.registerSingleton<LocalizationService>(mockService);
   
   await tester.pumpWidget(MaterialApp(home: LanguageSelector()));
@@ -454,9 +455,14 @@ testWidgets('should change language via service', (tester) async {
   await tester.tap(find.text('English'));
   
   // Verificar chamada do service
-  verify(mockService.changeLanguage('en')).called(1);
+  verify(mockService.changeLanguage('en')).called(1);   // Verificação direta
 });
 ```
+
+**Benefícios mensuráveis:**
+- **Mocks necessários**: 1 vs 3+ (menos complexidade)
+- **Linhas de setup**: ~3 vs ~8 (setup mais simples)
+- **Pontos de falha**: 1 vs 3+ (maior estabilidade)
 
 ### **🚀 Evolução Futura Planejada**
 
@@ -501,13 +507,18 @@ class LanguageSelectorV2 extends StatelessWidget {
 
 ### **💼 Justificativa de Negócio**
 
-**Produtos escaláveis:**
+**Benefícios para produtos escaláveis:**
 
 1. **Redução de bugs**: Lógica centralizada evita inconsistências
-2. **Velocidade de desenvolvimento**: Novos idiomas de forma rápida
-3. **Experiência do usuário**: Persistência de preferências, i.é., capacidade do aplicativo de salvar e manter as configurações escolhidas pelo usuário, mesmo após o fechamento do app ou reinicialização do dispositivo
-4. **Facilidade de manutenção**: promove uma separação clara entre lógica de negócio e apresentação, facilitando o trabalho paralelo entre equipes.
-5. **Dados de produto**: Ready para analytics de comportamento
+2. **Velocidade de desenvolvimento**: Novos idiomas sem refatoração  
+3. **Experiência do usuário**: Persistência de preferências (app "lembra" do usuário)
+4. **Facilidade de manutenção**: Separação clara entre lógica e apresentação
+5. **Preparação para analytics**: Estrutura pronta para métricas de comportamento
+
+**Justificativa de investimento:**
+- **Implementação básica**: ~2-3 horas de desenvolvimento
+- **Nossa implementação**: ~5-6 horas de desenvolvimento
+- **Benefício**: Evita refatoração futura + facilita novos recursos
 
 ### **🎯 Conclusão Técnica**
 
@@ -639,7 +650,7 @@ Ran 5 tests in 6.1s
 | **Unitários** | 3 | ~7s | ✅ Passando |
 | **Com Mocks** | 2 | ~5s | ✅ Passando |
 | **Integração** | 1 | ~15s | ✅ Passando |
-| **Total** | **6** | **~27s** | **✅ 100%** |
+| **Total** | **6** | **~27s** | **✅ Todos passando** |
 
 [⬆️ Voltar ao Índice](#-índice)
 
@@ -857,7 +868,7 @@ flutter run --release -d android
 
 | Otimização | Status | Benefício |
 |------------|--------|-----------|
-| **App Bundle** | ✅ | Redução de ~15% no tamanho |
+| **App Bundle** | ✅ | Redução significativa no tamanho |
 | **Obfuscation** | ✅ | Proteção do código Dart |
 | **Tree Shaking** | ✅ | Remoção de código não usado |
 | **Minify** | ✅ | Compressão adicional |
