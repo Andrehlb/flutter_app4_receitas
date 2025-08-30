@@ -340,8 +340,8 @@ class AuthView extends StatefulWidget {
           children: [
             Text(
               viewModel.isLoginMode 
-                ? (l10n?.noAccountQuestion ?? 'Não tem uma conta? ')
-                : (l10n?.hasAccountQuestion ?? 'Já tem uma conta? '),
+                ? (l10n?.noAccountQuestion ?? 'Você não tem uma conta? ')
+                : (l10n?.hasAccountQuestion ?? 'Você, já tem uma conta? '),
             ),
             TextButton(
               onPressed: viewModel.isSubmitting ? null : viewModel.toggleMode,
