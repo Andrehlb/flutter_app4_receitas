@@ -644,7 +644,7 @@ Ran 5 tests in 6.1s
 └── Total: 5 testes passando
 ```
 
-#### **📈 Estatísticas de Performance**
+#### **📈 Resultados de Performance**
 | Tipo de Teste | Quantidade | Tempo Médio | Status |
 |---------------|------------|-------------|---------|
 | **Unitários** | 3 | ~7s | ✅ Passando |
@@ -996,6 +996,7 @@ dependencies:
 | **either_dart** | Programação funcional | [pub.dev/packages/either_dart](https://pub.dev/packages/either_dart) |
 | **shared_preferences** | Persistência de preferências | [pub.dev/packages/shared_preferences](https://pub.dev/packages/shared_preferences) |
 
+```
 dev_dependencies:
   flutter_test:
     sdk: flutter
