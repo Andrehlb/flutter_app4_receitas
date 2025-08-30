@@ -235,7 +235,7 @@ Abaixo está a comparação técnica detalhada:
 
 ### **📊 Comparação de Arquiteturas**
 
-#### **🎓 Implementação Original (original)**
+#### **🎓 Implementação Original**
 ```dart
 // Arquivo: language_selector.dart (versão básica)
 class LanguageSelector extends StatelessWidget {
@@ -284,7 +284,7 @@ LanguageSelector(
 - ❌ **Lógica espalhada**: Responsabilidades não centralizadas
 - ❌ **Difícil teste**: Muitas dependências externas
 
-#### **🚀 Implementação (proposta)**
+#### **🚀 Implementação proposta**
 ```dart
 // Arquivo: lib/services/localization_service.dart
 class LocalizationService extends GetxService {
