@@ -309,27 +309,55 @@ class AuthView extends StatefulWidget {
 
   Widget _buildToggleModeButton() {
     final l10n = AppLocalizations.of(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
       children: [
-        Text(
-          viewModel.isLoginMode 
-            ? (l10n?.noAccountQuestion ?? 'Não tem uma conta? ')
-            : (l10n?.hasAccountQuestion ?? 'Já tem uma conta? '),
-        ),
-        TextButton(
-          onPressed: viewModel.isSubmitting ? null : viewModel.toggleMode,
-          child: Text(
-            viewModel.isLoginMode 
-              ? (l10n?.signUpLink ?? 'Cadastre-se')
-              : (l10n?.signInLink ?? 'Entre aqui'),
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.bold,
+        // Botão principal de alternância (mais visível)
+        if (viewModel.isLoginMode)
+          Container(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: viewModel.isSubmitting ? null : viewModel.toggleMode,
+              style: OutlinedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                side: BorderSide(color: Theme.of(context).colorScheme.primary),
+              ),
+              child: Text(
+                l10n?.signUpButton ?? 'CRIAR CONTA',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
             ),
           ),
+        
+        SizedBox(height: 16),
+        
+        // Link secundário (para voltar ao login)
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              viewModel.isLoginMode 
+                ? (l10n?.noAccountQuestion ?? 'Não tem uma conta? ')
+                : (l10n?.hasAccountQuestion ?? 'Já tem uma conta? '),
+            ),
+            TextButton(
+              onPressed: viewModel.isSubmitting ? null : viewModel.toggleMode,
+              child: Text(
+                viewModel.isLoginMode 
+                  ? (l10n?.signUpLink ?? 'Cadastre-se')
+                  : (l10n?.signInLink ?? 'Entre aqui'),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ], // children
         ),
-      ], // children
+      ],
     );
   } // _buildToggleModeButton
 } // AuthView
