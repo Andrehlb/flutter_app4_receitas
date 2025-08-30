@@ -230,7 +230,7 @@ await localizationService.changeLanguage('en');
 
 ## 🔬 **Análise Técnica: Implementação vs Abordagem Original**
 
-Durante o desenvolvimento do sistema de internacionalização, vi uma janela de oportunidade para implementação de uma proposta de  mais robusta que me permitiu testar e ir além dos requisitos desenvolvido em aula. 
+Durante o desenvolvimento do sistema de internacionalização, identifiquei uma oportunidade de aprofundar os conhecimentos adquiridos em aula, integrando teoria e prática de forma consistente. Essa experiência me permitiu explorar abordagens avançadas, expandindo significativamente os limites inicialmente definidos e indo além dos requisitos propostos.
 Abaixo está a comparação técnica detalhada:
 
 ### **📊 Comparação de Arquiteturas**
