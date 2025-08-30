@@ -33,7 +33,7 @@ class AuthService {
         case 'Email not confirmed':
           return Left(AppError('E-mail não confirmado'));
         default:
-          return Left(AppError('Erro ao fazer login', e));
+          return Left(AppError('Poxa, aconteceu um erro ao fazer login 😥', e));
       }
     }
   }
