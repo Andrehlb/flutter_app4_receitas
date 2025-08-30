@@ -83,29 +83,78 @@ class LanguageSelector extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 8),
             child: Row(
               children: [
+                // ← BANDEIRA DO BRASIL: Solução personalizada, para dar certo, me deu trabalho!
                 Container(
                   width: 32,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Colors.green.shade700),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'BR',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    borderRadius: BorderRadius.circular(6),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Color(0xFF00A859), // Verde vibrante
+                        Color(0xFF007B3F), // Verde mais escuro
+                      ],
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 4,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      // Losango dourado com gradiente
+                      Center(
+                        child: Transform.rotate(
+                          angle: 0.785398,
+                          child: Container(
+                            width: 16,
+                            height: 16,
+                            decoration: BoxDecoration(
+                              gradient: RadialGradient(
+                                colors: [
+                                  Color(0xFFFFD700), // Dourado brilhante
+                                  Color(0xFFFFA500), // Dourado escuro
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Círculo azul premium
+                      Center(
+                        child: Container(
+                          width: 9,
+                          height: 9,
+                          decoration: BoxDecoration(
+                            gradient: RadialGradient(
+                              colors: [
+                                Color(0xFF1E3A8A), // Azul royal
+                                Color(0xFF1E1B4B), // Azul escuro
+                              ],
+                            ),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                blurRadius: 2,
+                                offset: Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    LocalizationService.languageNames['pt']!,
+                    '${LocalizationService.languageNames['pt']!} (BR)',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: localizationService.currentLanguage == 'pt' 
@@ -130,29 +179,80 @@ class LanguageSelector extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 8),
             child: Row(
               children: [
+                // ← BANDEIRA EUA: deu o trabalho!
                 Container(
                   width: 32,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Colors.blue.shade700),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'US',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
+                    borderRadius: BorderRadius.circular(6),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 4,
+                        offset: Offset(0, 2),
                       ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: Stack(
+                      children: [
+                        // Listras com gradientes suaves
+                        Column(
+                          children: List.generate(13, (index) {
+                            return Expanded(
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: index % 2 == 0 
+                                      ? [Color(0xFFB22234), Color(0xFF8B1538)] // Vermelho
+                                      : [Colors.white, Color(0xFFF5F5F5)],     // Branco
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                        // Cantão azul premium
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Container(
+                            width: 14,
+                            height: 14,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color(0xFF1E40AF), // Azul vibrante
+                                  Color(0xFF1E3A8A), // Azul escuro
+                                ],
+                              ),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.star,
+                                color: Colors.white,
+                                size: 8,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    LocalizationService.languageNames['en']!,
+                    '${LocalizationService.languageNames['en']!} (US)',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: localizationService.currentLanguage == 'en' 

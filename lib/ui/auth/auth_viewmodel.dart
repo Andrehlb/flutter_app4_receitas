@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:app4_receitas/data/repositories/auth_repository.dart';
 import 'package:app4_receitas/di/service_locator.dart';
 
@@ -95,12 +96,16 @@ class AuthViewModel extends GetxController {
     response.fold(
       (left) {
         _errorMessage.value = left.message;
-        print(errorMessage);
+        print('❌ Erro no login: ${left.message}');
       },
       (right) {
-        print(right);
+        print('✅ Login bem-sucedido: $right');
+        _errorMessage.value = ''; // Limpa mensagem de erro
         _clearFields();
-        return;
+        
+        // 🎯 NAVEGAÇÃO PÓS-LOGIN: Forçar navegação para home
+        // O AppRouter deveria redirecionar automaticamente, mas como fallback:
+        Get.offAllNamed('/');
       },
     );
   }
