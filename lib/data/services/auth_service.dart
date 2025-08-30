@@ -27,14 +27,16 @@ class AuthService {
     } on AuthException catch (e) {
       switch (e.message) {
         case 'Invalid login credentials':
-          return Left(
-            AppError('Usuário não cadastrado ou credenciais inválidas'),
-          );
+          return Left(AppError('E-mail ou senha incorretos. Verifique seus dados e tente novamente.'));
         case 'Email not confirmed':
-          return Left(AppError('E-mail não confirmado'));
+          return Left(AppError('Por favor, confirme seu e-mail antes de fazer login.'));
+        case 'Too many requests':
+          return Left(AppError('Muitas tentativas de login. Aguarde alguns minutos e tente novamente.'));
         default:
-          return Left(AppError('Poxa, aconteceu um erro ao fazer login 😥', e));
+          return Left(AppError('Não foi possível fazer login no momento. Tente novamente.'));
       }
+    } catch (e) {
+      return Left(AppError('Erro de conexão. Verifique sua internet e tente novamente.'));
     }
   }
 
@@ -62,6 +64,8 @@ class AuthService {
     required String avatarUrl,
   }) async {
     try {
+      print('🚀 AuthService: Iniciando cadastro para $email');
+      
       // Verificar se o username está disponível
       final existingUsername = await _supabaseClient
           .from('profiles')
@@ -70,27 +74,42 @@ class AuthService {
           .maybeSingle();
 
       if (existingUsername != null) {
+        print('❌ Username não disponível: $username');
         return Left(AppError('Username não disponível'));
       }
 
+      print('✅ Username disponível! Criando usuário 🤩');
       final result = await insertUser(email: email, password: password);
-      return result.fold((left) => Left(left), (right) async {
-        await _supabaseClient.from('profiles').insert({
-          'id': result.right.user!.id,
-          'username': username,
-          'avatar_url': avatarUrl,
-        });
-        return Right(right);
-      });
+      
+      return result.fold(
+        (left) => Left(left), 
+        (right) async {
+          print('✅ Usuário criado. Inserindo profile ');
+          try {
+            await _supabaseClient.from('profiles').insert({
+              'id': right.user!.id,
+              'username': username,
+              'avatar_url': avatarUrl,
+            });
+            print('✅ Profile inserido com sucesso!');
+            return Right(right);
+          } catch (e) {
+            print('❌ Erro ao inserir profile: $e');
+            return Left(AppError('Erro ao criar perfil do usuário', e));
+          }
+        }
+      );
     } on PostgrestException catch (e) {
+      print('❌ PostgrestException: ${e.code} - ${e.message}');
       switch(e.code) {
         case '23505':
           return Left(AppError('E-mail já registrado'));
         default:
-          return Left(AppError('Erro ao registrar usuário', e));
+          return Left(AppError('Erro na autenticação. Verifique seus dados e tente novamente.'));
       }
     } catch (e) {
-      return Left(AppError('Erro inesperado ao registrar usuário', e));
+      print('❌ Erro inesperado: $e');
+      return Left(AppError('Ops! Algo deu errado. Tente novamente em alguns instantes.'));
     }
   }
 

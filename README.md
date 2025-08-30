@@ -199,22 +199,43 @@ O aplicativo possui suporte completo para múltiplos idiomas com implementação
 - ✅ **Inglês (en-US)** - Totalmente traduzido
 - 🔄 **Futuras expansões**: Espanhol, Chinês (simplificado e tradicional), Francês, Alemão e outros idiomas
 
-**Arquivos Responsáveis:**
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage-Menu-BandeiraBR-selecionada.png" 
+           alt="Seleção de idioma - Português (Brasil)" 
+           width="300"/>
+      <br>
+      <em>🇧🇷 Interface em Português (BR)</em>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/images/App4-Recipes-EuAmoCozinhar-loginPage-Menu-BandeiraUS-selecionada.png" 
+           alt="Seleção de idioma - English (United States)" 
+           width="300"/>
+      <br>
+      <em>🇺🇸 Interface em English (US)</em>
+    </td>
+  </tr>
+</table>
 
-| Arquivo | Função |
-|---------|---------|
-| `lib/services/localization_service.dart` | **Serviço principal** - Gerencia idioma atual, persistência e troca dinâmica |
-| `lib/l10n/app_pt.arb` | **Traduções PT-BR** - Todas as strings em português |
-| `lib/l10n/app_en.arb` | **Traduções EN-US** - Todas as strings em inglês |
-| `lib/ui/widgets/language_selector.dart` | **Widget de troca** - Interface para seleção de idioma |
-| `l10n.yaml` | **Configuração** - Localização dos arquivos e idiomas suportados |
-| `lib/l10n/generated/` | **Arquivos gerados** - Classes automáticas de localização |
+**Arquivos Responsáveis (Nossa Implementação):**
 
-**Funcionalidades:**
-- 🔄 **Troca dinâmica**: Sem reinicialização do app
+| Arquivo | Função | Diferencial |
+|---------|---------|-------------|
+| `lib/services/localization_service.dart` | **Serviço principal** - Gerencia idioma atual, persistência e troca dinâmica | ✨ **Novo**: Service Layer dedicado |
+| `lib/l10n/app_pt.arb` | **Traduções PT-BR** - Todas as strings em português | ✅ **Padrão Flutter** |
+| `lib/l10n/app_en.arb` | **Traduções EN-US** - Todas as strings em inglês | ✅ **Padrão Flutter** |
+| `lib/ui/widgets/language_selector.dart` | **Widget de troca** - Interface com bandeiras customizadas | 🎨 **Aprimorado**: Bandeiras premium |
+| `l10n.yaml` | **Configuração** - Localização dos arquivos e idiomas suportados | ✅ **Padrão Flutter** |
+| `lib/l10n/generated/` | **Arquivos gerados** - Classes automáticas de localização | ✅ **Padrão Flutter** |
+
+**Funcionalidades Implementadas:**
+- 🔄 **Troca dinâmica**: Sem reinicialização do app (hot reload em tempo real)
 - 💾 **Persistência**: Idioma salvo localmente com SharedPreferences
-- 🎨 **Interface intuitiva**: Seletor visual com bandeiras (🇧🇷/🇺🇸)
-- ✅ **Indicador visual**: Mostra idioma ativo com check verde
+- 🎨 **Interface premium**: Bandeiras customizadas com gradientes estilo Apple/Microsoft
+- ✅ **Indicador visual**: Check verde para idioma ativo
+- 🏗️ **Arquitetura limpa**: Service Layer dedicado (diferencial do projeto original)
+- 📱 **Responsivo**: Adaptação automática em todas as telas
 
 **Como usar:**
 ```dart

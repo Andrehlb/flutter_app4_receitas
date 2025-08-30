@@ -111,7 +111,10 @@ class AuthViewModel extends GetxController {
   }
 
   Future<void> register() async {
-    // Done: lógica para registro
+    print('🚀 Iniciando cadastro...');
+    print('📧 Email: ${emailController.text}');
+    print('👤 Username: ${usernameController.text}');
+    
     final response = await _repository.signUp(
       email: emailController.text,
       password: passwordController.text,
@@ -122,13 +125,13 @@ class AuthViewModel extends GetxController {
     response.fold(
       (left) {
         _errorMessage.value = left.message;
-        print(errorMessage);
+        print('❌ Erro no cadastro: ${left.message}');
       },
       (right) {
         _errorMessage.value =
-            'O e-amil de confirmaçõ já foi enviado para tua caixa de entrada. Verifica por favor.';
+            '✅ Conta criada! Verifique seu e-mail para confirmar.';
         _isLoginMode.value = true; // Muda para modo de login após registro
-        print(right);
+        print('✅ Cadastro bem-sucedido: $right');
         _clearFields();
       },
     );
