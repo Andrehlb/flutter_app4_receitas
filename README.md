@@ -230,14 +230,19 @@ await localizationService.changeLanguage('en');
 
 ## 🔬 **Análise Técnica: Implementação vs Abordagem Original**
 
-Durante o desenvolvimento do sistema de internacionalização, identifiquei uma oportunidade de aprofundar os conhecimentos adquiridos em aula, integrando teoria e prática de forma consistente. Essa experiência me permitiu explorar abordagens avançadas, expandindo significativamente os limites inicialmente definidos e indo além dos requisitos propostos.
+Durante o desenvolvimento do sistema de internacionalização, identifiquei uma janela de oportunidade de aprofundar os conhecimentos adquiridos em aula. Integrando a teoria e a prática de forma consistente no **widget de seleção de idioma**, essa experiência me permitiu explorar abordagens avançadas, expandindo significativamente os limites inicialmente definidos e indo além dos requisitos propostos.
+
+**Arquivos comparados:**
+- **Implementação Original**: `language_selector.dart` (versão original)
+- **Implementação Proposta**: `lib/services/localization_service.dart` + `lib/ui/widgets/language_selector.dart`
+
 Abaixo está a comparação técnica detalhada:
 
 ### **📊 Comparação de Arquiteturas**
 
 #### **🎓 Implementação Original**
 ```dart
-// Arquivo: language_selector.dart (versão básica)
+// Arquivo: language_selector.dart (abordagem original)
 class LanguageSelector extends StatelessWidget {
   final Function(Locale) onLanguageChanged;
   final Locale currentLocale;
@@ -286,7 +291,7 @@ LanguageSelector(
 
 #### **🚀 Implementação proposta**
 ```dart
-// Arquivo: lib/services/localization_service.dart
+// Arquivo: lib/services/localization_service.dart (service layer)
 class LocalizationService extends GetxService {
   static const String _languageKey = 'selected_language';
   final RxString _currentLanguage = 'pt'.obs;
@@ -319,7 +324,7 @@ class LocalizationService extends GetxService {
   }
 }
 
-// Arquivo: lib/ui/widgets/language_selector.dart
+// Arquivo: lib/ui/widgets/language_selector.dart (UI layer - widget principal)
 class LanguageSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -356,7 +361,7 @@ class LanguageSelector extends StatelessWidget {
   }
 }
 
-// Widget alternativo para diferentes UIs
+// Widget alternativo (mesmo arquivo) - exemplo de flexibilidade
 class FloatingLanguageSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -516,7 +521,7 @@ class LanguageSelectorV2 extends StatelessWidget {
 5. **Preparação para analytics**: Estrutura pronta para métricas de comportamento
 
 **Justificativa de investimento:**
-- **Implementação básica**: ~2-3 horas de desenvolvimento
+- **Implementação original**: ~2-3 horas de desenvolvimento
 - **Nossa implementação**: ~5-6 horas de desenvolvimento
 - **Benefício**: Evita refatoração futura + facilita novos recursos
 
