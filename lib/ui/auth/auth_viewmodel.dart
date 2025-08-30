@@ -96,15 +96,15 @@ class AuthViewModel extends GetxController {
     response.fold(
       (left) {
         _errorMessage.value = left.message;
-        print('❌ Erro no login: ${left.message}');
+        print('❌ Aconteceu um erro ao fazer login 😥: ${left.message}');
       },
       (right) {
-        print('✅ Login bem-sucedido: $right');
+        print('✅ Login bem-sucedido ☺️: $right');
         _errorMessage.value = ''; // Limpa mensagem de erro
         _clearFields();
         
         // 🎯 NAVEGAÇÃO PÓS-LOGIN: Forçar navegação para home
-        // O AppRouter deveria redirecionar automaticamente, mas como fallback:
+        // O AppRouter faz o redirecionamento automático, mas como fallback:
         Get.offAllNamed('/');
       },
     );
