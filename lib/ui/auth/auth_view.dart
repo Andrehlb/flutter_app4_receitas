@@ -77,18 +77,25 @@ class AuthView extends StatefulWidget {
                     const SizedBox(height: 16),
                     _buildPasswordField(),
                     const SizedBox(height: 16),
+                    // Campos específicos do cadastro
                     if (!viewModel.isLoginMode) ...[
                       _buildConfirmPasswordField(),
                       const SizedBox(height: 16),
                       _buildUsernameField(),
                       const SizedBox(height: 16),
                       _buildAvatarUrlField(),
+                      const SizedBox(height: 16),
                     ],
-                    const SizedBox(height: 32),
+                    
+                    // Mensagem de erro (comum)
                     _buildErrorMessage(),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 24),
+                    
+                    // Botão principal de ação
                     _buildSubmitButton(),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 16),
+                    
+                    // Link para alternar entre login/cadastro
                     _buildToggleModeButton(),
                   ],
                 ),
@@ -309,53 +316,25 @@ class AuthView extends StatefulWidget {
 
   Widget _buildToggleModeButton() {
     final l10n = AppLocalizations.of(context);
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Botão principal de alternância (mais visível)
-        if (viewModel.isLoginMode)
-          Container(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: viewModel.isSubmitting ? null : viewModel.toggleMode,
-              style: OutlinedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                side: BorderSide(color: Theme.of(context).colorScheme.primary),
-              ),
-              child: Text(
-                l10n?.signUpButton ?? 'CRIAR CONTA',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
+        Text(
+          viewModel.isLoginMode 
+            ? (l10n?.noAccountQuestion ?? 'Você não tem uma conta? ')
+            : (l10n?.hasAccountQuestion ?? 'Você já tem uma conta? '),
+        ),
+        TextButton(
+          onPressed: viewModel.isSubmitting ? null : viewModel.toggleMode,
+          child: Text(
+            viewModel.isLoginMode 
+              ? (l10n?.signUpLink ?? 'Cadastre-se')
+              : (l10n?.signInLink ?? 'Entre aqui'),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        
-        SizedBox(height: 16),
-        
-        // Link secundário (para voltar ao login)
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              viewModel.isLoginMode 
-                ? (l10n?.noAccountQuestion ?? 'Você não tem uma conta? ')
-                : (l10n?.hasAccountQuestion ?? 'Você, já tem uma conta? '),
-            ),
-            TextButton(
-              onPressed: viewModel.isSubmitting ? null : viewModel.toggleMode,
-              child: Text(
-                viewModel.isLoginMode 
-                  ? (l10n?.signUpLink ?? 'Cadastre-se')
-                  : (l10n?.signInLink ?? 'Entre aqui'),
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ], // children
         ),
       ],
     );

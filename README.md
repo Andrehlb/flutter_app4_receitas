@@ -254,7 +254,7 @@ await localizationService.changeLanguage('en');
 Durante o desenvolvimento do sistema de internacionalização, identifiquei uma janela de oportunidade em aprofundar os conhecimentos adquiridos em aula. Assim como integrei a teoria com a prática, de forma que seja consistente no **widget de seleção de idioma**. Essa experiência, permitiu a exploração de nova abordagem e permitiu a expansão além da proposta original.
 
 **Arquivos comparados:**
-- **Implementação Original**: `language_selector.dart` (versão original)
+- **Implementação Original**: `https://github.com/guileals/flutter_app4_receitas/blob/main/lib/ui/widgets/language_selector.dart` (versão original)
 - **Implementação Proposta**: `lib/services/localization_service.dart` + `lib/ui/widgets/language_selector.dart`
 
 Abaixo está a comparação técnica detalhada:
