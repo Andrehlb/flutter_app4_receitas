@@ -287,7 +287,7 @@ LanguageSelector(
 - ❌ **Alto acoplamento**: Widget depende de parâmetros externos
 - ❌ **Sem persistência**: Perde configuração ao fechar app
 - ❌ **Lógica espalhada**: Responsabilidades não centralizadas
-- ❌ **Difícil teste**: Muitas dependências externas
+- ❌ **Teste**: Muitas dependências externas
 
 #### **🚀 Implementação proposta**
 ```dart
@@ -419,16 +419,16 @@ final localizationService = Get.find<LocalizationService>();  // Interface
 |---------|----------------------|-------------------|----------|
 | **Linhas de código** | ~40 linhas | ~120 linhas | 3x mais funcionalidades |
 | **Acoplamento** | ⚠️ Alto (3+ dependências) | ✅ Baixo (1 service) | Reduz dependências |
-| **Testabilidade** | ⚠️ Difícil (mock complexo) | ✅ Fácil (mock único) | Simplifica testes |
+| **Testabilidade** | ⚠️ Múltiplas Dependências (mock complexo) | ✅ Baixa complexidade (mock único) | Simplifica testes |
 | **Persistência** | ❌ Não | ✅ SharedPreferences | Experiência contínua |
 | **Reusabilidade** | ⚠️ Widget único | ✅ 2 widgets + service | Múltiplas interfaces |
-| **Manutenibilidade** | ⚠️ Lógica espalhada | ✅ Centralizada | Facilita evolução |
+| **Manutenibilidade** | ⚠️ Lógica espalhada | ✅ Centralizada | Reduz esforço de manutenção |
 
 ### **🧪 Testabilidade Comparativa**
 
 #### **Implementação Original - Teste Complexo:**
 ```dart
-// ❌ Teste difícil: múltiplas dependências para mockar
+// ❌ Teste: múltiplas dependências para mockar
 testWidgets('should change language', (tester) async {
   final mockController = MockLocaleController();
   final mockLocale = Locale('pt', 'BR');
@@ -490,7 +490,7 @@ static const Map<String, String> languageNames = {
 **2. Analytics de Uso**
 ```dart
 Future<void> changeLanguage(String languageCode) async {
-  // ✅ Fácil adicionar tracking
+  // ✅ Pronto para tracking
   await _analytics.track('language_changed', {
     'from': _currentLanguage.value,
     'to': languageCode,
@@ -517,13 +517,13 @@ class LanguageSelectorV2 extends StatelessWidget {
 1. **Redução de bugs**: Lógica centralizada evita inconsistências
 2. **Velocidade de desenvolvimento**: Novos idiomas sem refatoração  
 3. **Experiência do usuário**: Persistência de preferências (app "lembra" do usuário)
-4. **Facilidade de manutenção**: Separação clara entre lógica e apresentação
+4. **Simplifica a manutenção**: Separação clara entre lógica e apresentação
 5. **Preparação para analytics**: Estrutura pronta para métricas de comportamento
 
 **Justificativa de investimento:**
 - **Implementação original**: ~2-3 horas de desenvolvimento
 - **Nossa implementação**: ~5-6 horas de desenvolvimento
-- **Benefício**: Evita refatoração futura + facilita novos recursos
+- **Benefício**: Evita refatoração futura + possibilita novos recursos
 
 ### **🎯 Conclusão Técnica**
 
