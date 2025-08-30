@@ -228,7 +228,7 @@ await localizationService.changeLanguage('en');
 
 ---
 
-## 🔬 **Análise Técnica: Implementação vs Abordagem Original**
+## 🔬 **Análise Técnica: Implementação Proposta vs Abordagem Original**
 
 Durante o desenvolvimento do sistema de internacionalização, identifiquei uma janela de oportunidade de aprofundar os conhecimentos adquiridos em aula. Integrando a teoria e a prática de forma consistente no **widget de seleção de idioma**, essa experiência me permitiu explorar abordagens avançadas, expandindo significativamente os limites inicialmente definidos e indo além dos requisitos propostos.
 
