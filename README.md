@@ -415,7 +415,7 @@ final localizationService = Get.find<LocalizationService>();  // Interface
 
 ### **📈 Vantagens Técnicas Mensuráveis**
 
-| Aspecto | Implementação Original | Nossa Implementação | Melhoria |
+| Aspecto | Implementação Original | Implementação Proposta | Melhoria |
 |---------|----------------------|-------------------|----------|
 | **Linhas de código** | ~40 linhas | ~120 linhas | 3x mais funcionalidades |
 | **Acoplamento** | ⚠️ Alto (3+ dependências) | ✅ Baixo (1 service) | Reduz dependências |
@@ -447,7 +447,7 @@ testWidgets('should change language', (tester) async {
 });
 ```
 
-#### **Nossa Implementação - Teste Simplificado:**
+#### **Implementação Proposta - Teste Simplificado:**
 ```dart
 // ✅ Teste simples: apenas 1 mock necessário
 testWidgets('should change language via service', (tester) async {
@@ -519,11 +519,6 @@ class LanguageSelectorV2 extends StatelessWidget {
 3. **Experiência do usuário**: Persistência de preferências (app "lembra" do usuário)
 4. **Simplifica a manutenção**: Separação clara entre lógica e apresentação
 5. **Preparação para analytics**: Estrutura pronta para métricas de comportamento
-
-**Justificativa de investimento:**
-- **Implementação original**: ~2-3 horas de desenvolvimento
-- **Nossa implementação**: ~5-6 horas de desenvolvimento
-- **Benefício**: Evita refatoração futura + possibilita novos recursos
 
 ### **🎯 Conclusão Técnica**
 
