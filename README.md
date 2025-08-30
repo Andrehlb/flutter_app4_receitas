@@ -230,7 +230,8 @@ await localizationService.changeLanguage('en');
 
 ## 🔬 **Análise Técnica: Implementação vs Abordagem Original**
 
-Durante o desenvolvimento do sistema de internacionalização, optei por uma implementação mais robusta que vai além dos requisitos básicos da aula. Aqui está a comparação técnica detalhada:
+Durante o desenvolvimento do sistema de internacionalização, vi uma janela de oportunidade para implementação de uma proposta de  mais robusta que me permitiu testar e ir além dos requisitos desenvolvido em aula. 
+Abaixo está a comparação técnica detalhada:
 
 ### **📊 Comparação de Arquiteturas**
 
