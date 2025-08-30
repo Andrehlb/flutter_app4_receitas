@@ -230,7 +230,7 @@ await localizationService.changeLanguage('en');
 
 ## 🔬 **Análise Técnica: Implementação Proposta vs Abordagem Original**
 
-Durante o desenvolvimento do sistema de internacionalização, identifiquei uma janela de oportunidade de aprofundar os conhecimentos adquiridos em aula. Integrando a teoria e a prática de forma consistente no **widget de seleção de idioma**, essa experiência me permitiu explorar abordagens avançadas, expandindo significativamente os limites inicialmente definidos e indo além dos requisitos propostos.
+Durante o desenvolvimento do sistema de internacionalização, identifiquei uma janela de oportunidade em aprofundar os conhecimentos adquiridos em aula. Assim como integrei a teoria com a prática, de forma que seja consistente no **widget de seleção de idioma**. Essa experiência, permitiu a exploração de nova abordagem e permitiu a expansão além da proposta original.
 
 **Arquivos comparados:**
 - **Implementação Original**: `language_selector.dart` (versão original)
@@ -238,7 +238,7 @@ Durante o desenvolvimento do sistema de internacionalização, identifiquei uma 
 
 Abaixo está a comparação técnica detalhada:
 
-### **📊 Comparação de Arquiteturas**
+### **📊 Comparação das Abordagens**
 
 #### **🎓 Implementação Original**
 ```dart
@@ -276,7 +276,7 @@ class LanguageSelector extends StatelessWidget {
   }
 }
 
-// Uso: Widget recebe parâmetros externos
+// Uso: Widget recebe parâmetros do componente pai
 LanguageSelector(
   onLanguageChanged: localeController.changeLocale,
   currentLocale: localeController.locale,
@@ -415,7 +415,7 @@ final localizationService = Get.find<LocalizationService>();  // Interface
 
 ### **📈 Vantagens Técnicas Mensuráveis**
 
-| Aspecto | Implementação Original | Implementação Proposta | Melhoria |
+| Aspecto | Implementação Original | Implementação Proposta | Benefício |
 |---------|----------------------|-------------------|----------|
 | **Linhas de código** | ~40 linhas | ~120 linhas | 3x mais funcionalidades |
 | **Acoplamento** | ⚠️ Alto (3+ dependências) | ✅ Baixo (1 service) | Reduz dependências |
@@ -424,7 +424,7 @@ final localizationService = Get.find<LocalizationService>();  // Interface
 | **Reusabilidade** | ⚠️ Widget único | ✅ 2 widgets + service | Múltiplas interfaces |
 | **Manutenibilidade** | ⚠️ Lógica espalhada | ✅ Centralizada | Reduz esforço de manutenção |
 
-### **🧪 Testabilidade Comparativa**
+### **🧪 Testes Comparados**
 
 #### **Implementação Original - Teste Complexo:**
 ```dart
@@ -443,7 +443,7 @@ testWidgets('should change language', (tester) async {
   );
   
   // Precisa mockar comportamento de múltiplos objetos
-  // Teste frágil: quebra se mudar assinatura do widget
+  // Teste sensível: quebra se mudar assinatura do widget
 });
 ```
 
@@ -528,7 +528,7 @@ A implementação proposta demonstra aplicação prática de:
 - **Design Patterns**: Service Locator, Observer, Strategy
 - **Future-Proof Design**: Preparado para crescimento sem refatoração
 
-**Não é "over-engineering"** - é código **production-ready** pensado para escalar com o produto.
+O resultado é um código estruturado para **ambientes de produção**, considerando tanto necessidades atuais quanto escalabilidade futura.
 
 [⬆️ Voltar ao Índice](#-índice)
 
