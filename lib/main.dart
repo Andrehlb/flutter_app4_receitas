@@ -13,13 +13,26 @@ import 'package:app4_receitas/l10n/generated/app_localizations.dart';
 
 Future<void> main() async {
   // Garante que o Flutter está inicializado
-  WidgetsFlutterBinding.ensureInitialized();
+/*  WidgetsFlutterBinding.ensureInitialized();
 
   // carregar variáveis de ambiente
-  await Env.init();
+  //await Env.init();
 
   // Inicializar o Supabase
-  await Supabase.initialize(url: Env.supabaseUrl, anonKey: Env.supabaseAnonKey,);
+  //await Supabase.initialize(url: Env.supabaseUrl, anonKey: Env.supabaseAnonKey,);
+  await Supabase.initialize(
+    url: 'https://juribdadppycdlovoyxe.supabase.co', // SUA URL
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1cmliZGFkcHB5Y2Rsb3ZveXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ0MzE2ODcsImV4cCI6MjA3MDAwNzY4N30.-ayR36OhOhjJbSc7BUI3b_L6OTYeDorgPxjXo-aTKs4', // SUA ANON PUBLIC KEY
+    debug: true, // log detalhado no console
+  );
+*/
+    WidgetsFlutterBinding.ensureInitialized();
+await Env.init(); // <- precisa vir antes do initialize
+
+await Supabase.initialize(
+  url: Env.supabaseUrl,
+  anonKey: Env.supabaseAnonKey,
+);
 
   // Inicializando as dependências
   await setupDependencies();
