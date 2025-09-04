@@ -27,16 +27,17 @@
 1. [🎯 Visão Geral](#-visão-geral)
 2. [🏗️ Arquitetura](#️-arquitetura)
 3. [🔐 Sistema de Autenticação](#-sistema-de-autenticação)
-4. [🍽️ Funcionalidades](#️-funcionalidades)
-5. [🔬 Análise Técnica: Implementação vs Abordagem Original](#-análise-técnica-implementação-vs-abordagem-original)
-6. [🧪 Estratégia de Testes](#-estratégia-de-testes)
+4. [📝 Sistema de Cadastro](#-sistema-de-cadastro)
+5. [🍽️ Funcionalidades](#️-funcionalidades)
+6. [🔬 Análise Técnica: Implementação vs Abordagem Original](#-análise-técnica-implementação-vs-abordagem-original)
+7. [🧪 Estratégia de Testes](#-estratégia-de-testes)
    - [📊 Resultados dos Testes](#-resultados-dos-testes)
-7. [🚀 Como Executar](#-como-executar)
-8. [📱 Build e Release para Android](#-build-e-release-para-android)
-9. [⚙️ Configuração](#️-configuração)
-10. [📦 Dependências](#-dependências)
-11. [🔧 Solução de Problemas](#-solução-de-problemas)
-12. [✅ Status do Projeto](#-status-do-projeto)
+8. [🚀 Como Executar](#-como-executar)
+9. [📱 Build e Release para Android](#-build-e-release-para-android)
+10. [⚙️ Configuração](#️-configuração)
+11. [📦 Dependências](#-dependências)
+12. [🔧 Solução de Problemas](#-solução-de-problemas)
+13. [✅ Status do Projeto](#-status-do-projeto)
 
 ---
 
@@ -169,6 +170,175 @@ result.fold(
 - 🧠 **Tratamento explícito**: Você é obrigado a lidar com erros
 - ❌ **Sem exceções soltas**: Erros são parte do tipo de retorno
 - ✅ **Código mais limpo**: Fluxo de erro previsível
+
+[⬆️ Voltar ao Índice](#-índice)
+
+---
+
+## 📝 **Sistema de Cadastro**
+
+### ✅ **Status: Funcionando Perfeitamente**
+
+O sistema de cadastro está operacional e criando contas no Supabase com sucesso! 
+
+<table align="center">
+  <tr>
+    <td align="center" width="100%">
+      <img src="assets/images/App4-Recipes-EuAmoCzinhar-login-cadastro-ContaCadastradaComSucesso.png" 
+           alt="Sistema de Cadastro - Conta criada com sucesso" 
+           width="400"/>
+      <br>
+      <em>🎉 Tela mostrando "Conta criada! Verifique seu e-mail para confirmar" - cadastro realizado com sucesso</em>
+    </td>
+  </tr>
+</table>
+
+### 🔧 **Arquivos Envolvidos no Cadastro**
+
+| Arquivo | Responsabilidade | Diferencial |
+|---------|-----------------|-------------|
+| [`lib/ui/auth/auth_view.dart`](lib/ui/auth/auth_view.dart) | Interface unificada login/cadastro | ✨ Formulário responsivo com validação em tempo real |
+| [`lib/ui/auth/auth_viewmodel.dart`](lib/ui/auth/auth_viewmodel.dart) | Lógica de apresentação e validações | 🎯 Mensagens humanizadas para usuário |
+| [`lib/domain/repositories/auth_repository.dart`](lib/domain/repositories/auth_repository.dart) | Contrato da camada de domínio | 🏗️ Clean Architecture com Either |
+| [`lib/data/repositories/auth_repository_impl.dart`](lib/data/repositories/auth_repository_impl.dart) | Implementação do repositório | 🔧 Injeção de dependência com GetIt |
+| [`lib/data/services/auth_service.dart`](lib/data/services/auth_service.dart) | Comunicação com Supabase | 🌐 Service layer dedicado |
+| [`assets/.env`](assets/.env) | Credenciais do Supabase | 🔐 Configuração segura de ambiente |
+
+### 📱 **Fluxo de Cadastro**
+
+```
+1. 👤 Usuário preenche formulário
+   ├── E-mail (obrigatório)
+   ├── Senha (8+ caracteres)
+   ├── Confirmar Senha (validação)
+   ├── Nome de Usuário (obrigatório)
+   └── URL Avatar (opcional)
+   ↓
+2. ✅ Validações em tempo real
+   ├── E-mail formato válido
+   ├── Senha segura
+   ├── Confirmação de senha
+   └── Nome não vazio
+   ↓
+3. 🌐 AuthService → Supabase
+   ├── auth.signUp() cria usuário
+   └── profiles.insert() salva perfil
+   ↓
+4. ✉️ E-mail de confirmação enviado
+   ↓
+5. 🎉 Mensagem de sucesso exibida
+```
+
+### 🔍 **Verificando Cadastros no Supabase**
+
+#### **Dashboard Web:**
+1. Acesse [supabase.com/dashboard](https://supabase.com/dashboard)
+2. Entre no seu projeto: `flutter_app4_receitas`
+3. **Verificar Usuários:**
+   - Sidebar → **Authentication** → **Users**
+   - Visualize todos os usuários cadastrados
+   - Status: `Email not confirmed` (antes da confirmação)
+4. **Verificar Perfis:**
+   - Sidebar → **Database** → **Tables** → **profiles**
+   - Veja `display_name`, `avatar_url`, timestamps
+
+#### **SQL Query (Opcional):**
+```sql
+-- Ver todos os usuários e perfis
+SELECT 
+  auth.users.email,
+  auth.users.created_at,
+  auth.users.email_confirmed_at,
+  profiles.display_name,
+  profiles.avatar_url
+FROM auth.users
+LEFT JOIN profiles ON auth.users.id = profiles.id
+ORDER BY auth.users.created_at DESC;
+```
+
+### 🛠️ **Configurações Necessárias no Supabase**
+
+#### **1. Tabela `profiles` (Schema):**
+```sql
+create table profiles (
+  id uuid references auth.users not null primary key,
+  display_name text,
+  avatar_url text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- RLS (Row Level Security)
+alter table profiles enable row level security;
+
+-- Policy para usuários autenticados
+create policy "Users can view own profile" on profiles for select using (auth.uid() = id);
+create policy "Users can update own profile" on profiles for update using (auth.uid() = id);
+```
+
+#### **2. Authentication Settings:**
+- **Project Settings** → **Authentication**
+- **Email Confirmation**: ✅ Enabled
+- **Email Templates**: Personalizados (opcional)
+
+### 🎯 **Features Implementadas**
+
+#### ✅ **Validações Robustas:**
+- **E-mail**: Formato RFC válido
+- **Senha**: Mínimo 8 caracteres, complexidade
+- **Nome**: Campo obrigatório não vazio
+- **Avatar**: URL opcional com validação
+
+#### ✅ **UX Profissional:**
+- **Feedback Visual**: Loading states, mensagens claras
+- **Acessibilidade**: Labels, navegação por teclado
+- **Responsividade**: Funciona em todos os tamanhos de tela
+
+#### ✅ **Segurança:**
+- **Environment Variables**: Credenciais em `.env`
+- **Row Level Security**: Proteção no Supabase
+- **Validação Dupla**: Client-side + Server-side
+
+### 🚀 **Testando o Cadastro**
+
+1. **Execute o App:**
+   ```bash
+   flutter run -d windows
+   ```
+
+2. **Acesse a Tela de Cadastro:**
+   - Clique em "Cadastre-se" na tela de login
+
+3. **Preencha os Dados:**
+   - E-mail: `teste@exemplo.com`
+   - Senha: `senhaSegura123`
+   - Confirmar: `senhaSegura123`
+   - Usuário: `UsuarioTeste`
+   - Avatar: (deixe vazio ou cole uma URL)
+
+4. **Clique "CADASTRAR":**
+   - Aguarde a mensagem verde: "Conta criada! Verifique seu e-mail para confirmar"
+
+5. **Verificar no Supabase:**
+   - Dashboard → Authentication → Users
+   - Novo usuário deve aparecer na lista
+
+### 🔧 **Troubleshooting**
+
+#### **Erro "Invalid API key":**
+- Verifique `.env` com credenciais corretas
+- Confirme que está usando `anon key`, não `service_role key`
+- Reinicie o app após alterar `.env`
+
+#### **Usuário não aparece no Supabase:**
+- Verifique conexão com internet
+- Confirme que o projeto Supabase está ativo
+- Check logs no terminal para erros específicos
+
+#### **E-mail não enviado:**
+- Supabase → Authentication → Settings
+- Verifique provedor de e-mail configurado
+- Para testes: desative "Email Confirmation" temporariamente
 
 [⬆️ Voltar ao Índice](#-índice)
 
